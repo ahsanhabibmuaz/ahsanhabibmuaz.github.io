@@ -137,11 +137,11 @@ main {
   background-color: var(--bg-color);
 }
 
-/* .social-container:hover{
+ .social-container:hover{
   background-color: rgb(64, 68, 105);
   padding-left: 100px;
 
-} */
+}
 
 main hr {
   display: block;

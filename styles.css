@@ -21,7 +21,7 @@ body {
   text-align: center;
   font-family: "Work Sans", sans-serif;
   /* remove scroll bar and disable scroll */
-  /* overflow: hidden; */
+  overflow: hidden;
   color: var(--font-color);
 }
 h1,

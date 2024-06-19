@@ -129,7 +129,7 @@ main {
   /* transition: 1s all cubic-bezier(0.075, 0.82, 0.165, 1); */
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: -20px;
   opacity: 0;
   display: flex;
   gap: 5px;
@@ -168,7 +168,7 @@ main hr {
   background-color: #838596;
   opacity: 0;
   border-radius: 3px;
-  filter: drop-shadow(0 0 0 rgba(54, 54, 54, 0.2));
+  filter: drop-shadow(0 0 0 rgba(54, 54, 54, 0.2);
   transition: 0.3s all cubic-bezier(0.075, 0.82, 0.165, 1);
   transform-origin: right;
   will-change: filter;
@@ -179,7 +179,7 @@ main hr {
 }
 
 .quote-container:hover {
-  filter: drop-shadow(10px 10px 2px rgba(255, 255, 255, 0.25));
+  filter: drop-shadow(10px 10px 2px rgba(255, 255, 255, 0.25);
 }
 
 /* Project Styles */

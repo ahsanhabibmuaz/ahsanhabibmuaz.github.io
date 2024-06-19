@@ -1,61 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahsan Habib Muaz - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Ahsan Habib Muaz</h1>
-            <p>Student | Graphics Designer | App Modder | Content Creator | Web Developer</p>
-        </div>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>I'm Ahsan Habib Muaz, currently pursuing BSS at Government Padma College. I am passionate about graphics design, app modification, content creation, and web development. I live in Dhaka, Bangladesh.</p>
-        </div>
-    </section>
+    <!-- Edit meta description for SEO -->
 
-    <section id="services">
-        <div class="container">
-            <h2>Services</h2>
-            <ul>
-                <li>Graphics Design</li>
-                <li>App Modification</li>
-                <li>Content Creation</li>
-                <li>Web Development</li>
-            </ul>
-        </div>
-    </section>
+    <meta
+      name="description"
+      content="A website for Ahsan Habib Muaz. I'm a student pursuing my bachelor's degree at Government Padma College. I'm passionate about developing products that make people's
+  lives easier and miserable."
+    />
+    <!-- Edit title -->
+    <title>Muaz</title>
 
-    <section id="portfolio">
-        <div class="container">
-            <h2>Portfolio</h2>
-            <!-- Portfolio items can be added here -->
-            <div class="portfolio-item">Project 1</div>
-            <div class="portfolio-item">Project 2</div>
-            <div class="portfolio-item">Project 3</div>
-        </div>
-    </section>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Work+Sans:wght@400;800&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
 
-    <section id="contact">
-        <div class="container">
-            <h2>Contact</h2>
-            <p>Email: <a href="mailto:ahsanhabibmuaz@gmail.com">ahsanhabibmuaz@gmail.com</a></p>
-            <p>Personal website: <a href="http://ahsanhabibmuaz.oddo.com" target="_blank">ahsanhabibmuaz.oddo.com</a></p>
-            <p>Alternate website: <a href="http://ahsanhabibmuaz.site123.me" target="_blank">ahsanhabibmuaz.site123.me</a></p>
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Work+Sans:wght@400;800&display=swap"
+        rel="stylesheet"
+        type="text/css"
+      />
+    </noscript>
+
+    <!-- Styleshits -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <ul>
+        <li><a href="#top">HOME</a></li>
+        <li><a href="#project">PROJECTS</a></li>
+        <li><a href="#about">ABOUT</a></li>
+      </ul>
+    </nav>
+    <!-- End of Navigation -->
+
+    <!-- Home -->
+    <section class="center">
+      <main>
+        <!-- img and info container -->
+        <div class="img-info-container">
+          <!-- profile picture -->
+          <div class="img-container">
+            <img
+              width="80"
+              height="80"
+              src="./asset/img/Watashi.jpeg"
+              alt="pfp"
+            />
+          </div>
+
+          <!-- info / the large text and social media -->
+          <div class="info-container">
+            <!-- svg/social media container -->
+            <div class="social-container">
+              <!-- GITHUB -->
+              <a href="https://github.com/ahsanhabibmuaz" target="_blank"
+                ><img
+                  width="24"
+                  height="24"
+                  src="./asset/svg/github.svg"
+                  alt="github"
+              /></a>
+
+              <!-- LINKEDIN -->
+              <a
+                href="https://linkedin.com/in/ahsanhabibmuaz"
+                target="_blank"
+                ><img
+                  width="24"
+                  height="24"
+                  src="./asset/svg/linkedin.svg"
+                  alt="linkedin"
+              /></a>
+            </div>
+
+            <!-- name -->
+            <h1>MUAZ</h1>
+            <hr />
+          </div>
         </div>
+
+        <p class="user-bio">
+          I’m a Student pursuing my BSS degree at Government Padma College. <br />
+          I’m passionate about developing products that make people's lives
+          easier and miserable.
+          <!-- <br />
+        <br />
+        Interested in Web, Software, App, Game Development, Board Games, Guitar,
+        Basketball, Football, Drawing -->
+        </p>
+        <!-- Quote  -->
+        <div class="quote-container">
+          <p>
+            <i>
+             Wake up to reality! Nothing ever goes as planned in this accursed world. The longer you live, the more you realize that the only things that truly exist in this reality are merely pain, suffering and futility. Listen, everywhere you look in this world, wherever there is light, there will always be shadows to be found as well. As long as there is a concept of victors, the vanquished will also exist. The selfish intent of wanting to preserve peace, initiates wars and hatred is born in order to protect love. There are nexuses causal relationships that cannot be separated. <br />
+              - Madara Uchiha.
+            </i>
+          </p>
+        </div>
+      </main>
     </section>
+    <!-- End of Home -->
+
+    <!-- Start of Project -->
+    <section class="center">
+      <div id="project">
+        <h2>PROJECTS</h2>
+        <!-- project container/ grid -->
+        <div class="project-container">
+          <!-- Repo -->
+          <div class="repository-container">
+            <div class="repository-head">
+              <a
+                href="https://github.com/notshanxx/anicard"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h3>anicard</h3>
+              </a>
+              <a
+                href="https://github.com/notshanxx/anicard"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  width="16"
+                  height="16"
+                  src="./asset/svg/external-link.svg"
+                  alt="external-link"
+              /></a>
+            </div>
+
+            <p class="repository-description">
+              Create simple cards with anime information and cover on it.
+            </p>
+            <div class="repository-language-used-container">
+              <span class="language-used">Javascript</span>
+              <span class="language-used">CSS</span>
+              <span class="language-used">HTML</span>
+            </div>
+          </div>
+          <!-- Repo End -->
+          <!-- Repo -->
+          <div class="repository-container">
+            <div class="repository-head">
+              <a
+                href="https://github.com/notshanxx/anicard"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h3>catnapping</h3>
+              </a>
+              <a
+                href="https://github.com/notshanxx/anicard"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  width="16"
+                  height="16"
+                  src="./asset/svg/external-link.svg"
+                  alt="external-link"
+              /></a>
+            </div>
+
+            <p class="repository-description">A website with cats</p>
+            <div class="repository-language-used-container">
+              <span class="language-used">Svelte</span>
+              <span class="language-used">Tailwind</span>
+              <span class="language-used">Vite</span>
+            </div>
+          </div>
+          <!-- Repo End -->
+          <!-- Repo -->
+          <div class="repository-container">
+            <div class="repository-head">
+              <a
+                href="https://github.com/notshanxx/anicard"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h3>plainfolio</h3>
+              </a>
+              <a
+                href="https://github.com/notshanxx/anicard"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><img
+                  width="16"
+                  height="16"
+                  src="./asset/svg/external-link.svg"
+                  alt="external-link"
+              /></a>
+            </div>
+
+            <p class="repository-description">A plain portfolio template (this)</p>
+            <div class="repository-language-used-container">
+              <span class="language-used">HTML</span>
+              <span class="language-used">CSS</span>
+              <span class="language-used">Vite</span>
+
+            </div>
+          </div>
+          <!-- Repo End -->
+          
+        </div>
+
+        <!-- To github repos -->
+        <div class="repository-container more-repo">
+          more at
+          <a
+            href="https://github.com/notshanxx?tab=repositories"
+            target="_blank"
+            >GITHUB <img src="./asset/svg/external-link.svg" alt=""
+          /></a>
+        </div>
+        <!-- To github repos End-->
+      </div>
+    </section>
+    <!-- End of Project -->
+
+    <!-- About -->
+    <div class="center">
+      <div id="about">
+        <!-- Image  -->
+        <div class="about-img-container">
+          <img
+            width="80"
+            height="80"
+            src="./asset/img/Watashi.jpeg"
+            alt="pfp"
+          />
+        </div>
+        <!-- Name -->
+        <h2 class="gradient">Marco Manuel</h2>
+        <!-- social media container -->
+        <ul class="about-social-container">
+          <li>
+            <img src="./asset/svg/github.svg" alt="Github" />
+            <a href="https://github.com/notshanxx/">Github</a>
+          </li>
+
+          <li>
+            <img src="./asset/svg/mail.svg" alt="LinkedIn" />
+            <a href="#">Mail</a>
+          </li>
+
+          <li>
+            <img src="./asset/svg/linkedin.svg" alt="LinkedIn" />
+            <a href="#"> LinkedIn</a>
+          </li>
+        </ul>
+        <!-- long bio -->
+        <p>
+          I'm an upcoming first year college student currently pursuing my bachelor's degree in Computer
+          Science. <br />
+         I also make random things what comes into my mega big brain. <br>
+        </p>
+        <!-- Skills / Tools -->
+        <h3>Skills / Tools</h3>
+        <ul class="skill">
+          <li>HTML</li>
+          <li>CSS</li>
+          <li>JavaScript</li>
+          <li>TypeScript</li>
+          <li>Phyton</li>
+          <li>React</li>
+          <li>Svelte</li>
+          <li>Node.js</li>
+          <li>Vite</li>
+          <li>Git</li>
+          <li>Linux (Ubuntu)</li>
+        </ul>
+      </div>
+    </div>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2024 Ahsan Habib Muaz. All rights reserved.</p>
-        </div>
+      <!-- Its okay to remove my name here (indeed you'll get hit) -->
+      <p>
+        © <script>document.write( new Date().getFullYear() );</script> Built by <a href="https://github.com/notshanxx">ahsanhabibmuaz</a>
+      </p>
     </footer>
-</body>
+
+    <!-- <h1 id="fin" style="
+        font-family: 'Work Sans', sans-serif;
+        font-size: 20px;
+        margin: 100vh 0 50vh 0;
+      ">
+      <i>~ fin ~</i>
+    </h1> -->
+    <!-- remove if you want to remove hover effect -->
+    <script type="module" src="./script/event-effect.js"></script>
+  </body>
 </html>

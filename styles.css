@@ -129,7 +129,7 @@ main {
   /* transition: 1s all cubic-bezier(0.075, 0.82, 0.165, 1); */
   position: absolute;
   top: 0px;
-  right: -20px;
+  right: 0px;
   opacity: 0;
   display: flex;
   gap: 5px;

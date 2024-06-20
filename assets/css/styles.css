@@ -353,6 +353,7 @@ img {
   padding: 2rem 0;
 }
 .footer__title {
+  opacity: 0.5;
   font-size: 0.5rem;
   margin-bottom: var(--mb-4);
 }

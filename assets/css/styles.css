@@ -79,8 +79,8 @@ img {
   text-transform: uppercase;
   overflow: hidden;
   font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: normal;
+  font-size: var(--big-font-size);
+  margin-bottom: var(--mb-5);
 }
 
 .innerhead span {

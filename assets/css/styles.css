@@ -73,9 +73,9 @@ img {
 .innerhead {
 
   border: 0px solid #ddd;
-  height: 50px;
-  line-height: 50px;
-  font-size: 45px;
+  height: 45px;
+  line-height: 45px;
+  font-size: 40px;
   text-transform: uppercase;
   overflow: hidden;
 }

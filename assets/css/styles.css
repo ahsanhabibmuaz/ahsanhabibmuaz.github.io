@@ -87,8 +87,8 @@ animation: animation 10s ease infinite;
 }
 
 .padx {
- row-gap: 2rem;
-  padding: 1rem 0 1rem;
+ row-gap: 0rem;
+  padding: 0rem;
 }
 @keyframes animation {
 0%, 100% {

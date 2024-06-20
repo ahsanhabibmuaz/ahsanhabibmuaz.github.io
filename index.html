@@ -39,7 +39,7 @@
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
-                     <h1 class="home__title">Hi,<br>I'am <span class="home__title-color">Muaz</span><br> Front-End Developer</h1>
+                     <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Muaz</span><br> <span class="auto-type"></span></h1>
                  
                     <a href="mailto:ahsanhabibmuaz@duck.com" class="button">Contact</a>
                 </div>
@@ -202,7 +202,16 @@
         <!--===== MAIN JS =====-->
         <script src="assets/js/main.js"></script>
   <!--===== maza animate JS =====-->
-        
+        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+        <script>
+         var typed = new Typed(".auto-type", {
+             strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
+             typeSpeed: 150,
+             backSpeed: 150,
+             loop: true
+         })
+            
+        </script>
   <!--===== maza animate JS =====-->      
     </body>
 </html>

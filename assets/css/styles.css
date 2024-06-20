@@ -79,8 +79,6 @@ img {
   text-transform: uppercase;
   overflow: hidden;
   font-family: "Poppins", sans-serif;
-  font-size: var(--big-font-size);
-  margin-bottom: var(--mb-2);
 }
 
 .innerhead span {
@@ -230,7 +228,7 @@ animation: animation 10s ease infinite;
 .home {
   position: relative;
   row-gap: 5rem;
-  padding: 4rem 0 5rem;
+  /*padding: 4rem 0 5rem;*/
 }
 .home__data {
   align-self: center;

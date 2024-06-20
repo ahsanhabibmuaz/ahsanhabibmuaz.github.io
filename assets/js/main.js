@@ -55,3 +55,36 @@ sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text',{});
 sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 400}); 
 sr.reveal('.home__social-icon',{ interval: 200}); 
 sr.reveal('.skills__data, .work__img, .contact__input',{interval: 200}); 
+
+/*gpt maza*/
+const text = document.querySelector(".sec-text");
+const textArray = ["a Content Creator", "an App Modder", "a Web Developer"];
+let textIndex = 0;
+let charIndex = 0;
+
+const type = () => {
+    if (charIndex < textArray[textIndex].length) {
+        text.textContent += textArray[textIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 100);
+    } else {
+        setTimeout(erase, 2000);
+    }
+}
+
+const erase = () => {
+    if (charIndex > 0) {
+        text.textContent = textArray[textIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, 50);
+    } else {
+        textIndex++;
+        if (textIndex >= textArray.length) textIndex = 0;
+        setTimeout(type, 1000);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(type, 1000);
+});
+

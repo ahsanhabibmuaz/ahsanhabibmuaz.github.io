@@ -78,13 +78,17 @@ img {
   font-size: 45px;
   text-transform: uppercase;
   overflow: hidden;
-  font-family: "Poppins", sans-serif;
 }
 
 .innerhead span {
 position: relative;
 animation: animation 10s ease infinite;
   
+}
+
+.padx {
+ row-gap: 2rem;
+  padding: 1rem 0 1rem;
 }
 @keyframes animation {
 0%, 100% {
@@ -228,7 +232,7 @@ animation: animation 10s ease infinite;
 .home {
   position: relative;
   row-gap: 5rem;
-  /*padding: 4rem 0 5rem;*/
+  padding: 4rem 0 5rem;
 }
 .home__data {
   align-self: center;

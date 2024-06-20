@@ -82,7 +82,6 @@ img {
 
 .innerhead span {
 position: relative;
-color: crimson;
 animation: animation 10s ease infinite;
   
 }
@@ -141,11 +140,6 @@ animation: animation 10s ease infinite;
   padding-bottom: 2rem;
 }
 
-/*===== add underline content new =====*/
-
-.sec-text {
-text-decoration: underline; 
-}
 
 /*===== LAYOUT =====*/
 .bd-grid {

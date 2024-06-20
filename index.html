@@ -39,7 +39,7 @@
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data container">
-                    <h1 class="home__title">Hi,<br>I'm <span class="home__title-color text sec-text">Muaz</span></br>Content Creator</h1>
+                    <h1 class="home__title">Hi,<br>I'm <span class="home__title-color">Muaz</span></br><span class="sec-text">Content Creator</span></h1>
                     <a href="mailto:ahsanhabibmuaz@duck.com" class="button">Contact</a>
                 </div>
 
@@ -85,7 +85,7 @@
                 <div class="skills__container bd-grid">          
                     <div>
                         <h2 class="skills__subtitle">Profesional Skills</h2>
-                        <p class="skills__text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit optio id vero amet, alias architecto consectetur error eum eaque sit.</p>
+                        <p class="skills__text">This web is still under development, grab a coffee.</p>
                         <div class="skills__data">
                             <div class="skills__names">
                                 <i class='bx bxl-html5 skills__icon'></i>
@@ -206,13 +206,13 @@
         const text = document.querySelector(".sec-text");
         const textLoad = () => {
             setTimeout(() => {
-                text.textContent = "Freelancer";
+                text.textContent = "Content Creator";
             }, 0);
             setTimeout(() => {
-                text.textContent = "Blogger";
+                text.textContent = "App Modder";
             }, 4000);
             setTimeout(() => {
-                text.textContent = "YouTuber";
+                text.textContent = "Web Developer";
             }, 8000); //1s = 1000 milliseconds
         }
         textLoad();

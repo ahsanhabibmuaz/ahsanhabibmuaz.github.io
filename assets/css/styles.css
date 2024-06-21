@@ -335,6 +335,9 @@ img {
   outline: none;
   margin-bottom: var(--mb-4);
 }
+.contact__input:focus{
+  border: 2px solid #ff994f;
+}
 .contact__button {
   display: block;
   border: none;

@@ -221,6 +221,10 @@ img {
 .home__blob-img {
   width: 360px;
 }
+/*this is my alpha */
+.ani-alpha {
+  opacity: 0.3;
+}
 
 /*BUTTONS*/
 .button {

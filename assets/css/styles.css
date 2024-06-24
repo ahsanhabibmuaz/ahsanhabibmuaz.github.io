@@ -224,7 +224,6 @@ img {
 }
 /*this is my alpha */
 .ani-alpha {
-  text-decoration: var(--first-color) solid underline;
   font-family: "Caveat", cursive;
 }
 

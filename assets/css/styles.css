@@ -1,5 +1,6 @@
 /*===== GOOGLE FONTS =====*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap');
 /*===== VARIABLES CSS =====*/
 :root {
   --header-height: 3rem;
@@ -224,6 +225,7 @@ img {
 /*this is my alpha */
 .ani-alpha {
   text-decoration: var(--first-color) solid underline;
+   font-family: "Imperial Script", cursive;
 }
 
 /*BUTTONS*/

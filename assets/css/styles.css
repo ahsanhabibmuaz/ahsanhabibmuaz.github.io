@@ -223,7 +223,7 @@ img {
 }
 /*this is my alpha */
 .ani-alpha {
-  opacity: 0.3;
+  text-decoration: var(--first-color) dotted underline;
 }
 
 /*BUTTONS*/

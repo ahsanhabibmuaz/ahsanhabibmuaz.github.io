@@ -241,6 +241,15 @@ img {
   box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
 }
 
+/*music menu*/
+.music-data {
+  float: right;
+  margin-right: 6%;
+  margin-top: 120px;
+  display: flex;
+  align-items: center;
+}
+
 /* ===== ABOUT =====*/
 .about__container {
   row-gap: 2rem;

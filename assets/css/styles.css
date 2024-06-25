@@ -248,6 +248,10 @@ img {
   display: flex;
 
 }
+#mlogo {
+  width: 80px;
+  cursor: pointer;
+}
 
 /* ===== ABOUT =====*/
 .about__container {

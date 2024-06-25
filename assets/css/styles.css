@@ -222,11 +222,11 @@ img {
 .home__blob-img {
   width: 360px;
 }
-/*this is my alpha */
-.ani-alpha {
+/*this is my alpha
+ .ani-alpha {
   font-family: "Caveat", cursive;
 }
-
+------------*/
 /*BUTTONS*/
 .button {
   display: inline-block;

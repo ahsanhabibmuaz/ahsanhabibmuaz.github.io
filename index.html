@@ -256,5 +256,14 @@
         }
     </script>
        <!--===== POPUP SCRIPT =====--> 
+        <!--===== no img download SCRIPT =====--> 
+        <script>
+  document.addEventListener('contextmenu', function(event) {
+    if (event.target.tagName === 'IMG') {
+      event.preventDefault();
+    }
+  });
+       </script>
+         <!--===== no img download SCRIPT =====--> 
     </body>
 </html>

@@ -55,13 +55,6 @@ body {
   user-select: none;          /* Standard syntax */
 }
 /*-- dis image--*/
-img {
-  -webkit-user-drag: none;  /* Safari */
-  -khtml-user-drag: none;   /* Konqueror */
-  -moz-user-drag: none;     /* Firefox */
-  -o-user-drag: none;       /* Opera */
-  user-drag: none;          /* Standard syntax */
-}
 
 h1, h2, p {
   margin: 0;
@@ -88,7 +81,7 @@ img {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
           color: #fff;
-          font-weight: var(--font-semi);
+          font-style: normal;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -114,8 +107,8 @@ img {
             margin-top: 20px;
             padding: 10px 20px;
             border: none;
-            background-color: rgba(0, 0, 0, 0.5); /* 50% transparent */
-            color: white;
+            background-color: rgba(255, 255, 255, 0.5); /* 50% transparent */
+            color: black;
             border-radius: 50px; /* Pill shape */
             cursor: pointer;
            font-family: "Poppins", sans-serif;

@@ -108,7 +108,7 @@ img {
             margin-top: 20px;
             padding: 10px 20px;
              border: 1px solid #ccc; 
-            background-color: rgba(70, 70, 70, 0.4); /* 20% transparent */
+            background-color: rgba(200, 200, 200, 0.5); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */
             cursor: pointer;

@@ -74,8 +74,33 @@ img {
   height: auto;
   display: block;
 }
-/*===== YouTube Class DDD ===== */
+/*===== Popup code ===== */
+/* Basic styling for the popup */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #ccc;
+            z-index: 1000; /* Ensure it is on top */
+        }
 
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+            z-index: 999; /* Below the popup */
+            backdrop-filter: blur(5px); /* Background blur effect */
+        }
+/*===== Popup code ===== */
 /*===== CLASS CSS ===== */
 .section-title {
   position: relative;

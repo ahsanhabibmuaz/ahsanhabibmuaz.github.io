@@ -12,7 +12,13 @@
         <title>Muaz's Portfolio</title>
     </head>
     <body>
-        
+        <!-- =====POPup code===== -->
+        <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <p>Thanks for Visiting!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+        <!-- =====POPup code ===== -->
         <!--===== HEADER =====-->
         <header class="l-header">
             <nav class="nav bd-grid">
@@ -234,5 +240,21 @@
         } }
     document.getElementById("xplay").addEventListener("click", toggleMusic);
 </script>
+
+   <!--===== POPUP SCRIPT =====-->
+        <script>
+        // Show the popup after the page loads
+        window.onload = function() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        };
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+       <!--===== POPUP SCRIPT =====--> 
     </body>
 </html>

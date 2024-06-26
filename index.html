@@ -40,7 +40,7 @@
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
-                     <h1 class="home__title">Hi,<br>I'm <span class="home__title-color" id="play">Muaz</span><br> <span class="auto-type ani-alpha"></span></h1>
+                     <h1 class="home__title">Hi,<br>I'm <span class="home__title-color" id="xplay">Muaz</span><br> <span class="auto-type ani-alpha"></span></h1>
                    
                     <a href="mailto:ahsanhabibmuaz@duck.com" class="button">Contact</a>
                 </div>
@@ -215,13 +215,24 @@
             
         </script>
   <!--===== music JS =====-->
-         <script>
-        let play = document.getElementById("play");
-            function playMusic() {
-             let audio = new Audio("assets/music/mySong.m4a");
-             audio.play()
-          }
-          play.addEventListener("click", playMusic);
-              </script>
+        <script>
+    let audio;
+    let isPlaying = false;
+    function toggleMusic() {
+        if (!audio) {
+            audio = new Audio("assets/music/mySong.m4a");
+        }
+        if (isPlaying) {
+            audio.pause();
+            audio.currentTime = 0;
+            isPlaying = false;
+            document.getElementById("xplay").textContent = "Play";
+        } else {
+            audio.play();
+            isPlaying = true;
+            document.getElementById("xplay").textContent = "Stop";
+        } }
+    document.getElementById("xplay").addEventListener("click", toggleMusic);
+</script>
     </body>
 </html>

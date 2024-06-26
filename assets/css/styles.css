@@ -85,7 +85,7 @@ img {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            padding: 20px;
+            padding: 50px;
            /* background-color: var(--first-color); */
            background-color: rgba(200,200,200,0.2);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);

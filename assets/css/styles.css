@@ -107,8 +107,8 @@ img {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            border: 1px solid #ccc; /* none */
-            background-color: rgba(0, 67, 255, 0.2); /* 20% transparent */
+            /* border: 1px solid #ccc; */
+            background-color: rgba(0, 0, 0, 0.2); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */
             cursor: pointer;
@@ -117,7 +117,7 @@ img {
          }
 
 .close-btn:hover {
-            background-color: rgba(0, 0, 0, 0.7); /* Slightly darker on hover */
+            background-color: rgba(0, 0, 0, 0.3); /* Slightly darker on hover */
         }
 
         .overlay {

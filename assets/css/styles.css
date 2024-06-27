@@ -402,7 +402,16 @@ img {
   border: 1.5px solid var(--second-color);
   outline: none;
   margin-bottom: var(--mb-4);
+  resize: vertical;
 }
+.contact__input input {
+font-size: var(--normal-font-size);
+  
+}
+.contact__input textarea {
+  font-size: var(--normal-font-size);
+}
+
 .contact__input:focus{
   border: 2px solid #3e6ff4;
 }

@@ -404,12 +404,15 @@ img {
   margin-bottom: var(--mb-4);
   resize: vertical;
 }
-.contact__input input {
-font-size: var(--normal-font-size);
-  
+
+::placeholder {
+  font-family: "Poppins", sans-serif;
+  color: gray;
+  opacity: 0.6; /* Firefox */
 }
-.contact__input textarea {
-  font-size: var(--normal-font-size);
+
+::-ms-input-placeholder { /* Edge 12 -18 */
+  color: gray;
 }
 
 .contact__input:focus{

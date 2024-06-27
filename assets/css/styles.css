@@ -392,6 +392,13 @@ img {
   transform: scale(1.1);
 }
 
+.work__img iframe {
+transition: 1s;
+   
+}
+.work__img iframe:hover {
+  transform: scale(1.1);
+}
 /* ===== CONTACT =====*/
 .contact__input {
   width: 100%;

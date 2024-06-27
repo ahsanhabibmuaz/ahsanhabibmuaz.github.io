@@ -404,7 +404,10 @@ img {
   margin-bottom: var(--mb-4);
   resize: vertical;
 }
-
+#result {
+color: var(--first-color);
+  
+}
 ::placeholder {
   font-family: "Poppins", sans-serif;
   color: gray;

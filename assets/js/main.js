@@ -92,7 +92,7 @@ form.addEventListener('submit', function(e) {
             form.reset();
             setTimeout(() => {
                 result.style.display = "none";
-            }, 3000);
+            }, 5000);
         });
 });
 /*===== my page form submit =====*/

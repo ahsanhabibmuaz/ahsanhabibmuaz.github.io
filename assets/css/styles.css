@@ -258,6 +258,7 @@ img {
 }
 .home__title-color {
   color: var(--first-color);
+  cursor: pointer;
 }
 .home__social {
   display: flex;

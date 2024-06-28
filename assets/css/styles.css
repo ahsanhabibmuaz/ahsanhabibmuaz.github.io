@@ -89,7 +89,7 @@ img {
            /* background-color: var(--first-color); */
            background-color: rgba(200,200,200,0.2);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid #ccc;
+            border: 1px solid rgba(200,200,200,0.2);
           border-radius: 0.5rem;
           transition: 0.3s;
             z-index: 1000; /* Ensure it is on top */
@@ -100,6 +100,7 @@ img {
         }
 .popup:hover {
            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.7);
+           cursor: pointer;
 }
 
 /* Basic styling for the popup */
@@ -119,7 +120,7 @@ img {
             display: inline-block;
             margin-top: 15px;
             padding: 5px 15px;
-           border: 1px solid #777777;
+           border: 2px solid #777777;
             background-color: rgba(100, 120, 190, 0.2); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */
@@ -130,7 +131,7 @@ img {
 
 .close-btn:hover {
             background-color: rgba(63, 111, 452, 1); /* Slightly darker on hover */
-            border: 1px solid #ffffff;
+            border: 2px solid #ffffff;
         }
 
 /*===== Popup code ===== */

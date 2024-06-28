@@ -83,13 +83,13 @@ img {
           color: #fff;
           font-style: normal;
             left: 50%;
-            top: 40%;
-            transform: translate(-50%, -40%);
+            top: 45%;
+            transform: translate(-50%, -45%);
             padding: 20px;
            /* background-color: var(--first-color); */
            background-color: rgba(200,200,200,0.2);
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            border: 1px solid #ccc;
+            border: 1px solid rgba(200,200,200,0.5);
           border-radius: 0.5rem;
           transition: 0.3s;
             z-index: 1000; /* Ensure it is on top */
@@ -101,14 +101,15 @@ img {
         }
 .popup:hover {
            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(200,200,200,0.8);
 }
 
         /* Styling for the close button */
   .close-btn {
             display: inline-block;
             margin-top: 15px;
-            padding: 10px 15px;
-             border: 1px solid #ccc; 
+            padding: 5px 15px;
+             border: 1px solid rgba(200,200,200,0.8); 
             background-color: rgba(160, 160, 160, 0.4); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */

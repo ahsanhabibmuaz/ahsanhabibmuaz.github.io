@@ -265,13 +265,13 @@ img {
 .popup-text {
     visibility: hidden;
     width: 200px;
-    background-color: rgba(255, 255, 255, 0.7);
-    color: #000000;
+    background-color: rgba(255, 0, 75, 0.5);
+    color: #fff;
     text-align: center;
     border-radius: 10px;
-    padding: 20px;
+    padding: 10px;
     position: absolute;
-    z-index: 1;
+    z-index: 998;
     top: 50%;
     left: 50%;
     transform: translateX(-50%);

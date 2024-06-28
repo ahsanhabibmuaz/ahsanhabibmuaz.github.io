@@ -96,6 +96,7 @@ form.addEventListener('submit', function(e) {
         });
 });
 /*===== this is sec popup muaz text =====*/
+/*
 document.getElementById('xplay').addEventListener('mouseover', function() {
     document.getElementById('popup').style.visibility = 'visible';
     document.getElementById('popup').style.opacity = '1';
@@ -105,3 +106,4 @@ document.getElementById('xplay').addEventListener('mouseout', function() {
     document.getElementById('popup').style.visibility = 'hidden';
     document.getElementById('popup').style.opacity = '0';
 });
+*/

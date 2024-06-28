@@ -290,6 +290,40 @@
         <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
         <script src="assets/js/app.js"></script>
         <script src="assets/js/particles.min.js"></script>
-        <!--===== Particles JST =====--> 
+        <!--===== load lazy img when appear =====--> 
+        <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          observer.unobserve(img);
+        }
+      });
+    });
+
+    lazyImages.forEach(img => {
+      observer.observe(img);
+    });
+  });
+
+  // Show the popup after the page loads with a delay
+  window.onload = function() {
+    setTimeout(() => {
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }, 500); // Delay in milliseconds
+  };
+
+  // Function to close the popup
+  function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+</script>
+
     </body>
 </html>

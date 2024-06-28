@@ -97,11 +97,11 @@ form.addEventListener('submit', function(e) {
 });
 /*===== this is sec popup muaz text =====*/
 document.getElementById('xplay').addEventListener('mouseover', function() {
-    document.getElementById('secpopup').style.visibility = 'visible';
-    document.getElementById('secpopup').style.opacity = '1';
+    document.getElementById('popup').style.visibility = 'visible';
+    document.getElementById('popup').style.opacity = '1';
 });
 
 document.getElementById('xplay').addEventListener('mouseout', function() {
-    document.getElementById('secpopup').style.visibility = 'hidden';
-    document.getElementById('secpopup').style.opacity = '0';
+    document.getElementById('popup').style.visibility = 'hidden';
+    document.getElementById('popup').style.opacity = '0';
 });

@@ -132,6 +132,7 @@ img {
             background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
             z-index: 999; /* Below the popup */
             backdrop-filter: blur(6px); /* Background blur effect */
+           transition: backdrop-filter 0.3s ease-in-out;
         }
 /*===== Popup code ===== */
 /*===== CLASS CSS ===== */

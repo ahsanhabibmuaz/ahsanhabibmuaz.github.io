@@ -201,7 +201,7 @@ img {
     background-color: var(--second-color);
     transition: 0.5s;
   }
-}
+
 .nav__item {
   margin-bottom: var(--mb-4);
 }
@@ -258,7 +258,7 @@ img {
 .home__title {
   font-size: var(--big-font-size);
   margin-bottom: var(--mb-5);
-
+}
 .home__title-color {
   color: var(--first-color);
   cursor: pointer;
@@ -291,7 +291,7 @@ img {
 /*this is my alpha
  .ani-alpha {
   font-family: "Caveat", cursive;
-}
+  }
 ------------*/
 /*BUTTONS*/
 

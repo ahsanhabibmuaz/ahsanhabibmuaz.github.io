@@ -95,4 +95,13 @@ form.addEventListener('submit', function(e) {
             }, 5000);
         });
 });
-/*===== my page form submit =====*/
+/*===== this is sec popup muaz text =====*/
+document.getElementById('xplay').addEventListener('mouseover', function() {
+    document.getElementById('secpopup').style.visibility = 'visible';
+    document.getElementById('secpopup').style.opacity = '1';
+});
+
+document.getElementById('xplay').addEventListener('mouseout', function() {
+    document.getElementById('secpopup').style.visibility = 'hidden';
+    document.getElementById('secpopup').style.opacity = '0';
+});

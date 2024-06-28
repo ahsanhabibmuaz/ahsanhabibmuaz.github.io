@@ -89,7 +89,7 @@ img {
            /* background-color: var(--first-color); */
            background-color: rgba(200,200,200,0.2);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(200,200,200,0.2);
+            border: 1px solid rgba(200,200,200,0.5);
           border-radius: 0.5rem;
           transition: 0.3s;
             z-index: 1000; /* Ensure it is on top */
@@ -97,10 +97,13 @@ img {
             display: flex;
             flex-direction: column;
             align-items: center;
+           cursor: pointer;
         }
 .popup:hover {
            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.7);
-           cursor: pointer;
+           background-color: rgba(45,45,45,0.3);
+           border: 1px solid rgba(200,200,200,0.7);
+           
 }
 
 /* Basic styling for the popup */
@@ -113,25 +116,25 @@ img {
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
             z-index: 999; /* Below the popup */
-            backdrop-filter: blur(6px); /* Background blur effect */
+            backdrop-filter: blur(5px); /* Background blur effect */
         }
         /* Styling for the close button */
   .close-btn {
             display: inline-block;
             margin-top: 15px;
             padding: 5px 15px;
-           border: 2px solid #777777;
+           border: 1px solid rgba(200,200,200,0.6);
             background-color: rgba(100, 120, 190, 0.2); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */
-            cursor: pointer;
            font-family: "Poppins", sans-serif;
           font-style: normal;
+          cursor: pointer;
          }
 
 .close-btn:hover {
-            background-color: rgba(63, 111, 452, 1); /* Slightly darker on hover */
-            border: 2px solid #ffffff;
+            background-color: rgba(50, 50, 50, 0.5); /* Slightly darker on hover */
+           border: 1px solid rgba(200,200,200,0.3);
         }
 
 /*===== Popup code ===== */

@@ -77,6 +77,17 @@ img {
 }
 /*===== Popup code ===== */
 /* Basic styling for the popup */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+            z-index: 999; /* Below the popup */
+            backdrop-filter: blur(6px); /* Background blur effect */
+        }
         .popup {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
@@ -107,8 +118,8 @@ img {
   .close-btn {
             display: inline-block;
             margin-top: 15px;
-            padding: 10px 15px;
-             border: 1px solid #ccc; 
+            padding: 5px 15px;
+             border: 2px solid var(--second-color);
             background-color: rgba(160, 160, 160, 0.4); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */
@@ -118,20 +129,9 @@ img {
          }
 
 .close-btn:hover {
-            background-color: rgba(40, 40, 40, 0.1); /* Slightly darker on hover */
+            background-color: rgba(0, 0, 0, 0.2); /* Slightly darker on hover */
         }
 
-        .overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
-            z-index: 999; /* Below the popup */
-            backdrop-filter: blur(6px); /* Background blur effect */
-        }
 /*===== Popup code ===== */
 /*===== CLASS CSS ===== */
 .section-title {

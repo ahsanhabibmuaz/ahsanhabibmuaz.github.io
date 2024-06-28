@@ -258,50 +258,7 @@ img {
 .home__title {
   font-size: var(--big-font-size);
   margin-bottom: var(--mb-5);
-  /*===== secpopup =====*/
- position: relative;
- display: inline-block;
-}
-.popup-text {
-   /* visibility: hidden;
-    width: 200px;
-    background-color: rgba(255, 0, 75, 0.5);
-    color: #fff;
-    text-align: center;
-    border-radius: 10px;
-    padding: 10px;
-    position: absolute;
-    z-index: 998;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: visibility 0.2s, opacity 0.2s ease-in-out;
-    opacity: 0; */
-           display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-          color: #000;
-          font-style: normal;
-            left: 50%;
-            top: 40%;
-            transform: translate(-50%, -40%);
-            padding: 20px;
-           /* background-color: var(--first-color); */
-           background-color: rgba(200,200,200,1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(200,200,200,0.5);
-          border-radius: 0.5rem;
-          transition: 0.3s;
-            z-index: 998; /* Ensure it is on top */
-           text-align: center; /* Center content inside popup */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-}
-.home__title-color:hover + .popup-text {
-    visibility: visible;
-    opacity: 1;
-}
-/*===== secpopup =====*/
+
 .home__title-color {
   color: var(--first-color);
   cursor: pointer;

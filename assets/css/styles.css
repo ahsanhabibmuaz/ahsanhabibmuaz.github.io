@@ -132,7 +132,7 @@ img {
          }
 
 .close-btn:hover {
-           background-color: rgba(50, 50, 50, 0.5); /* Slightly darker on hover */
+           background-color: rgba(100, 100, 100, 0.7); /* Slightly darker on hover */
            border: 1px solid rgba(250,250,250,0.8);
         }
 
@@ -294,8 +294,6 @@ img {
 }
 ------------*/
 /*BUTTONS*/
-#contactButton {
-    display: block; /* Ensure button stays in place */
 }
 .button {
   display: inline-block;

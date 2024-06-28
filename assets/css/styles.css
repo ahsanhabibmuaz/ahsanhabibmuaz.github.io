@@ -279,19 +279,19 @@ img {
     opacity: 0; */
            display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
-          color: #fff;
+          color: #000;
           font-style: normal;
             left: 50%;
             top: 40%;
             transform: translate(-50%, -40%);
             padding: 20px;
            /* background-color: var(--first-color); */
-           background-color: rgba(200,200,200,0.2);
+           background-color: rgba(200,200,200,1);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             border: 1px solid rgba(200,200,200,0.5);
           border-radius: 0.5rem;
           transition: 0.3s;
-            z-index: 1001; /* Ensure it is on top */
+            z-index: 998; /* Ensure it is on top */
            text-align: center; /* Center content inside popup */
             display: flex;
             flex-direction: column;
@@ -339,9 +339,6 @@ img {
 /*BUTTONS*/
 #contactButton {
     display: block; /* Ensure button stays in place */
-    margin-top: 20px;
-    position: relative; /* Make sure it doesn't affect the popup */
-    z-index: 1; /* Ensure it's behind the popup */
 }
 .button {
   display: inline-block;

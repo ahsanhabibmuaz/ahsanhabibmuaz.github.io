@@ -98,9 +98,9 @@ img {
             transform: translate(-50%, -40%);
             padding: 20px;
            /* background-color: var(--first-color); */
-           background-color: rgba(200,200,200,0.2);
+           background-color: rgba(200,200,200,0.3);
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            border: 1px solid #3f6ff5;
+            border: 1px solid #ccc;
           border-radius: 0.5rem;
           transition: 0.3s;
             z-index: 1000; /* Ensure it is on top */
@@ -119,8 +119,8 @@ img {
             display: inline-block;
             margin-top: 15px;
             padding: 5px 15px;
-             border: 2px dashed #3f6ff5;
-            background-color: rgba(190, 190, 190, 0.2); /* 20% transparent */
+             border: 1px solid #ccc;
+            background-color: rgba(100, 120, 190, 0.2); /* 20% transparent */
             color: white;
             border-radius: 50px; /* Pill shape */
             cursor: pointer;

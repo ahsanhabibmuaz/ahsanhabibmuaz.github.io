@@ -259,7 +259,8 @@ img {
   font-size: var(--big-font-size);
   margin-bottom: var(--mb-5);
   /*===== secpopup =====*/
-/*deleted*/
+ position: relative;
+ display: inline-block;
 }
 .popup-text {
     visibility: hidden;

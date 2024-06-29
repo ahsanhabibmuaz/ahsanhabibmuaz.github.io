@@ -125,6 +125,10 @@ function closePopup() {
     document.getElementById('popup').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('particles-js').style.display = 'none';
+    
+    // Stop the particles.js animation
+    pJSDom[0].pJS.fn.vendors.destroypJS();
+    pJSDom = [];
 }
 
 // Event listener for the close button

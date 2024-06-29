@@ -59,9 +59,9 @@
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
-                     <h1 class="home__title">Hi,<br>I'm <span class="home__title-color" id="xplay">Muaz</span><br> <span class="auto-type ani-alpha"></span></h1>
+                     <h1 class="home__title">Hi,<br>I'm <span class="home__title-color" id="xplay" alt="Click here to play music.">Muaz</span><br> <span class="auto-type ani-alpha"></span></h1>
         
-                    <a href="mailto:ahsanhabibmuaz@duck.com" class="button" id="contactButton">Contact</a>
+                    <a href="mailto:ahsanhabibmuaz@duck.com" class="button">Contact</a>
                 </div>
                 
                     
@@ -78,7 +78,7 @@
                         </mask>
                         <g mask="url(#mask0)">
                             <path d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"/>
-                            <image class="home__blob-img" x="50" y="60" href="assets/img/perfil.png"/>
+                            <image class="home__blob-img" x="50" y="60" href="assets/img/perfil.png" alt="This is the picture of Ahsan Habib Muaz"/>
                         </g>
                     </svg>
                 </div>
@@ -173,22 +173,22 @@
                         <img src="assets/img/work1.jpg" alt="Mini Militia Mods by Ahsan Habib Muaz | Click here to download." loading="lazy">
                     </a>
                    <a href="" class="work__img">
-                        <img src="assets/img/work2.jpg" alt="" loading="lazy">
+                        <img src="assets/img/work2.jpg" alt="This is the picture of Muaz's Project" loading="lazy">
                     </a>
                     
                   
                      <a href="" class="work__img">
-                        <img src="assets/img/work3.jpg" alt="" loading="lazy">
+                        <img src="assets/img/work3.jpg" alt="This is the picture of Muaz's Project" loading="lazy">
                     </a>
                     
                     <a href="" class="work__img">
-                        <img src="assets/img/work4.jpg" alt="" loading="lazy">
+                        <img src="assets/img/work4.jpg" alt="This is the picture of Muaz's Project" loading="lazy">
                     </a>
                     <a href="" class="work__img">
-                        <img src="assets/img/work5.jpg" alt="" loading="lazy">
+                        <img src="assets/img/work5.jpg" alt="This is the picture of Muaz's Project" loading="lazy">
                     </a>
                     <a href="" class="work__img">
-                        <img src="assets/img/work6.jpg" alt="" loading="lazy">
+                        <img src="assets/img/work6.jpg" alt="This is the picture of Muaz's Project" loading="lazy">
                     </a>
                 </div>
             </section>
@@ -213,8 +213,8 @@
         </main>
 
         <!--===== FOOTER =====-->
-        <footer class="footer" id="particles-js">
-            <!-- <div id="particles-js"></div> -->
+        <footer class="footer" >
+            <div id="particles-js"></div>
             <p class="footer__title">&copy;Copyright 2024 - All rights reserved.</p>
             <div class="footer__social">
                 <a href="https://www.facebook.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
@@ -290,26 +290,7 @@
         <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
         <script src="assets/js/app.js"></script>
         <script src="assets/js/particles.min.js"></script>
-        <!--===== load lazy img when appear =====--> 
-        <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          observer.unobserve(img);
-        }
-      });
-    });
-
-    lazyImages.forEach(img => {
-      observer.observe(img);
-    });
-  });
-
-        </script>
+        <!--===== load lazy img when appear dlt =====--> 
+       
     </body>
 </html>

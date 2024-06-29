@@ -107,3 +107,25 @@ document.getElementById('xplay').addEventListener('mouseout', function() {
     document.getElementById('popup').style.opacity = '0';
 });
 */
+/*Particle with Overlay btn close GPT*/
+// Initialize particles.js
+particlesJS.load('particles-js', 'assets/js/particles.json', function() {
+    console.log('particles.js loaded - callback');
+});
+
+// Show the popup after the page loads
+window.onload = function() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('particles-js').style.display = 'block';
+};
+
+// Function to close the popup
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('particles-js').style.display = 'none';
+}
+
+// Event listener for the close button
+document.getElementById('close-btn').addEventListener('click', closePopup);

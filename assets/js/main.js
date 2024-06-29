@@ -109,7 +109,7 @@ document.getElementById('xplay').addEventListener('mouseout', function() {
 */
 /*Particle with Overlay btn close GPT*/
 // Initialize particles.js
-particlesJS.load('particles-js', 'assets/js/particles.json', function() {
+particlesJS.load('particles-js', 'assets/js/particles.min.js', function() {
     console.log('particles.js loaded - callback');
 });
 

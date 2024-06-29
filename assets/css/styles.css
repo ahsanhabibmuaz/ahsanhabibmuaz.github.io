@@ -130,10 +130,16 @@ img {
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
-            z-index: 999; /* Below the popup */
+            z-index: 998; /* Below the popup */
             backdrop-filter: blur(6px); /* Background blur effect */
            transition: backdrop-filter 0.3s ease-in-out;
         }
+#particles-js{
+  display: none;
+  position: absolute;
+  z-index: 999;
+}
+
 /*===== Popup code ===== */
 /*===== CLASS CSS ===== */
 .section-title {

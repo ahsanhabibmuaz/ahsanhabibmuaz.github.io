@@ -75,6 +75,12 @@ img {
   height: auto;
   display: block;
 }
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /*===== Popup code ===== */
 /* Basic styling for the popup */
         .popup {

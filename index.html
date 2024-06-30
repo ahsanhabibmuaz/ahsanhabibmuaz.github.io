@@ -6,6 +6,7 @@
         <link rel="shortcut icon" type="x-icon" href="assets/img/web_icon.png">
         <link rel="stylesheet" href="assets/css/styles.css">
 
+
         <!-- =====BOX ICONS===== -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -15,25 +16,20 @@
    <!-- Preload img js css -->  
       <link rel="preload" href="assets/css/styles.css" as="style">
       <link rel="preload" href="assets/js/main.js" as="script">
-      <link rel="preload" href="assets/img/about.webp" as="image">
-     <link rel="preload" href="assets/img/work1.webp" as="image">
-     <link rel="preload" href="assets/img/work2.webp" as="image">
-     <link rel="preload" href="assets/img/work3.webp" as="image">
-      <link rel="preload" href="assets/img/work4.webp" as="image">
-      <link rel="preload" href="assets/img/work5.webp" as="image">
-      <link rel="preload" href="assets/img/work6.webp" as="image">
+      <link rel="preload" href="assets/img/perfil.webp" as="image">
+   
 
     </head>
     <body>
-        <!-- =====POPup code===== -->
-        <div id="particles-js"></div>
+        <!-- ===== POPUP CODE ===== -->
+       
         <div class="overlay" id="overlay"></div>
     <div class="popup" id="popup">
         <p>Explore the web.<br>Thanks &#x1F499; for Visiting!</p>
        <!-- <button class="close-btn" onclick="closePopup()">Great</button> -->
-        <button class="close-btn" id="close-btn" onclick="closePopup()">Great</button>
+        <button class="close-btn" id="close-btn" onclick="closePopup()">Close</button>
     </div>
-        <!-- ===== popup code ===== -->
+        
         <!--===== HEADER =====-->
         <header class="l-header">
             <nav class="nav bd-grid">
@@ -43,11 +39,11 @@
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
-                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                        <li class="nav__item"><a href="#" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
                         <li class="nav__item"><a href="#work" class="nav__link">Projects</a></li>
-                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
+                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
+                        <li class="nav__item"><a href="contact.html" class="nav__link">Contact</a></li>
                     </ul>
                 </div>
 
@@ -63,7 +59,7 @@
                 <div class="home__data">
                      <h1 class="home__title">Hi,<br>I'm <span class="home__title-color" id="xplay" alt="Click here to play music.">Muaz</span><br> <span class="auto-type ani-alpha"></span></h1>
         
-                    <a href="mailto:ahsanhabibmuaz@duck.com" class="button">Contact</a>
+                    <a href="contact.html" class="button">Contact</a>
                 </div>
                 
                     
@@ -86,22 +82,7 @@
                 </div>
             </section>
 
-            <!--===== ABOUT =====-->
-            <section class="about section " id="about">
-                <h2 class="section-title">About</h2>
-
-                <div class="about__container bd-grid">
-                    <div class="about__img">
-                        <img src="assets/img/about.webp" alt="This is the picture of Ahsan Habib Muaz" loading="lazy">
-                    </div>
-                    
-                    <div>
-                        <h2 class="about__subtitle">Ahsan Habib Muaz</h2>
-                        <p class="about__text">I am a digital content creator and programmer from Dhaka, Bangladesh. I excel in modifying Android apps and creating engaging content on platforms like Facebook and YouTube. I have a deep passion for science, technology, and psychology. Alongside my digital skills, I am proficient in driving, arc welding, and have mastered both English cursive and Bengali handwriting. I am known for my commitment to learning and excellence in all my endeavours.  <a href="https://wikialpha.com/wiki/Ahsan_Habib_Muaz" class="home__title-color">Learn more.</a></p>           
-                    </div>                                   
-                </div>
-            </section>
-
+           
             <!--===== SKILLS =====-->
             <section class="skills section" id="skills">
                 <h2 class="section-title">Skills</h2>
@@ -161,7 +142,7 @@
                     </div>
                     
                     <div>              
-                        <video src="assets\vid\Reality_pure.webm" controls alt="" class="skills__img">
+                        <video src="assets\vid\Reality_pure.webm"  alt="A legendary speech." class="skills__img particle-js" loading="lazy" controls>
                     </div>
                 </div>
             </section>
@@ -194,24 +175,22 @@
                     </a>
                 </div>
             </section>
+             <!--===== ABOUT =====-->
+             <section class="about section " id="about">
+                <h2 class="section-title">About</h2>
 
-            <!--===== CONTACT =====-->
-            <section class="contact section" id="contact">
-                <h2 class="section-title">Contact</h2>
-
-                <div class="contact__container bd-grid">
-                    <form action="https://api.web3forms.com/submit" method="POST" class="contact__form" id="form">
-                        <input type="hidden" name="access_key" value="c81131cd-36d6-449c-b7df-a9d9af8b496d">
-                        <input type="hidden" name="subject" value="New Submission from Web3Forms">
-                        <input type="text" name="name" placeholder="Your Name..." class="contact__input" required>
-                        <input type="email" name="email" placeholder="Your Email..." class="contact__input" required>
-                        <textarea name="message" placeholder="Write something..." class="contact__input" required></textarea>
-                        <div id="result"></div>
-                        <button type="submit" class="contact__button button">Submit</button>
-                        
-                    </form>
+                <div class="about__container bd-grid">
+                    <div class="about__img">
+                        <img src="assets/img/about.webp" alt="This is the picture of Ahsan Habib Muaz" loading="lazy">
+                    </div>
+                    
+                    <div>
+                        <h2 class="about__subtitle">Ahsan Habib Muaz</h2>
+                        <p class="about__text">I am a digital content creator and programmer from Dhaka, Bangladesh. I excel in modifying Android apps and creating engaging content on platforms like Facebook and YouTube. I have a deep passion for science, technology, and psychology. Alongside my digital skills, I am proficient in driving, arc welding, and have mastered both English cursive and Bengali handwriting. I am known for my commitment to learning and excellence in all my endeavours.  <a href="https://wikialpha.com/wiki/Ahsan_Habib_Muaz" class="home__title-color">Learn more.</a></p>           
+                    </div>                                   
                 </div>
             </section>
+
         </main>
 
         <!--===== FOOTER =====-->
@@ -228,97 +207,63 @@
         </footer>
     
 
-        <!--===== SCROLL REVEAL =====-->
-        <script src="https://unpkg.com/scrollreveal"></script>
+       <!-- JS SOURCES -->
+       <script src="https://unpkg.com/scrollreveal"></script>
 
-        <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
-  <!--===== maza animate JS =====-->
-        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
-        <script>
-         var typed = new Typed(".auto-type", {
-             strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
-             typeSpeed: 130,
-             backSpeed: 80,
-             loop: true
-         })
-            
-        </script>
-  <!--===== music JS =====-->
-        <script>
-    let audio;
-    let isPlaying = false;
-    function toggleMusic() {
-        if (!audio) {
-            audio = new Audio("assets/music/mySong.m4a");
-        }
-        if (isPlaying) {
-            audio.pause();
-            audio.currentTime = 0;
-            isPlaying = false;
-            document.getElementById("xplay").textContent = "Muaz";
-        } else {
-            audio.play();
-            isPlaying = true;
-            document.getElementById("xplay").textContent = "Your Friend";
-        } }
-    document.getElementById("xplay").addEventListener("click", toggleMusic);
-</script>
 
-   <!--===== POPUP SCRIPT =====-->
-        <!-- <script>
-        // Show the popup after the page loads
-        window.onload = function() {
-            document.getElementById('popup').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        };
-
-        // Function to close the popup
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
-    </script>
-       <!--===== POPUP SCRIPT =====--> 
-    
-        <!--===== Particles JST =====--> 
-        <!-- <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script> -->
-         <script src="assets/js/app.js"></script>
-        <script src="assets/js/particles.min.js"></script>
-        <!--===== load lazy img when appear dlt =====--> 
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-    // Initialize particles.js
-    particlesJS.load('particles-js', 'assets/js/particles.json', function() {
-        console.log('particles.js loaded - callback');
-    });
-
-    // Show the popup and particles.js after the page loads
-    window.onload = function() {
-        document.getElementById('popup').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-        document.getElementById('particles-js').style.display = 'block';
-    };
-
-    // Function to close the popup and stop particles.js
-    function closePopup() {
-        // Hide the popup and overlay
-        document.getElementById('popup').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        // Hide the particles-js container
-        document.getElementById('particles-js').style.display = 'none';
-
-        // Stop the particles.js animation
-        if (window.pJSDom && window.pJSDom.length) {
-            pJSDom[0].pJS.fn.vendors.destroypJS();
-            pJSDom = [];
-        }
-    }
-
-    // Event listener for the close button
-    document.getElementById('close-btn').addEventListener('click', closePopup);
-</script>
-        
+       <script src="assets/js/main.js"></script>
        
+       <script src="assets/js/app.js"></script>
+       <script src="assets/js/particles.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script> 
+       
+       <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+     
+       <!-- AUTO TYPE JS -->
+       <script>
+        var typed = new Typed(".auto-type", {
+            strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
+            typeSpeed: 130,
+            backSpeed: 80,
+            loop: true
+        })
+           
+       </script>
+ <!--===== Click to play music JS =====-->
+       <script>
+   let audio;
+   let isPlaying = false;
+   function toggleMusic() {
+       if (!audio) {
+           audio = new Audio("assets/music/mySong.m4a");
+       }
+       if (isPlaying) {
+           audio.pause();
+           audio.currentTime = 0;
+           isPlaying = false;
+           document.getElementById("xplay").textContent = "Muaz";
+       } else {
+           audio.play();
+           isPlaying = true;
+           document.getElementById("xplay").textContent = "Your Friend";
+       } }
+   document.getElementById("xplay").addEventListener("click", toggleMusic);
+</script>
+
+  <!--===== POPUP SCRIPT =====-->
+       <script>
+       // Show the popup after the page loads
+       window.onload = function() {
+           document.getElementById('popup').style.display = 'block';
+           document.getElementById('overlay').style.display = 'block';
+       };
+
+       // Function to close the popup
+       function closePopup() {
+           document.getElementById('popup').style.display = 'none';
+           document.getElementById('overlay').style.display = 'none';
+       }
+   </script>
+
     </body>
 </html>

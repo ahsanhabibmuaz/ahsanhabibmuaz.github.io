@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="x-icon" href="assets/img/web_icon.png">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- =====BOX ICONS===== -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Contact</title>
+</head>
+<body>
+
+         <!--===== HEADER =====-->
+         <header class="l-header">
+            <nav class="nav bd-grid">
+                <div>
+                    <a href="#" class="nav__logo">AHSAN HABIB MUAZ</a>
+                </div>
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="nav__list">
+                        <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                        <li class="nav__item"><a href="index.html#skills" class="nav__link">Skills</a></li>
+                        <li class="nav__item"><a href="index.html#work" class="nav__link">Projects</a></li>
+                        <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
+                        <li class="nav__item"><a href="contact.html" class="nav__link active-link">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class='bx bx-menu'></i>
+                </div>
+            </nav>
+        </header> 
+
+ <!--===== CONTACT =====-->
+ <section class="contact section" id="contact">
+    <h2 class="section-title">Contact</h2>
+    <p class="skills__text" id="contact_text">Feel free to contact with me. <span class="home__title-color">I am waiting for you.</span></p>
+    <div class="contact__container bd-grid">
+        <form action="https://api.web3forms.com/submit" method="POST" class="contact__form" id="form">
+            <input type="hidden" name="access_key" value="c81131cd-36d6-449c-b7df-a9d9af8b496d">
+            <input type="hidden" name="subject" value="New Submission from Web3Forms">
+            <input type="text" name="name" placeholder="Your Name" class="contact__input" required>
+            <input type="email" name="email" placeholder="Your Email" class="contact__input" required>
+            <textarea name="message" placeholder="Write something..." class="contact__input" required></textarea>
+            <div id="result"></div>
+            <button type="submit" class="contact__button button">Submit</button>
+            
+        </form>
+    </div>
+</section>
+
+<!--===== FOOTER =====-->
+       
+<footer class="footer" >
+            
+    <p class="footer__title">&copy;Copyright 2024 - All rights reserved.</p>
+    <div class="footer__social">
+        <a href="https://www.facebook.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
+        <a href="https://www.instagram.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
+        <a href="https://www.twitter.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-twitter' ></i></a>
+    </div>
+    <p class="footer__copy">Made with &#x1F499; by Ahsan Habib Muaz.</p>
+</footer>
+
+<!--===== SCROLL REVEAL =====-->
+<script src="#assets/js/main.js"></script>
+
+<!--===== FORM SUBMIT C-PAGE =====-->
+
+<script>
+const form = document.getElementById('form');
+const result = document.getElementById('result');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const formData = new FormData(form);
+  const object = Object.fromEntries(formData);
+  const json = JSON.stringify(object);
+  result.innerHTML = "Please wait..."
+
+    fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            let json = await response.json();
+            if (response.status == 200) {
+                result.innerHTML = json.message;
+            } else {
+                console.log(response);
+                result.innerHTML = json.message;
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            result.innerHTML = "Something went wrong!";
+        })
+        .then(function() {
+            form.reset();
+            setTimeout(() => {
+                result.style.display = "none";
+            }, 5000);
+        });
+});
+
+
+</script>
+</body>
+</html>

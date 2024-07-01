@@ -83,6 +83,7 @@ video {
 video::cue(.subcolorx) {
   color: red;
    background-color: white;
+  text-shadow: none;
 }
 /*===== Popup code ===== */
 /* Basic styling for the popup */

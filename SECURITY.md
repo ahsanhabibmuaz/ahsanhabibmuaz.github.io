@@ -20,5 +20,5 @@ Security updates will be released as soon as possible once a vulnerability is id
 
 We would like to thank the following individuals for responsibly disclosing vulnerabilities:
 
-- [AHSAN HABIB MUAZ] (https://facebook.com/ahsanhabibmuaz)
+- [AHSAN HABIB MUAZ](https://facebook.com/ahsanhabibmuaz)
 

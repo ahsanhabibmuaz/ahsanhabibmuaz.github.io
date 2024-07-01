@@ -75,6 +75,9 @@ img {
   height: auto;
   display: block;
 }
+abbr {
+   text-decoration: none;
+}
 video {
   max-width: 100%;
   height: auto;

@@ -80,6 +80,9 @@ video {
   height: auto;
   display: block;
 }
+.subcolorx {
+  color: #ff2222;
+}
 
 /*===== Popup code ===== */
 /* Basic styling for the popup */

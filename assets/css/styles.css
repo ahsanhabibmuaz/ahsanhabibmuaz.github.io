@@ -464,6 +464,7 @@ font-weight: var(--font-semi);
   text-align: center;
   font-weight: var(--font-semi);
   padding: 2rem 0;
+  flex-shrink: 0;
 }
 
 .footer__title {
@@ -484,6 +485,15 @@ font-weight: var(--font-semi);
   font-size: var(--smaller-font-size);
 }
 
+#footdiv {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    flex: 1 0 auto;
+}
 
 /* ===== MEDIA QUERIES=====*/
 @media screen and (max-width: 320px) {

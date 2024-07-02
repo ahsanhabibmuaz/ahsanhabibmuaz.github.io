@@ -24,7 +24,7 @@ If you have any suggestions or improvements for the website, please open an issu
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE.txt) file for more details.
+This project is licensed under the (c) Copyright License. See the [LICENSE](LICENSE.txt) file for more details.
 
 ## Acknowledgements
 

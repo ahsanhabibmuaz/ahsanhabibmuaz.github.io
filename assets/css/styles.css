@@ -4,20 +4,43 @@
 /*===== VARIABLES CSS =====*/
 :root {
   --header-height: 3rem;
-  --font-semi: 600;
+   /*========== Font weight ==========*/
+   --font-medium: 500;
+   --font-semi: 600;
   /*===== Colores =====*/
   /*Purple 260 - Red 355 - Blue 224 - Pink 340*/
   /* HSL color mode */
   --hue-color: 224;
   --first-color: hsl(var(--hue-color), 89%, 60%);
   --second-color: hsl(var(--hue-color), 56%, 12%);
-  /*===== Fuente y tipografia =====*/
+  --first-color-second: hsl(var(--hue-color), 69%, 61%);
+   --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+  --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
+  --title-color: hsl(var(--hue-color), 8%, 15%);
+  --text-color: hsl(var(--hue-color), 8%, 45%);
+  --text-color-light: hsl(var(--hue-color), 8%, 65%);
+  --input-color: hsl(var(--hue-color), 70%, 96%);
+  --body-color: hsl(var(--hue-color), 60%, 99%);
+  --container-color: #fff;
+  --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
+  --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+  /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
   --big-font-size: 2rem;
+  --h1-font-size: 1.5rem;
   --h2-font-size: 1.25rem;
+  --h3-font-size: 1.125rem;
   --normal-font-size: .938rem;
+  --small-font-size: .813rem;
   --smaller-font-size: .75rem;
   /*===== Margenes =====*/
+      /*========== Margenes Bottom ==========*/
+    /* .25rem = 4px, .5rem = 8px, .75rem = 12px ... */
+    --mb-0-25: .25rem;
+    --mb-0-5: .5rem;
+    --mb-0-75: .75rem;
+    --mb-1: 1rem;
+    --mb-1-5: 1.5rem;
   --mb-2: 1rem;
   --mb-4: 2rem;
   --mb-5: 2.5rem;
@@ -25,6 +48,7 @@
   /*===== z index =====*/
   --z-back: -10;
   --z-fixed: 100;
+  --z-modal: 1000;
 }
 @media screen and (min-width: 968px) {
   :root {
@@ -34,6 +58,37 @@
     --smaller-font-size: .875rem;
   }
 }
+
+/*========== Variables Dark theme ==========*/
+body.dark-theme {
+  /* HSL color mode */
+  --first-color: hsl(var(--hue-color), 30%, 8%);
+  --title-color: hsl(var(--hue-color), 8%, 95%);
+  --text-color: hsl(var(--hue-color), 8%, 75%);
+  --input-color: hsl(var(--hue-color), 29%, 16%);
+  --body-color: hsl(var(--hue-color), 28%, 12%);
+  --container-color: hsl(var(--hue-color), 29%, 16%);
+  --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
+  --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
+}
+
+/*========== Button Dark/Light ==========*/
+.nav__btns {
+  display: flex;
+  align-items: center;
+}
+
+.change-theme {
+  font-size: 1.25rem;
+  color: var(--title-color);
+  margin-right: var(--mb-1);
+  cursor: pointer;
+}
+
+.change-theme:hover {
+  color: var(--first-color);
+}
+
 
 /*===== BASE =====*/
 *, ::before, ::after {
@@ -58,6 +113,7 @@ body {
 
 h1, h2, p {
   margin: 0;
+ 
 }
 
 ul {
@@ -174,10 +230,25 @@ video::cue(.subcolorx) {
   background-color: var(--first-color);
 }
 
-.section {
+.section__subtitle {
+  display: block;
+  font-size: var(--small-font-size);
+  margin-bottom: var(--mb-3);
+}
+
+.section__title,
+.section__subtitle {
+  text-align: center;
+}
+
+/*.section {
   padding-top: 3rem;
   padding-bottom: 2rem;
+}*/
+  .section {
+    padding: 2rem 0 4rem;
 }
+
 
 
 /*===== LAYOUT =====*/
@@ -240,10 +311,18 @@ video::cue(.subcolorx) {
 .nav__logo {
   color: var(--second-color);
 }
+
+.nav__logo:hover {
+  color: var(--first-color);
+}
 .nav__toggle {
   color: var(--second-color);
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+.nav__toggle:hover {
+  color: var(--first-color);
 }
 
 /*Active menu*/
@@ -277,7 +356,7 @@ video::cue(.subcolorx) {
 }
 .home__title-color {
   color: var(--first-color);
-  cursor: pointer;
+
 }
 .home__social {
   display: flex;
@@ -321,6 +400,7 @@ video::cue(.subcolorx) {
 }
 .button:hover {
   box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
+
 }
 
 /* ===== ABOUT =====*/
@@ -340,6 +420,28 @@ video::cue(.subcolorx) {
 .about__img img {
   width: 200px;
   border-radius: 0.5rem;
+}
+
+.about__info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--mb-2-5);
+}
+
+.about__info-title {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-semi);
+  color: var(--second-color);
+}
+
+.about__info-name {
+  font-size: var(--small-font-size);
+}
+
+.about__info-title,
+.about__info-name {
+  display: block;
+  text-align: center;
 }
 
 /* ===== SKILLS =====*/
@@ -397,6 +499,80 @@ video::cue(.subcolorx) {
 .skills__img {
   border-radius: 0.5rem;
 }
+
+
+/*==================== QUALIFICATION ====================*/
+.qualification__tabs {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: var(--mb-2);
+}
+
+.qualification__button {
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+}
+
+.qualification__button:hover {
+  color: var(--first-color);
+}
+
+.qualification__icon {
+  font-size: 1.8rem;
+  margin-right: var(--mb-0-25);
+}
+
+.qualification__data {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  column-gap: 1.5rem;
+}
+
+.qualification__title {
+  font-size: var(--normal-font-size);
+  font-weight: var(--font-medium);
+}
+
+.qualification__subtitle {
+  display: inline-block;
+  font-size: var(--small-font-size);
+  margin-bottom: var(--mb-2);
+}
+
+.qualification__calendar {
+  font-size: var(--smaller-font-size);
+  color: var(--text-color-light);
+}
+
+.qualification__rounder {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background-color: var(--first-color);
+  border-radius: 50%;
+}
+
+.qualification__line {
+  display: block;
+  width: 1px;
+  height: 100%;
+  background-color: var(--first-color);
+  transform: translate(6px, -7px);
+}
+
+.qualification [data-content] {
+  display: none;
+}
+
+.qualification__active[data-content] {
+  display: block;
+}
+
+.qualification__button.qualification__active {
+  color: var(--first-color);
+}
+
 
 /* ===== WORK =====*/
 .work__container {
@@ -504,8 +680,61 @@ font-weight: var(--font-semi);
     flex: 1 0 auto;
 }
 
+
+/*========== SCROLL UP ==========*/
+.scrollup {
+  position: fixed;
+  right: 1rem;
+  bottom: -20%;
+  background-color: var(--first-color);
+  opacity: .8;
+  padding: 0 .3rem;
+  border-radius: .4rem;
+  z-index: var(--z-tooltip);
+  transition: .4s;
+}
+
+.scrollup:hover {
+  background-color: var(--first-color-alt);
+}
+
+.scrollup__icon {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+/* Show scroll */
+.show-scroll {
+  bottom: 5rem;
+}
+
+/*========== SCROLL BAR ==========*/
+::-webkit-scrollbar {
+  width: .60rem;
+  background-color: var(--scroll-bar-color);
+  border-radius: .5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb-color);
+  border-radius: .5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color-light);
+}
+
+.container {
+  max-width: 768px;
+  margin-left: var(--mb-1-5);
+  margin-right: var(--mb-1-5);
+}
 /* ===== MEDIA QUERIES=====*/
 @media screen and (max-width: 320px) {
+  .container {
+    margin-left: var(--mb-1);
+    margin-right: var(--mb-1);
+}
   .home {
     row-gap: 2rem;
   }
@@ -559,6 +788,12 @@ font-weight: var(--font-semi);
   body {
     margin: 0;
   }
+
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
   .section {
     padding-top: 4rem;
     padding-bottom: 3rem;

@@ -241,15 +241,16 @@ video::cue(.subcolorx) {
   text-align: center;
 }
 
-/*.section {
+.section {
   padding-top: 3rem;
   padding-bottom: 2rem;
-}*/
-  .section {
+}
+
+/*  .section {
     padding: 2rem 0 4rem;
 }
 
-
+*/
 
 /*===== LAYOUT =====*/
 .bd-grid {
@@ -358,6 +359,11 @@ video::cue(.subcolorx) {
   color: var(--first-color);
 
 }
+#xplay {
+  cursor: pointer;
+}
+
+
 .home__social {
   display: flex;
   flex-direction: column;

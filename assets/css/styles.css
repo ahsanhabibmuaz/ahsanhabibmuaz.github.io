@@ -5,7 +5,6 @@
 :root {
   --header-height: 3rem;
    /*========== Font weight ==========*/
-   --font-normal: 400;
    --font-medium: 500;
    --font-semi: 600;
   /*===== Colores =====*/
@@ -71,20 +70,23 @@ body.dark-theme {
 }
 
 /*========== Button Dark/Light ==========*/
+   
 .nav__btns {
   display: flex;
-  align-items: center;
+  align-items:center;
+
 }
+  
 
 .change-theme {
   font-size: 1.25rem;
-  color: var(--title-color);
+  color: var(--first-color);
   margin-right: var(--mb-1);
   cursor: pointer;
 }
 
 .change-theme:hover {
-  color: var(--first-color);
+  color: #000;
 }
 
 
@@ -250,7 +252,11 @@ video::cue(.subcolorx) {
 .section {
   padding-top: 3rem;
   padding-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
+
+
 
 
 

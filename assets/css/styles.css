@@ -5,6 +5,7 @@
 :root {
   --header-height: 3rem;
    /*========== Font weight ==========*/
+   --font-normal: 400;
    --font-medium: 500;
    --font-semi: 600;
   /*===== Colores =====*/
@@ -24,6 +25,7 @@
   --container-color: #fff;
   --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+  
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
   --big-font-size: 2rem;
@@ -36,11 +38,7 @@
   /*===== Margenes =====*/
       /*========== Margenes Bottom ==========*/
     /* .25rem = 4px, .5rem = 8px, .75rem = 12px ... */
-    --mb-0-25: .25rem;
-    --mb-0-5: .5rem;
-    --mb-0-75: .75rem;
-    --mb-1: 1rem;
-    --mb-1-5: 1.5rem;
+
   --mb-2: 1rem;
   --mb-4: 2rem;
   --mb-5: 2.5rem;
@@ -100,6 +98,7 @@ html {
 }
 
 body {
+ 
   margin: var(--header-height) 0 0 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
@@ -111,7 +110,7 @@ body {
 }
 /*-- dis image--*/
 
-h1, h2, p {
+h1, h2, h3, p {
   margin: 0;
  
 }
@@ -140,7 +139,7 @@ video {
   display: block;
 }
 video::cue(.subcolorx) {
-  color: red;
+  color: var(--first-color);
   background-color: rgba(0, 0, 0, 0.6);
   text-shadow: none;
   font-weight: bold;
@@ -149,31 +148,34 @@ video::cue(.subcolorx) {
 /*===== Popup code ===== */
 /* Basic styling for the popup */
 .popup {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-   color: #ffffff;
-   font-style: normal;
-   left: 50%;
-   top: 45%;
-   transform: translate(-50%, -45%);
-   padding: 20px;
-   background-color: rgba(224, 224, 224, 0.162);
-  /* box-shadow: 0 5px 15px rgba(0,0,0,0.5); */
-   border: 2px solid rgba(188, 188, 188, 0.518);
-  border-radius: 0.5rem;
-  transition: 0.3s;
-  z-index: 1000; /* Ensure it is on top */
-  text-align: center; /* Center content inside popup */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+     color: #ffffff;
+      font-style: normal;
+     left: 50%;
+     top: 45%;
+     transform: translate(-50%, -45%);
+     padding: 20px;
+     background-color: rgba(255, 255, 255, 0.026);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
+     border: 2px solid rgba(255, 255, 255, 0.366);
+     border-radius: 0.5rem;
+     transition: 0.3s;
+      z-index: 1000; /* Ensure it is on top */
+     text-align: center; /* Center content inside popup */
+     display: flex;
+     flex-direction: column;
+      align-items: center;
+     cursor: pointer;
+     
 }
 
+
 .popup:hover {
-           /*box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2);*/
-            border: 2px solid rgba(255, 255, 255, 0.907);
-            color: #ffffff;
+            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.514);
+        
+           
             
 }
 
@@ -182,18 +184,21 @@ video::cue(.subcolorx) {
             display: inline-block;
             margin-top: 15px;
             padding: 5px 15px;
-            border: 2px solid rgba(188, 188, 188, 0.518);
-            background-color: rgba(198, 198, 198, 0.332); 
+            border: 2px solid rgba(255, 255, 255, 0.752);
+            background-color: rgba(0, 0, 0, 0.163); 
             color: rgb(255, 255, 255);
             border-radius: 50px; /* Pill shape */
             cursor: pointer;
            font-family: "Poppins", sans-serif;
-         }
+           transition: 0.3s;
+           
+           z-index: 999;
+ }
 
 .close-btn:hover {
        border: 2px solid rgba(255, 255, 255, 0.907);
-       background-color: rgba(183, 183, 183, 0.841); 
-        }
+      
+}
 
         .overlay {
             display: none; /* Hidden by default */
@@ -202,9 +207,9 @@ video::cue(.subcolorx) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+            background-color: rgba(0, 0, 0, 0.4); /* Black with transparency */
             z-index: 998; /* Below the popup */
-            backdrop-filter: blur(9px); /* Background blur effect */
+            backdrop-filter: blur(10px); /* Background blur effect */
            transition: backdrop-filter 0.3s ease-in-out;
         }
 
@@ -241,16 +246,12 @@ video::cue(.subcolorx) {
   text-align: center;
 }
 
-/*
+
 .section {
   padding-top: 3rem;
   padding-bottom: 2rem;
 }
-*/
 
- .section {
-    padding: 2rem 0 4rem;
-}
 
 
 /*===== LAYOUT =====*/
@@ -432,7 +433,8 @@ video::cue(.subcolorx) {
 .about__info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--mb-2-5);
+  margin-top: var(--mb-2);
+  margin-bottom: var(--mb-2);
 }
 
 .about__info-title {
@@ -659,12 +661,26 @@ font-weight: var(--font-semi);
   flex-shrink: 0;
 }
 
+
+.footer a {
+  text-decoration: none; /* Remove default link text decoration */
+  color: #fff; /* Ensure link color matches footer text color */
+}
+
+.footer a:hover {
+  text-decoration:underline; /* Add underline on hover */
+}
+
+
 .footer__title {
   opacity: 0.5;
-   font-size: 0.7rem; 
+   font-size: var(--small-font-size);
   margin-bottom: var(--mb-4);
-  font-weight: var(--font-semi);
+  font-weight: var(--font-medium);
+  
 }
+
+
 .footer__social {
   margin-bottom: var(--mb-4);
 }
@@ -691,18 +707,19 @@ font-weight: var(--font-semi);
 /*========== SCROLL UP ==========*/
 .scrollup {
   position: fixed;
-  right: 1rem;
+  right: 1.5rem;
   bottom: -20%;
   background-color: var(--first-color);
   opacity: .8;
   padding: 0 .3rem;
-  border-radius: .4rem;
+  border-radius: .6rem;
   z-index: var(--z-tooltip);
   transition: .4s;
 }
 
 .scrollup:hover {
-  background-color: var(--first-color-alt);
+  background-color: var(--second-color);
+
 }
 
 .scrollup__icon {
@@ -712,7 +729,7 @@ font-weight: var(--font-semi);
 
 /* Show scroll */
 .show-scroll {
-  bottom: 5rem;
+  bottom: 1.5rem;
 }
 
 /*========== SCROLL BAR ==========*/

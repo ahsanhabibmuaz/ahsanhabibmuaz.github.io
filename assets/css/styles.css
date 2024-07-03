@@ -81,7 +81,7 @@ body.dark-theme {
 .change-theme {
   font-size: 1.25rem;
   color: var(--first-color);
-  margin-right: var(--mb-1);
+  margin-right: var(--mb-2);
   cursor: pointer;
 }
 
@@ -246,6 +246,7 @@ video::cue(.subcolorx) {
 .section__title,
 .section__subtitle {
   text-align: center;
+
 }
 
 
@@ -549,7 +550,7 @@ video::cue(.subcolorx) {
 .qualification__subtitle {
   display: inline-block;
   font-size: var(--small-font-size);
-  margin-bottom: var(--mb-2);
+  margin-bottom: var(--mb-1);
 }
 
 .qualification__calendar {
@@ -584,6 +585,7 @@ video::cue(.subcolorx) {
 .qualification__button.qualification__active {
   color: var(--first-color);
 }
+
 
 
 /* ===== WORK =====*/
@@ -753,8 +755,8 @@ font-weight: var(--font-semi);
 
 .container {
   max-width: 768px;
-  margin-left: var(--mb-1-5);
-  margin-right: var(--mb-1-5);
+  margin-left: var(--mb-2);
+  margin-right: var(--mb-2);
 }
 /* ===== MEDIA QUERIES=====*/
 @media screen and (max-width: 320px) {

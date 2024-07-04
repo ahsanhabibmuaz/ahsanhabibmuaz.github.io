@@ -135,6 +135,10 @@ img {
 abbr {
    text-decoration: none;
 }
+abbr:hover {
+  color: var(--first-color);
+}
+
 video {
   max-width: 100%;
   height: auto;
@@ -523,7 +527,7 @@ video::cue(.subcolorx) {
 
 .qualification__button {
   font-size: var(--h3-font-size);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-semi);
   cursor: pointer;
 }
 
@@ -544,7 +548,7 @@ video::cue(.subcolorx) {
 
 .qualification__title {
   font-size: var(--normal-font-size);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-semi);
 }
 
 .qualification__subtitle {

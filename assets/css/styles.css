@@ -755,14 +755,14 @@ font-weight: var(--font-semi);
 
 .container {
   max-width: 768px;
-  margin-left: var(--mb-2);
-  margin-right: var(--mb-2);
+  margin-left: var(--mb-4);
+  margin-right: var(--mb-4);
 }
 /* ===== MEDIA QUERIES=====*/
 @media screen and (max-width: 320px) {
   .container {
-    margin-left: var(--mb-1);
-    margin-right: var(--mb-1);
+    margin-left: var(--mb-2);
+    margin-right: var(--mb-2);
 }
   .home {
     row-gap: 2rem;

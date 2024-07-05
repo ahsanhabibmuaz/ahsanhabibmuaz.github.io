@@ -31,12 +31,12 @@
         <header class="l-header">
             <nav class="nav bd-grid">
                 <div>
-                    <a href="#" class="nav__logo">AHSAN HABIB MUAZ</a>
+                    <a href="index.html" class="nav__logo">AHSAN HABIB MUAZ</a>
                 </div>
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
-                        <li class="nav__item"><a href="index.html#" class="nav__link active-link">Home</a></li>
+                        <li class="nav__item"><a href="index.html" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="index.html#skills" class="nav__link">Skills</a></li>
                         <li class="nav__item"><a href="index.html#projetcs" class="nav__link">Projects</a></li>
                         <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
@@ -71,24 +71,80 @@
     </div>
 </section>
     </div>
-        <!--===== FOOTER =====-->
+       <!--===== FOOTER =====-->
        
-        <footer class="footer" >
+       <footer class="footer" >
             
-            <p class="footer__title"><a href="LICENSE.txt">&copy;Copyright 2024 - All rights reserved.</a></p>
-            <div class="footer__social">
-                <a href="https://www.facebook.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
-                <a href="https://www.instagram.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
-                <a href="https://www.twitter.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-twitter' ></i></a>
-            </div>
-            <p class="footer__copy">Made with &#x1F499; by Ahsan Habib Muaz.</p>
-        </footer>
- 
- <!-- JS SOURCES -->
-       <script src="assets/js/main.js"></script>
-       <script src="https://unpkg.com/scrollreveal"></script>
-       <script src="assets/js/main.js"></script>
+        <p class="footer__title"><a href="LICENSE.txt">&copy;Copyright 2024 - All rights reserved.</a></p>
+        <div class="footer__social">
+            <a href="https://www.facebook.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
+            <a href="https://www.instagram.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
+            <a href="https://www.twitter.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-twitter' ></i></a>
+        </div>
+        <p class="footer__copy">Made with &#x1F499; by Ahsan Habib Muaz.</p>
+    </footer>
 
+
+   <!-- JS SOURCES -->
+   <script src="https://unpkg.com/scrollreveal"></script>
+   <script src="assets/js/main.js"></script>
+   <script src="assets/js/app.js"></script>
+   <script src="assets/js/particles.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script> 
+   <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+ <!--==================== SWIPER JS ====================-->
+   <script src="assets/js/swiper-bundle.min.js"></script>
+   <!-- AUTO TYPE JS -->
+   <script>
+    var typed = new Typed(".auto-type", {
+        strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
+        typeSpeed: 130,
+        backSpeed: 80,
+        loop: true
+    })
+       
+   </script>
+<!--===== Click to play music JS =====-->
+   <script>
+let audio;
+let isPlaying = false;
+function toggleMusic() {
+   if (!audio) {
+       audio = new Audio("assets/music/mySong.m4a");
+   }
+   if (isPlaying) {
+       audio.pause();
+       audio.currentTime = 0;
+       isPlaying = false;
+       document.getElementById("xplay").textContent = "Muaz";
+   } else {
+       audio.play();
+       isPlaying = true;
+       document.getElementById("xplay").textContent = "Your Friend";
+   } }
+document.getElementById("xplay").addEventListener("click", toggleMusic);
+</script>
+
+<!--===== POPUP SCRIPT =====-->
+   <script>
+   // Show the popup after the page loads
+   window.onload = function() {
+       document.getElementById('popup').style.display = 'block';
+       document.getElementById('overlay').style.display = 'block';
+   };
+
+   // Function to close the popup
+   function closePopup() {
+       document.getElementById('popup').style.display = 'none';
+       document.getElementById('overlay').style.display = 'none';
+   }
+</script>
+
+
+<!--==================== SCROLL TOP ====================-->
+<a href="#" class="scrollup" id="scroll-up">
+<i class="uil uil-arrow-up scrollup__icon"></i>
+</a>
 <!--===== FORM SUBMIT C-PAGE =====-->
 
 <script>

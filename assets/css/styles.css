@@ -22,6 +22,7 @@
   --input-color: hsl(var(--hue-color), 70%, 96%);
   --body-color: hsl(var(--hue-color), 60%, 99%);
   --body-color-alt: hsl(var(--hue-color), 80%, 99%);
+  --footer-color: hsl(var(--hue-color), 60%, 10%);
   --shadow-color: hsla(var(--hue-color), 15%, 63%, 0.15);
   --container-color: #fff;
   --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
@@ -68,12 +69,15 @@ body.dark-theme {
   --input-color: hsl(var(--hue-color), 2%, 60%);
   --body-color: hsl(var(--hue-color), 60%, 10%);
   --body-color-alt: hsl(var(--hue-color), 60%, 12%);
+  --footer-color: hsl(var(--hue-color), 60%, 15%);
   --shadow-color: hsla(var(--hue-color), 15%, 36%, 0.15);
   --container-color: hsl(var(--hue-color), 29%, 16%);
   --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
+    transition: 0.5s;
  
 }
+
 
 /*========== Button Dark/Light ==========*/
    
@@ -114,6 +118,7 @@ body {
   -moz-user-select: none;     /* Firefox */
   -ms-user-select: none;      /* IE 10+ and Edge */
   user-select: none;          /* Standard syntax */
+  transition: 0.3s;
 }
 
 
@@ -139,6 +144,7 @@ img {
   height: auto;
   display: block;
 }
+
 abbr {
    text-decoration: none;
 }
@@ -304,7 +310,7 @@ video::cue(.subcolorx) {
     width: 80%;
     height: 100%;
     padding: 2rem;
-    background-color: var(--body-color-alt);
+    background-color: var(--footer-color);
     transition: 0.5s;
   }
 }
@@ -672,7 +678,7 @@ font-weight: var(--font-semi);
 /* ===== FOOTER =====*/
 .footer {
 
-  background-color: var(--body-color-alt);
+  background-color: var(--footer-color);
   color: var(--text-color-light);
   text-align: center;
   font-weight: var(--font-semi);

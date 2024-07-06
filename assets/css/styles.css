@@ -697,7 +697,7 @@ font-weight: var(--font-semi);
   text-align: center;
   font-weight: var(--font-semi);
   padding: 2rem;
-  margin-top: auto;
+  margin-top: var(--mb-2);
 }
 
 

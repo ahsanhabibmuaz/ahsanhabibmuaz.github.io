@@ -52,9 +52,9 @@ const sr = ScrollReveal({
 });
 
 sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text',{}); 
-sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img, .qualification__container, .about__info',{delay: 400}); 
+sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img, .qualification__container, .about__info,',{delay: 400}); 
 sr.reveal('.home__social-icon, .qualification__button, .qualification__icon',{interval: 200}); 
-sr.reveal('.skills__data, .work__img, .edu-title, .edu-rounder, .contact__input, .about__info-name',{interval: 200}); 
+sr.reveal('.skills__data, .work__img, .edu-title, .edu-rounder, .about__info-name',{interval: 200}); 
 
 
 /*==================== QUALIFICATION TABS ====================*/

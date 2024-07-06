@@ -360,11 +360,11 @@
 
                 <div class="about__container bd-grid">
                     <div class="about__img">
-                        <img src="assets/img/about2.webp" alt="This is the picture of Ahsan Habib Muaz" loading="lazy">
+                        <img src="assets/img/about.webp" alt="This is the picture of Ahsan Habib Muaz" loading="lazy">
                     </div>
                     
                     <div>
-                        <h2 class="about__subtitle"><span id="xplay2">Ahsan Habib Muaz</span></h2>
+                        <h2 class="about__subtitle" id="xplay2"><abbr title="Click here to play music.">Ahsan Habib Muaz</abbr></h2>
                         <p class="about__text">I am a digital content creator and programmer from Dhaka, Bangladesh. I excel in modifying Android apps and creating engaging content on platforms like Facebook and YouTube. I have a deep passion for science, technology, and psychology. Alongside my digital skills, I am proficient in driving, arc welding, and have mastered both English cursive and Bengali handwriting. I am known for my commitment to learning and excellence in all my endeavours.  <a href="https://wikialpha.com/wiki/Ahsan_Habib_Muaz" class="para-color">Learn more.</a></p>  
                         
                         <div class="about__info">
@@ -405,13 +405,20 @@
             <p class="footer__copy">Made with &#x1F499; by Ahsan Habib Muaz.</p>
         </footer>
     
+ <!--==================== SCROLL TOP ====================-->
+ <a href="#" class="scrollup" id="scroll-up">
+    <i class="uil uil-arrow-up scrollup__icon"></i>
+</a>
+
 
        <!-- JS SOURCES -->
        <script src="https://unpkg.com/scrollreveal"></script>
        <script src="assets/js/main.js"></script>
-       <script src="assets/js/app.js"></script>
+
+      <!-- <script src="assets/js/app.js"></script>
        <script src="assets/js/particles.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script> 
+       <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script> -->
+
        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
      <!--==================== SWIPER JS ====================-->
        <script src="assets/js/swiper-bundle.min.js"></script>
@@ -425,48 +432,55 @@
         })
            
        </script>
- <!--===== Click to play music JS =====-->
-       <script>
-   let audio;
-   let isPlaying = false;
-   function toggleMusic() {
-       if (!audio) {
-           audio = new Audio("assets/music/mySong.m4a");
-       }
-       if (isPlaying) {
-           audio.pause();
-           audio.currentTime = 0;
-           isPlaying = false;
-           document.getElementById("xplay").textContent = "Muaz";
-       } else {
-           audio.play();
-           isPlaying = true;
-           document.getElementById("xplay").textContent = "Your Friend";
-       } }
-   document.getElementById("xplay").addEventListener("click", toggleMusic);
-</script>
 
- <!--===== SCRIPT For HQ n Low =====-->
+<!-- New both MUSIC JS -->
 
- <script>
-    let audio;
-    let isPlaying = false;
-    function toggleMusic() {
-        if (!audio) {
-            audio = new Audio("assets/music/firefly_low.mp3");
+
+     <script>
+let audio;
+let isPlaying = false;
+
+function playAudio(source) {
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+    audio = new Audio(source);
+    audio.play();
+    isPlaying = true;
+}
+
+function toggleMusic(source, id) {
+    const button = document.getElementById(id);
+
+    if (isPlaying && audio.src.includes(source)) {
+        audio.pause();
+        audio.currentTime = 0;
+        isPlaying = false;
+        if (id === "xplay") {
+            button.textContent = "Muaz";
+        } else if (id === "xplay2") {
+            button.textContent = "Habibullah Muaz";
         }
-        if (isPlaying) {
-            audio.pause();
-            audio.currentTime = 0;
-            isPlaying = false;
-            document.getElementById("xplay2").textContent = "Muaz";
-        } else {
-            audio.play();
-            isPlaying = true;
-            document.getElementById("xplay2").textContent = "Your Friend";
-        } }
-    document.getElementById("xplay2").addEventListener("click", toggleMusic);
- </script>
+    } else {
+        playAudio(source);
+        if (id === "xplay") {
+            button.textContent = "Your Friend";
+        } else if (id === "xplay2") {
+            button.textContent = "Now playing &phone;";
+        }
+    }
+}
+
+document.getElementById("xplay").addEventListener("click", function() {
+    toggleMusic("assets/music/mySong.m4a", "xplay");
+});
+document.getElementById("xplay2").addEventListener("click", function() {
+    toggleMusic("assets/music/firefly_low.mp3", "xplay2");
+});
+
+
+     </script>
 
 
   <!--===== POPUP SCRIPT =====-->
@@ -483,12 +497,6 @@
            document.getElementById('overlay').style.display = 'none';
        }
    </script>
-
-
- <!--==================== SCROLL TOP ====================-->
- <a href="#" class="scrollup" id="scroll-up">
-    <i class="uil uil-arrow-up scrollup__icon"></i>
-</a>
 
     </body>
 </html>

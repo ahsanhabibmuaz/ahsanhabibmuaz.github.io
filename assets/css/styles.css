@@ -38,7 +38,7 @@
   /*===== Margenes =====*/
       /*========== Margenes Bottom ==========*/
     /* .25rem = 4px, .5rem = 8px, .75rem = 12px ... */
-
+  --mb-0-7: .75rem;
   --mb-2: 1rem;
   --mb-4: 2rem;
   --mb-5: 2.5rem;
@@ -64,7 +64,8 @@ body.dark-theme {
   --second-color: hsl(var(--hue-color), 20%, 80%);
   --title-color: hsl(var(--hue-color), 8%, 15%);
   --text-color: hsl(var(--hue-color), 5%, 70%);
-  --input-color: hsl(var(--hue-color), 40%, 10%);
+  --text-color-light: hsl(var(--hue-color), 5%, 50%);
+  --input-color: hsl(var(--hue-color), 60%, 15%);
   --body-color: hsl(var(--hue-color), 60%, 10%);
   --body-color-alt: hsl(var(--hue-color), 60%, 12%);
   --footer-color: hsl(var(--hue-color), 60%, 15%);
@@ -149,7 +150,7 @@ abbr {
    text-decoration: none;
 }
 abbr:hover {
-  color: var(--first-color);
+  color: var(--text-color-light);
 }
 
 video {
@@ -159,10 +160,8 @@ video {
 }
 video::cue(.subcolorx) {
   color: var(--first-color);
-  background-color: var(--second-color);
   text-shadow: none;
-  font-weight: bold;
-  
+  font-weight: bold; 
 }
 /*===== Popup code ===== */
 /* Basic styling for the popup */
@@ -314,7 +313,7 @@ video::cue(.subcolorx) {
     width: 80%;
     height: 100%;
     padding: 2rem;
-    background-color: var(--footer-color);
+    background-color: var(--input-color);
     transition: 0.5s;
   }
 }
@@ -389,6 +388,7 @@ video::cue(.subcolorx) {
 }
 #xplay, #xplay2 {
   cursor: pointer;
+  
 }
 
 
@@ -638,19 +638,21 @@ transition: 1s;
 /* ===== CONTACT =====*/
 .contact__input {
   width: 100%;
+  color: var(--text-color);
   background-color: var(--input-color);
   font-size: var(--normal-font-size);
   font-weight: var(--font-semi);
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1.5px solid var(--second-color);
+  border: 2px solid var(--shadow-color);
   outline: none;
   margin-bottom: var(--mb-4);
   resize: vertical;
 }
 
+
 #contact_text {
-  text-align: justify;
+ text-align: center;
 }
 
 
@@ -661,12 +663,14 @@ font-weight: var(--font-semi);
 
 ::placeholder {
   font-family: "Poppins", sans-serif;
-  color: gray;
+  color: var(--first-color);
   opacity: 0.6; /* Firefox */
 }
 
 ::-ms-input-placeholder { /* Edge 12 -18 */
-  color: gray;
+  font-family: "Poppins", sans-serif;
+  color: var(--first-color);
+  opacity: 0.6; /* Firefox */
 }
 
 .contact__input:focus {
@@ -695,29 +699,32 @@ font-weight: var(--font-semi);
 
 .footer a {
   text-decoration: none; /* Remove default link text decoration */
-  color: #fff; /* Ensure link color matches footer text color */
+ color: var(--text-color-light);
 }
 
 .footer a:hover {
   text-decoration:underline; /* Add underline on hover */
+  color: var(--first-color);
 }
 
 
 .footer__title {
   opacity: 0.5;
-   font-size: var(--small-font-size);
-  margin-bottom: var(--mb-4);
-  font-weight: var(--font-medium);
-  
+   font-size: var(--smaller-font-size);
+  margin-bottom: var(--mb-2);
 }
 
 
 .footer__social {
-  margin-bottom: var(--mb-4);
+  margin-bottom: var(--mb-2);
 }
+
+.footer__social:hover {
+  color: var(--first-color);
+}
+
 .footer__icon {
   font-size: 1.5rem;
-  color: #fff;
   margin: 0 var(--mb-2);
 }
 .footer__copy {
@@ -744,7 +751,7 @@ font-weight: var(--font-semi);
 }
 
 .scrollup:hover {
-  background-color: var(--second-color);
+  background-color: var(--text-color-light);
 
 }
 

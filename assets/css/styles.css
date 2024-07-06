@@ -5,7 +5,7 @@
 :root {
   --header-height: 3rem;
    /*========== Font weight ==========*/
-   --font-medium: 500;
+   --font-medium: 400;
    --font-semi: 600;
   /*===== Colores =====*/
   /*Purple 260 - Red 355 - Blue 224 - Pink 340*/
@@ -38,6 +38,8 @@
   /*===== Margenes =====*/
       /*========== Margenes Bottom ==========*/
     /* .25rem = 4px, .5rem = 8px, .75rem = 12px ... */
+  --mb-0-2: .25rem;
+  --mb-0-5: .5rem;
   --mb-0-7: .75rem;
   --mb-2: 1rem;
   --mb-4: 2rem;
@@ -65,6 +67,7 @@ body.dark-theme {
   --title-color: hsl(var(--hue-color), 8%, 15%);
   --text-color: hsl(var(--hue-color), 5%, 70%);
   --text-color-light: hsl(var(--hue-color), 5%, 50%);
+  --para-color: hsl(var(--hue-color), 89%, 40%);
   --input-color: hsl(var(--hue-color), 60%, 15%);
   --body-color: hsl(var(--hue-color), 60%, 10%);
   --body-color-alt: hsl(var(--hue-color), 60%, 12%);
@@ -166,32 +169,32 @@ video::cue(.subcolorx) {
 /*===== Popup code ===== */
 /* Basic styling for the popup */
 .popup {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
+     display: none; /* Hidden by default */
+     position: fixed; /* Stay in place */
      color: #ffffff;
-      font-style: normal;
+     font-style: normal;
      left: 50%;
      top: 45%;
      transform: translate(-50%, -45%);
      padding: 20px;
-     background-color: rgba(255, 255, 255, 0.026);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5); 
-     border: 2px solid rgba(255, 255, 255, 0.366);
+     background-color: rgba(200, 200, 200, 0.2);
+   /*  box-shadow: 0 5px 15px rgba(0,0,0,0.5);  */
+     border: 2px solid rgba(255, 255, 255, 0.5);
      border-radius: 0.5rem;
      transition: 0.3s;
-      z-index: 1000; /* Ensure it is on top */
+     z-index: 1000; /* Ensure it is on top */
      text-align: center; /* Center content inside popup */
      display: flex;
      flex-direction: column;
-      align-items: center;
+     align-items: center;
      cursor: pointer;
      
 }
 
 
 .popup:hover {
-            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.514);
+           /* box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2); */
+             border: 2px solid rgba(255, 255, 255, 0.7);
         
            
             
@@ -203,43 +206,43 @@ video::cue(.subcolorx) {
             margin-top: 15px;
             padding: 5px 15px;
             border: 2px solid rgba(255, 255, 255, 0.752);
-            background-color: rgba(0, 0, 0, 0.163); 
+            background-color: rgba(210, 210, 210, 0.2); 
             color: rgb(255, 255, 255);
             border-radius: 50px; /* Pill shape */
             cursor: pointer;
-           font-family: "Poppins", sans-serif;
-           transition: 0.3s;
-           
-           z-index: 999;
+            font-family: "Poppins", sans-serif;
+            transition: 0.3s;
+            z-index: 999;
  }
 
 .close-btn:hover {
        border: 2px solid rgba(255, 255, 255, 0.907);
+       background-color: rgba(255, 255, 255, 0.752);
+       color: #000;
       
 }
 
-        .overlay {
+ .overlay {
             display: none; /* Hidden by default */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* Black with transparency */
+            background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
             z-index: 998; /* Below the popup */
-            backdrop-filter: blur(10px); /* Background blur effect */
-           transition: backdrop-filter 0.3s ease-in-out;
-        }
+            backdrop-filter: blur(7px); /* Background blur effect */
+  }
 
 /*===== Popup code ===== */
 /*===== CLASS CSS ===== */
 .section-title {
-  position: relative;
-  font-size: var(--h2-font-size);
-  color: var(--first-color);
-  margin-top: var(--mb-2);
-  margin-bottom: var(--mb-4);
-  text-align: center;
+      position: relative;
+      font-size: var(--h2-font-size);
+      color: var(--first-color);
+      margin-top: var(--mb-2);
+      margin-bottom: var(--mb-4);
+      text-align: center;
 }
 .section-title::after {
   position: absolute;
@@ -315,6 +318,7 @@ video::cue(.subcolorx) {
     padding: 2rem;
     background-color: var(--input-color);
     transition: 0.5s;
+
   }
 }
 .nav__item {
@@ -692,8 +696,8 @@ font-weight: var(--font-semi);
   color: var(--text-color-light);
   text-align: center;
   font-weight: var(--font-semi);
-  padding: 2rem 0;
-  flex-shrink: 0;
+  padding: 2rem;
+  margin-top: var(--mb-5);
 }
 
 
@@ -795,6 +799,10 @@ font-weight: var(--font-semi);
   }
   .home__img {
     width: 200px;
+  }
+  p.container {
+    margin-left: var(--mb-0-2);
+    margin-right: var(--mb-0-2);
   }
 }
 

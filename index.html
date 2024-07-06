@@ -364,7 +364,7 @@
                     </div>
                     
                     <div>
-                        <h2 class="about__subtitle">Ahsan Habib Muaz</h2>
+                        <h2 class="about__subtitle"><span id="xplay2">Ahsan Habib Muaz</span></h2>
                         <p class="about__text">I am a digital content creator and programmer from Dhaka, Bangladesh. I excel in modifying Android apps and creating engaging content on platforms like Facebook and YouTube. I have a deep passion for science, technology, and psychology. Alongside my digital skills, I am proficient in driving, arc welding, and have mastered both English cursive and Bengali handwriting. I am known for my commitment to learning and excellence in all my endeavours.  <a href="https://wikialpha.com/wiki/Ahsan_Habib_Muaz" class="para-color">Learn more.</a></p>  
                         
                         <div class="about__info">
@@ -445,6 +445,29 @@
        } }
    document.getElementById("xplay").addEventListener("click", toggleMusic);
 </script>
+
+ <!--===== SCRIPT For HQ n Low =====-->
+
+ <script>
+    let audio;
+    let isPlaying = false;
+    function toggleMusic() {
+        if (!audio) {
+            audio = new Audio("assets/music/firefly_low.mp3");
+        }
+        if (isPlaying) {
+            audio.pause();
+            audio.currentTime = 0;
+            isPlaying = false;
+            document.getElementById("xplay2").textContent = "Muaz";
+        } else {
+            audio.play();
+            isPlaying = true;
+            document.getElementById("xplay2").textContent = "Your Friend";
+        } }
+    document.getElementById("xplay2").addEventListener("click", toggleMusic);
+ </script>
+
 
   <!--===== POPUP SCRIPT =====-->
        <script>

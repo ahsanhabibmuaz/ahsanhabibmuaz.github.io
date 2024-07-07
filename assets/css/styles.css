@@ -1,6 +1,5 @@
 /*===== GOOGLE FONTS =====*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Imperial+Script&family=Splash&display=swap');
 /*===== VARIABLES CSS =====*/
 :root {
   --header-height: 3rem;
@@ -67,7 +66,7 @@ body.dark-theme {
   --title-color: hsl(var(--hue-color), 8%, 15%);
   --text-color: hsl(var(--hue-color), 5%, 70%);
   --text-color-light: hsl(var(--hue-color), 5%, 50%);
-  --para-color: hsl(var(--hue-color), 89%, 40%);
+  --para-color: hsl(var(--hue-color), 50%, 60%);
   --input-color: hsl(var(--hue-color), 60%, 15%);
   --body-color: hsl(var(--hue-color), 60%, 10%);
   --body-color-alt: hsl(var(--hue-color), 60%, 12%);
@@ -417,15 +416,12 @@ video::cue(.subcolorx) {
 }
 .home__blob {
   fill: var(--first-color);
+  
 }
 .home__blob-img {
   width: 360px;
 }
-/*this is my alpha
- .ani-alpha {
-  font-family: "Caveat", cursive;
-}
-------------*/
+
 /*BUTTONS*/
 .button {
   display: inline-block;

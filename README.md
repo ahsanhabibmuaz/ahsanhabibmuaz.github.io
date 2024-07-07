@@ -6,7 +6,7 @@ Welcome to my portfolio website! This is a showcase of my work as a Content Crea
 
 ## About Me
 
-I am Ahsan Habib Muaz, also known as MD Habibullah Muyaz, Habibullah Muaz, হাবিবুল্লাহ মুয়াজ, আহসান হাবিব মুয়াজ, احسن حبيب معاذ, AR-9901, and حبيب الله معاذ. I have a diverse background in content creation, app modification, graphic design, and web development. This portfolio highlights some of my notable projects and accomplishments.
+I am Ahsan Habib Muaz, also known as Habibullah Muaz. I have a diverse background in content creation, app modification, graphic design, and web development. This portfolio highlights some of my notable projects and accomplishments.
 
 ## Website Features
 

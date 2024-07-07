@@ -5,15 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" type="x-icon" href="assets/img/web_icon.png">
         <link rel="stylesheet" href="assets/css/styles.css">
-            <!--==================== UNICONS ====================-->
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
 
             <!--==================== SWIPER CSS ====================-->
         <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
 
 
-        <!-- =====BOX ICONS===== -->
+        <!-- =====BOX ICONS + UNICONS ===== -->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
         <title>Ahsan Habib Muaz</title>
 <meta name="description" content="Explore the portfolio of Ahsan Habib Muaz (MD Habibullah Muyaz, Habibullah Muaz, হাবিবুল্লাহ মুয়াজ, আহসান হাবিব মুয়াজ, احسن حبيب معاذ, AR-9901, حبيب الله معاذ), a skilled Content Creator, App Modder, Graphics Designer, and Web Developer. Discover high-quality content, innovative apps, stunning graphics, and professional web development services.">
@@ -74,7 +74,7 @@
 
                 <div class="home__social">
                     <a href="https://www.linkedin.com/in/ahsanhabibmuaz" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://www.behance.com/ahsanhabibmuaz" class="home__social-icon"><i class='bx bxl-behance' ></i></a>
+                    <a href="https://www.twitter.com/ahsanhabibmuaz" class="home__social-icon"><i class='bx bxl-twitter' ></i></a>
                     <a href="https://www.github.com/ahsanhabibmuaz" class="home__social-icon"><i class='bx bxl-github' ></i></a>
                 </div>
 
@@ -161,14 +161,18 @@
                         </div>
                     </div>
                     
-                    <div>              
-                        <video class="skills__img" poster="assets/img/thumbnail_reality.webp" controls>
-                           <source src="assets\vid\Reality_pure.webm" type="video/webm">
-                           <track kind="subtitles" src="assets/sub/reality_bn.vtt" srclang="bn" label="Bengali" default>
-                           <track kind="subtitles" src="assets/sub/reality_en.vtt" srclang="en" label="English">
-                           <track kind="subtitles" src="assets/sub/reality_ar.vtt" srclang="ar" label="Arabic">
-                           <track kind="subtitles" src="assets/sub/reality_hi.vtt" srclang="hi" label="Hindi">
-                                  Your browser does not support this video.
+                    <div>  
+                        <video class="skills__img" poster="assets/img/thumbnail_reality.webp" controls controlsList="nodownload">
+                            <source src="assets/vid/reality-uhd.mkv" type="video/x-matroska" label="UHD" media="(min-width: 1920px)">
+                            <source src="assets/vid/reality-fhd.mp4" type="video/mp4" label="FHD" media="(min-width: 1280px)">
+                            <source src="assets/vid/reality-hd.mp4" type="video/mp4" label="HD" media="(min-width: 720px)">
+                            <source src="assets/vid/reality-sd.mp4" type="video/mp4" label="SD" media="(min-width: 640px)">
+                            <source src="assets/vid/reality-support.webm" type="video/webm" label="WebM" media="(max-width: 639px)">
+                            <track kind="subtitles" src="assets/sub/reality_bn.vtt" srclang="bn" label="Bengali" default>
+                            <track kind="subtitles" src="assets/sub/reality_en.vtt" srclang="en" label="English">
+                            <track kind="subtitles" src="assets/sub/reality_ar.vtt" srclang="ar" label="Arabic">
+                            <track kind="subtitles" src="assets/sub/reality_hi.vtt" srclang="hi" label="Hindi">
+                            Your browser does not support this video.
                         </video>
                     </div>
                 </div>
@@ -413,7 +417,6 @@
     <i class="uil uil-arrow-up scrollup__icon"></i>
 </a>
 
-
        <!-- JS SOURCES -->
        <script src="https://unpkg.com/scrollreveal"></script>
        <script src="assets/js/main.js"></script>
@@ -425,6 +428,7 @@
        <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
      <!--==================== SWIPER JS ====================-->
        <script src="assets/js/swiper-bundle.min.js"></script>
+
        <!-- AUTO TYPE JS -->
        <script>
         var typed = new Typed(".auto-type", {
@@ -500,6 +504,8 @@ document.getElementById("xplay2").addEventListener("click", function() {
            document.getElementById('overlay').style.display = 'none';
        }
    </script>
+
+
 
     </body>
 </html>

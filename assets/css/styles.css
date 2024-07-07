@@ -61,7 +61,7 @@
 /*========== Variables Dark theme ==========*/
 body.dark-theme {
   /* HSL color mode */
-  --first-color: hsl(var(--hue-color), 50%, 40%);
+  --first-color: hsl(var(--hue-color), 60%, 40%);
   --second-color: hsl(var(--hue-color), 20%, 80%);
   --title-color: hsl(var(--hue-color), 8%, 15%);
   --text-color: hsl(var(--hue-color), 5%, 70%);
@@ -177,8 +177,8 @@ video::cue(.subcolorx) {
      transform: translate(-50%, -45%);
      padding: 20px;
      background-color: rgba(200, 200, 200, 0.2);
-   /*  box-shadow: 0 5px 15px rgba(0,0,0,0.5);  */
-     border: 2px solid rgba(255, 255, 255, 0.5);
+     box-shadow: 0 5px 15px rgba(0,0,0,0.5);  
+     border: 2px solid rgba(255, 255, 255, 0.3);
      border-radius: 0.5rem;
      transition: 0.3s;
      z-index: 1000; /* Ensure it is on top */
@@ -192,7 +192,7 @@ video::cue(.subcolorx) {
 
 
 .popup:hover {
-           /* box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2); */
+            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2); 
              border: 2px solid rgba(255, 255, 255, 0.7);
         
            
@@ -204,20 +204,19 @@ video::cue(.subcolorx) {
             display: inline-block;
             margin-top: 15px;
             padding: 5px 15px;
-            border: 2px solid rgba(255, 255, 255, 0.752);
+            border: 2px solid rgba(215, 215, 215, 0.5);
             background-color: rgba(210, 210, 210, 0.2); 
             color: rgb(255, 255, 255);
             border-radius: 50px; /* Pill shape */
             cursor: pointer;
             font-family: "Poppins", sans-serif;
-            transition: 0.3s;
             z-index: 999;
  }
 
 .close-btn:hover {
-       border: 2px solid rgba(255, 255, 255, 0.907);
-       background-color: rgba(255, 255, 255, 0.752);
-       color: #000;
+       border: 2px solid rgba(231, 231, 231, 0.907);
+       background-color: rgba(103, 103, 103, 0.352);
+       color: #ffffff;
       
 }
 
@@ -228,9 +227,9 @@ video::cue(.subcolorx) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+            background-color: rgba(0, 0, 0, 0.6); /* Black with transparency */
             z-index: 998; /* Below the popup */
-            backdrop-filter: blur(7px); /* Background blur effect */
+            backdrop-filter: blur(8px); /* Background blur effect */
   }
 
 /*===== Popup code ===== */

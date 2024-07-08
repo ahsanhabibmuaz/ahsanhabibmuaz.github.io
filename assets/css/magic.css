@@ -1,23 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
-:root {
-  --mb-0-2: .25rem;
-  --mb-0-5: .5rem;
-  --mb-0-7: .75rem;
-  --mb-2: 1rem;
-  --mb-4: 2rem;
-  --mb-5: 2.5rem;
-  --mb-6: 3rem;
-  --mb-7: 5rem;
-  --mb-8: 8rem;
-  --mb-9: 12rem;
-  --mb-10: 20rem;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   width: 100%;
   height: 100vh;
@@ -25,7 +7,7 @@ body {
   padding: 0;
   font-family: "Poppins", sans-serif;
   background-color: #f1c40f;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 h1 {
@@ -34,22 +16,16 @@ h1 {
 }
 
 .container {
-  margin-top: var(--mb-10);
   width: 100%;
-  display: none; /* Initially hide the container */
+  display: flex;
   flex-direction: column;
   align-items: center;
-  padding-block: var(--mb-5);
-  gap: var(--mb-7);
-}
-
-/* AOS styles to show container on scroll */
-[data-aos="fade-up"] {
-  display: flex;
+  padding-block: 100px;
+  gap: 100px;
 }
 
 .card {
-  width: var(--mb-10);
+  width: 400px;
   height: 200px;
   background-color: #fff;
   border-radius: 2px;
@@ -130,30 +106,25 @@ h1 {
   animation-range: entry 0% cover 30%;
 }
 
+/* Hide scrollbar */
 ::-webkit-scrollbar {
   width: 0;
 }
 
-/* Media queries for different screen sizes */
-
-/* Styles for devices with a width up to 768px (tablet devices) */
+/* Media query for devices with a maximum width of 768px */
 @media (max-width: 768px) {
+  
   h1 {
-    margin-bottom: 100vh;
+    height: 100vh;
   }
   .container {
- 
-    margin-top: var(--mb-7);
-    padding-block: var(--mb-4);
-    gap: var(--mb-5);
+    padding-block: 50px;
+    gap: 50px;
   }
- 
-
 
   .card {
-    width: calc(100% - 40px);
-    height: auto;
-    margin: var(--mb-2) 0;
+    width: 280px;
+    height: 180px;
   }
 
   .card h4 {
@@ -176,27 +147,34 @@ h1 {
 
   .card:nth-child(odd),
   .card:nth-child(even) {
-    margin: var(--mb-2) 0;
+    margin: 0;
     animation: none;
+    opacity: 0; /* Ensure cards are hidden initially */
+  }
+
+  .card:nth-child(odd) {
+    animation: left 1s ease forwards;
+  }
+
+  .card:nth-child(even) {
+    animation: right 1s ease forwards;
   }
 }
 
-/* Styles for devices with a width up to 480px (mobile devices) */
+/* Media query for devices with a maximum width of 480px */
 @media (max-width: 480px) {
-  h1 {
-    margin-bottom: 100vh;}
 
+  h1 {
+    height: 100vh;
+  }
   .container {
-    margin-top: var(--mb-5);
-    padding-block: var(--mb-2);
-    gap: var(--mb-4);
+    padding-block: 25px;
+    gap: 25px;
   }
 
-
   .card {
-    width: calc(100% - 20px);
-    height: auto;
-    margin: var(--mb-0-7) 0;
+    width: 240px;
+    height: 160px;
   }
 
   .card h4 {
@@ -204,11 +182,11 @@ h1 {
   }
 
   .card span {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   .card p {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .card .icon {
@@ -219,7 +197,16 @@ h1 {
 
   .card:nth-child(odd),
   .card:nth-child(even) {
-    margin: var(--mb-0-7) 0;
+    margin: 0;
     animation: none;
+    opacity: 0; /* Ensure cards are hidden initially */
+  }
+
+  .card:nth-child(odd) {
+    animation: left 1s ease forwards;
+  }
+
+  .card:nth-child(even) {
+    animation: right 1s ease forwards;
   }
 }

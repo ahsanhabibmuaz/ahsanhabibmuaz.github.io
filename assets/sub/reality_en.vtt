@@ -1,5 +1,14 @@
 WEBVTT
 
+
+STYLE
+::cue {
+     font-size: 1.3em;
+     font-family: 'Poppins', sans-serif;
+     text-shadow: none;
+}
+
+
 1
 00:02.600 --> 00:04.880
 Wake up to reality!
@@ -108,4 +117,4 @@ For truly this reality is a hell.
 01:28.360 --> 01:35.000
 <c.subcolorx>— Madara Uchiha</c>
 A Legendary Villain from "Naruto"
-CC/Subtitle by Ahsan Habib Muaz
+<c.subcolorx>CC/Subtitle by Ahsan Habib Muaz</c>

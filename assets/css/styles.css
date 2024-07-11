@@ -596,8 +596,8 @@ video::cue(.subcolory) {
 }
 
 .qualification__icon {
-  font-size: 1.8rem;
-  margin-right: var(--mb-0-25);
+  font-size: 1.3rem;
+  margin-right: var(--mb-0-2);
 }
 
 .qualification__data {

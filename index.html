@@ -8,7 +8,7 @@
 
 
             <!--==================== SWIPER CSS ====================-->
-        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+        <link rel="stylesheet" href="assets/scss/styles.scss">
 
 
         <!-- =====BOX ICONS + UNICONS ===== -->
@@ -402,13 +402,14 @@
        
         <footer class="footer" >
             
-            <p class="footer__title"><a href="LICENSE.txt">&copy;Copyright 2024 - All rights reserved.</a></p>
+            <p class="footer__copy"><a href="magic.html">Made with &#x1F499; by Ahsan Habib Muaz.</a></p>
             <div class="footer__social">
                 <a href="https://www.facebook.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
                 <a href="https://www.instagram.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
                 <a href="https://www.twitter.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-twitter' ></i></a>
             </div>
-            <p class="footer__copy"><a href="magic.html">Made with &#x1F499; by Ahsan Habib Muaz.</a></p>
+            
+            <p class="footer__title"><a href="LICENSE.txt">&copy;Copyright 2024 - All rights reserved.</a></p>
         </footer>
     
  <!--==================== SCROLL TOP ====================-->
@@ -428,18 +429,48 @@
      <!--==================== SWIPER JS ====================-->
        <script src="assets/js/swiper-bundle.min.js"></script>
 
-       <!-- AUTO TYPE JS -->
+     
+      
+       <script>
+        const colors = [
+            { class: 'gradient1', cursor: '#f531eb' },
+            { class: 'gradient2', cursor: '#a0dd05' },
+            { class: 'gradient3', cursor: '#ff693f' },
+            { class: 'gradient4', cursor: '#777777' }
+        ];
+
+        var typed = new Typed(".auto-type", {
+            strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
+            typeSpeed: 130,
+            backSpeed: 80,
+            loop: true,
+            preStringTyped: (arrayPos, self) => {
+                const autoTypeElement = document.querySelector('.auto-type');
+                autoTypeElement.className = 'auto-type ' + colors[arrayPos % colors.length].class;
+                document.querySelector('.typed-cursor').style.color = colors[arrayPos % colors.length].cursor;
+            }
+        });
+    </script>
+      
+      
+      
+      
+      
+      
+      
+      
+       <!-- AUTO TYPE JS --
        <script>
         var typed = new Typed(".auto-type", {
             strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
             typeSpeed: 130,
             backSpeed: 80,
-            loop: true
+            loop: true  
         })
            
        </script>
 
-<!-- New both MUSIC JS -->
+<-- New both MUSIC JS -->
 
 
      <script>

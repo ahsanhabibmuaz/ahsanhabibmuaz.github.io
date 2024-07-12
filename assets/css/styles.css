@@ -285,28 +285,21 @@ video::cue(.subcolory) {
   margin-bottom: 2rem;
 }
 
-#qualify {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 
 .section__subtitle {
+  display: flex;
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
   text-align: center;
   font-size: var(--small-font-size);
-  margin-bottom: var(--mb-2);
-  margin-top: -1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: -1rem auto var(--mb-2); /* Center horizontally with margin auto */
   font-weight: var(--font-semi);
   padding: 0.25rem 0.5rem;
   background-color: var(--input-color);
   width: 15rem;
-  /*box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15); */
-
+  /* box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15); */
 }
+
 
 
 
@@ -621,6 +614,7 @@ video::cue(.subcolory) {
   font-weight: var(--font-semi);
   margin-bottom: var(--mb-4);
   cursor: pointer;
+  transition: color 0.4s; /* Smooth transition for color change */
 }
 
 .qualification__button:hover {

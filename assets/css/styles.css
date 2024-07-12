@@ -28,6 +28,13 @@
   --container-color: #ffffff;
   --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+
+  --color1-dark: #990082; 
+  --color2-dark: #742cac;
+  --color3-dark: #1f8a1f; 
+  --color4-dark: #ad4331; 
+  --color5-dark: #176abe; 
+  --color6-dark: #937016; 
   
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
@@ -80,6 +87,13 @@ body.dark-theme {
   --container-color: hsl(var(--hue-color), 29%, 16%);
   --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
+
+  --color1-dark: #ca00ac;
+  --color2-dark: #9e3beb;
+  --color3-dark: #32CD32; 
+  --color4-dark: #FF6347; 
+  --color5-dark: #1E90FF; 
+  --color6-dark: #DAA520; 
     transition: 0.5s;
  
 }
@@ -267,15 +281,30 @@ video::cue(.subcolory) {
   background-color: var(--first-color);
 }
 
-.section__subtitle {
-  display: block;
-  font-size: var(--small-font-size);
-  margin-bottom: var(--mb-3);
+#qhead {
+  margin-bottom: 2rem;
 }
 
-.section__title,
+#qualify {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .section__subtitle {
   text-align: center;
+  font-size: var(--small-font-size);
+  margin-bottom: var(--mb-2);
+  margin-top: -1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: var(--font-semi);
+  padding: 0.25rem 0.5rem;
+  background-color: var(--input-color);
+  width: 15rem;
+  /*box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15); */
 
 }
 
@@ -401,31 +430,30 @@ video::cue(.subcolory) {
   color: var(--first-color); 
 
 }
-/*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
+
+/* this is qsub type styles */
 .typed-cursor {
-  transition: color 0.2s;
+  color: var(--input-color);
 }
-.gradient1 {
-  background: linear-gradient(45deg, #9f20c3, #f531eb);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.qsubx1 {
+  color: var(--color1-dark);
 }
-.gradient2 {
-  background: linear-gradient(45deg, #6aa800, #a0dd05);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.qsubx2 {
+  color: var(--color2-dark);
 }
-.gradient3 {
-  background: linear-gradient(45deg, #ff0000, #ff693f);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.qsubx3 {
+  color: var(--color3-dark);
 }
-.gradient4 {
-  background: linear-gradient(45deg, #4a4a4a, #777777);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.qsubx4 {
+  color: var(--color4-dark);
 }
-/*mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm*/
+.qsubx5 {
+  color: var(--color5-dark);
+}
+.qsubx6 {
+  color: var(--color6-dark);
+}
+
 
 
 
@@ -614,7 +642,7 @@ text-align: right;
 
 .qualification__title {
   font-size: var(--normal-font-size);
-  font-weight: var(--font-semi);
+  font-weight: var(--font-medium);
 }
 
 .qualification__subtitle {
@@ -744,7 +772,7 @@ font-weight: var(--font-semi);
 
 
 .footer a {
-  text-decoration: none; /* Remove default link text decoration */
+  text-decoration: none;
  color: var(--text-color-light);
 }
 
@@ -830,6 +858,7 @@ font-weight: var(--font-semi);
   margin-left: var(--mb-4);
   margin-right: var(--mb-4);
 }
+
 /* ===== MEDIA QUERIES=====*/
 @media screen and (max-width: 320px) {
   .container {
@@ -845,6 +874,10 @@ font-weight: var(--font-semi);
   p.container {
     margin-left: var(--mb-0-2);
     margin-right: var(--mb-0-2);
+  }
+
+  .section__subtitle {
+    width: 15rem;
   }
 }
 
@@ -888,6 +921,10 @@ font-weight: var(--font-semi);
   .contact__container {
     justify-items: center;
   }
+  .section__subtitle {
+    width: 30rem;
+  }
+   
 }
 @media screen and (min-width: 768px) {
   body {
@@ -910,6 +947,11 @@ font-weight: var(--font-semi);
     width: 80px;
     top: 3rem;
   }
+
+  .section__subtitle {
+    width: 50rem;
+  }
+
   .nav {
     height: calc(var(--header-height) + 1.5rem);
   }
@@ -950,6 +992,11 @@ font-weight: var(--font-semi);
     grid-template-columns: repeat(3, 1fr);
     column-gap: 2rem;
   }
+  .qualification__rounder, .qualification__line {
+    margin-left: var(--mb-6);
+    margin-right: var(--mb-6);
+  }
+
 }
 @media screen and (min-width: 992px) {
   .bd-grid {
@@ -962,4 +1009,5 @@ font-weight: var(--font-semi);
   .home__img {
     width: 450px;
   }
+
 }

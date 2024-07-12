@@ -63,6 +63,7 @@
         </header>
 
         <main class="l-main">
+            
             <!--===== HOME =====-->
             <section class="home bd-grid" id="home">
                 <div class="home__data">
@@ -78,15 +79,6 @@
                     <a href="https://www.github.com/ahsanhabibmuaz" class="home__social-icon"><i class='bx bxl-github' ></i></a>
                 </div>
 
-
-
-                <!-- <div class="home__scroll">
-                    <a href="#about" class="home__scroll-button button--flex">
-                        <i class="uil uil-mouse-alt home__scroll-mouse"></i>
-                        <span class="home__scroll-name">Scroll down</span>
-                        <i class="uil uil-arrow-down home__scroll-arrow"></i>
-                    </a>
-                </div> -->
 
 
                 <div class="home__img">
@@ -179,8 +171,8 @@
 
 <!--==================== QUALIFICATION ====================-->
 <section class="qualification section" id="qualify">
-    <h2 class="section-title">Qualifications</h2>
-  
+    <h2 class="section-title" id="qhead">Qualifications</h2>
+    <span class="section__subtitle">Displaying my&nbsp;<span class="qsub"></span></span>
 
     <div class="qualification__container container">
         <div class="qualification__tabs">
@@ -194,7 +186,6 @@
                 Courses
             </div>
         </div>
-  <!--<span class="section__subtitle">My personal journey.</span>-->
         
   
         <div class="qualification__sections">
@@ -393,8 +384,8 @@
                         <!--<span class="qualification__line"></span>-->
                     </div>
                     <div>
-                        <h3 class="qualification__title">Driving (Class-C)</h3>
-                        <span class="qualification__subtitle"><abbr title="Brothers Driving Training Centre">BDTC</abbr> - Dhaka</span>
+                        <h3 class="qualification__title">Driving</h3>
+                        <span class="qualification__subtitle"><abbr title="Brothers Driving Training Center">BDTC</abbr> - Dhaka</span>
                         <div class="qualification__calendar">
                             <i class="uil uil-calendar-alt"></i>
                             2 months
@@ -446,7 +437,7 @@
                     
                     <div>
                         <h2 class="about__subtitle" id="xplay2"><abbr title="Click here to play music.">Ahsan Habib Muaz</abbr></h2>
-                        <p class="about__text">I am a digital content creator and programmer from Dhaka, Bangladesh. I excel in modifying Android apps and creating engaging content on platforms like Facebook and YouTube. I have a deep passion for science, technology, and psychology. Alongside my digital skills, I am proficient in driving, arc welding, and have mastered both English cursive and Bengali handwriting. I am known for my commitment to learning and excellence in all my endeavours.  <a href="https://wikialpha.com/wiki/Ahsan_Habib_Muaz" class="para-color">Learn more.</a></p>  
+                        <p class="about__text">I am a digital content creator and programmer from Dhaka, Bangladesh. I excel in modifying Android apps and creating engaging content on platforms like Facebook and YouTube. I have a deep passion for science, technology, and psychology. Alongside my digital skills, I am proficient in driving, arc welding, and have mastered both English cursive and Bengali handwriting. I am known for my commitment to learning and excellence in all my endeavours.  <a href="https://wikialpha.org/wiki/Ahsan_Habib_Muaz" class="para-color">Learn more.</a></p>  
                         
                         <div class="about__info">
                             <div>
@@ -470,13 +461,12 @@
                 </div>
 
             </section>
-
         </main>
 
         <!--===== FOOTER =====-->
        
-        <footer class="footer" >
-            
+        <footer class="footer">
+         
             <p class="footer__copy"><a href="magic.html">Made with &#x1F499; by Ahsan Habib Muaz.</a></p>
             <div class="footer__social">
                 <a href="https://www.facebook.com/ahsanhabibmuaz" class="footer__icon"><i class='bx bxl-facebook' ></i></a>
@@ -485,6 +475,7 @@
             </div>
             
             <p class="footer__title"><a href="LICENSE.txt">&copy;Copyright 2024 - All rights reserved.</a></p>
+          
         </footer>
     
  <!--==================== SCROLL TOP ====================-->
@@ -504,37 +495,8 @@
      <!--==================== SWIPER JS ====================-->
        <script src="assets/js/swiper-bundle.min.js"></script>
 
-     
-      
-       <script>
-        const colors = [
-            { class: 'gradient1', cursor: '#f531eb' },
-            { class: 'gradient2', cursor: '#a0dd05' },
-            { class: 'gradient3', cursor: '#ff693f' },
-            { class: 'gradient4', cursor: '#777777' }
-        ];
 
-        var typed = new Typed(".auto-type", {
-            strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
-            typeSpeed: 130,
-            backSpeed: 80,
-            loop: true,
-            preStringTyped: (arrayPos, self) => {
-                const autoTypeElement = document.querySelector('.auto-type');
-                autoTypeElement.className = 'auto-type ' + colors[arrayPos % colors.length].class;
-                document.querySelector('.typed-cursor').style.color = colors[arrayPos % colors.length].cursor;
-            }
-        });
-    </script>
-      
-      
-      
-      
-      
-      
-      
-      
-       <!-- AUTO TYPE JS --
+       <!--- AUTO TYPE JS -->
        <script>
         var typed = new Typed(".auto-type", {
             strings: ["Graphics Designer", "Content Creator", "App Modder", "Web Developer"],
@@ -545,7 +507,30 @@
            
        </script>
 
-<-- New both MUSIC JS -->
+              <!--- QSUB JS -->
+              <script>
+                const colors = [
+                    'qsubx1',
+                    'qsubx2',
+                    'qsubx3',
+                    'qsubx4',
+                    'qsubx5',
+                    'qsubx6'
+                ];
+        
+                var typed = new Typed(".qsub", {
+                    strings: ["education.", "courses.", "journeys.", "achievements.", "qualifications.", "experiences."],
+                    typeSpeed: 80,
+                    backSpeed: 60,
+                    loop: true,
+                    preStringTyped: (arrayPos, self) => {
+                        const qsubElement = document.querySelector('.qsub');
+                        qsubElement.className = 'qsub ' + colors[arrayPos % colors.length];
+                    }
+                });
+            </script>
+
+<!-- New both MUSIC JS -->
 
 
      <script>
@@ -609,8 +594,6 @@ document.getElementById("xplay2").addEventListener("click", function() {
            document.getElementById('overlay').style.display = 'none';
        }
    </script>
-
-
 
     </body>
 </html>

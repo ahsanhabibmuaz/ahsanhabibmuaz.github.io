@@ -282,7 +282,7 @@ video::cue(.subcolory) {
 }
 
 #qhead {
-  margin-bottom: 2rem;
+  margin-bottom: var(--mb-4);
 }
 
 

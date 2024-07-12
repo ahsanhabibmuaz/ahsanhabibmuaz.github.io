@@ -432,9 +432,11 @@ video::cue(.subcolory) {
 }
 
 /* this is qsub type styles */
+
 .typed-cursor {
-  color: var(--input-color);
+  
 }
+
 .qsubx1 {
   color: var(--color1-dark);
 }

@@ -29,12 +29,12 @@
   --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
 
-  --color1-dark: #990082; 
-  --color2-dark: #742cac;
-  --color3-dark: #1f8a1f; 
-  --color4-dark: #ad4331; 
-  --color5-dark: #176abe; 
-  --color6-dark: #937016; 
+  --color1-dark: #ed3636;
+  --color2-dark: #2acf38;
+  --color3-dark: #f23091; 
+  --color4-dark: #c3c129; 
+  --color5-dark: #d130d4; 
+  --color6-dark: #2961d2; 
   
   /*========== Font and typography ==========*/
   --body-font: "Poppins", sans-serif;
@@ -88,12 +88,12 @@ body.dark-theme {
   --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
 
-  --color1-dark: #ca00ac;
-  --color2-dark: #9e3beb;
-  --color3-dark: #32CD32; 
-  --color4-dark: #FF6347; 
-  --color5-dark: #1E90FF; 
-  --color6-dark: #DAA520; 
+  --color1-dark: #ff3c3c;
+  --color2-dark: #33ff44;
+  --color3-dark: #ff4794; 
+  --color4-dark: #e8ff1d; 
+  --color5-dark: #fc38ff; 
+  --color6-dark: #3176ff; 
     transition: 0.5s;
  
 }
@@ -197,18 +197,18 @@ video::cue(.subcolory) {
 .popup {
      display: none; /* Hidden by default */
      position: fixed; /* Stay in place */
-     color: #ffffff;
+     color: var(--first-color);
      font-style: normal;
      left: 50%;
      top: 45%;
      transform: translate(-50%, -45%);
-     padding: 20px;
-     background-color: rgba(200, 200, 200, 0.2);
-     box-shadow: 0 5px 15px rgba(0,0,0,0.5);  
-     border: 2px solid rgba(255, 255, 255, 0.3);
+     padding: var(--mb-3);
+     background-color: var(--footer-color);
+     /*box-shadow: 0 5px 15px rgba(0,0,0,0.5);  */
+     border: 2px solid var(--color5-dark);
      border-radius: 0.5rem;
      transition: 0.3s;
-     z-index: 1000; /* Ensure it is on top */
+     z-index: 999; /* Ensure it is on top */
      text-align: center; /* Center content inside popup */
      display: flex;
      flex-direction: column;
@@ -237,7 +237,7 @@ video::cue(.subcolory) {
             border-radius: 50px; /* Pill shape */
             cursor: pointer;
             font-family: "Poppins", sans-serif;
-            z-index: 999;
+            z-index: 1000;
  }
 
 .close-btn:hover {
@@ -254,9 +254,9 @@ video::cue(.subcolory) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Black with transparency */
+            background-color: rgba(0, 0, 0, 0.7); /* Black with transparency */
             z-index: 998; /* Below the popup */
-            backdrop-filter: blur(8px); /* Background blur effect */
+            backdrop-filter: blur(4px); 
   }
 
 /*===== Popup code ===== */
@@ -297,7 +297,6 @@ video::cue(.subcolory) {
   padding: 0.25rem 0.5rem;
   background-color: var(--input-color);
   width: 15rem;
-  /* box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15); */
 }
 
 
@@ -424,32 +423,47 @@ video::cue(.subcolory) {
 
 }
 
+
+
+
 /* this is qsub type styles */
 
 .typed-cursor {
-  
+ 
 }
 
 .qsubx1 {
   color: var(--color1-dark);
+  transition: .5s;
+
 }
 .qsubx2 {
   color: var(--color2-dark);
+  transition: .5s;
+
 }
 .qsubx3 {
   color: var(--color3-dark);
+  transition: .5s;
+
 }
 .qsubx4 {
   color: var(--color4-dark);
+  transition: .5s;
+
 }
 .qsubx5 {
   color: var(--color5-dark);
+  transition: .5s;
+
 }
 .qsubx6 {
   color: var(--color6-dark);
+  transition: .5s;
+
 }
 
-
+/*     */
 
 
 #xplay, #xplay2 {
@@ -614,7 +628,7 @@ video::cue(.subcolory) {
   font-weight: var(--font-semi);
   margin-bottom: var(--mb-4);
   cursor: pointer;
-  transition: color 0.4s; /* Smooth transition for color change */
+  transition: color 0.3s; /* Smooth transition for color change */
 }
 
 .qualification__button:hover {

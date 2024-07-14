@@ -30,9 +30,9 @@
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
 
   --color1-dark: #ed3636;
-  --color2-dark: #2acf38;
+  --color2-dark: #22a12c;
   --color3-dark: #f23091; 
-  --color4-dark: #c3c129; 
+  --color4-dark: #969421; 
   --color5-dark: #d130d4; 
   --color6-dark: #2961d2; 
   
@@ -88,12 +88,12 @@ body.dark-theme {
   --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
   --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
 
-  --color1-dark: #ff3c3c;
-  --color2-dark: #33ff44;
-  --color3-dark: #ff4794; 
-  --color4-dark: #e8ff1d; 
-  --color5-dark: #fc38ff; 
-  --color6-dark: #3176ff; 
+  --color1-dark: #e93131;
+  --color2-dark: #2ee33d;
+  --color3-dark: #e74287; 
+  --color4-dark: #c4d71b; 
+  --color5-dark: #dd27e0; 
+  --color6-dark: #2361dc; 
     transition: 0.5s;
  
 }
@@ -131,7 +131,7 @@ html {
 }
 
 body {
- background-color: var(--body-color);
+  background-color: var(--body-color);
   margin: var(--header-height) 0 0 0;
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
@@ -195,69 +195,72 @@ video::cue(.subcolory) {
 /*===== Popup code ===== */
 /* Basic styling for the popup */
 .popup {
-     display: none; /* Hidden by default */
-     position: fixed; /* Stay in place */
-     color: var(--first-color);
-     font-style: normal;
-     left: 50%;
-     top: 45%;
-     transform: translate(-50%, -45%);
-     padding: var(--mb-3);
-     background-color: var(--footer-color);
-     /*box-shadow: 0 5px 15px rgba(0,0,0,0.5);  */
-     border: 2px solid var(--color5-dark);
-     border-radius: 0.5rem;
-     transition: 0.3s;
-     z-index: 999; /* Ensure it is on top */
-     text-align: center; /* Center content inside popup */
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     cursor: pointer;
-     
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  color: #fff;
+  font-style: normal;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -45%);
+  padding: var(--mb-3);
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+  backdrop-filter: blur(20px); /* Glass blur effect */
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  transition: 0.3s;
+  z-index: 999; /* Ensure it is on top */
+  text-align: center; /* Center content inside popup */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 }
-
 
 .popup:hover {
-            box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2); 
-             border: 2px solid rgba(255, 255, 255, 0.7);
-        
-           
-            
+  box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
-        /* Styling for the close button */
-  .close-btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 5px 15px;
-            border: 2px solid rgba(215, 215, 215, 0.5);
-            background-color: rgba(210, 210, 210, 0.2); 
-            color: rgb(255, 255, 255);
-            border-radius: 50px; /* Pill shape */
-            cursor: pointer;
-            font-family: "Poppins", sans-serif;
-            z-index: 1000;
- }
+/* Styling for the close button */
+.close-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 4px 16px;
+  background-color: rgba(200, 200, 200, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: rgb(255, 255, 255);
+  border-radius: 50px; /* Pill shape */
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  z-index: 1000;
+}
 
 .close-btn:hover {
-       border: 2px solid rgba(231, 231, 231, 0.907);
-       background-color: rgba(103, 103, 103, 0.352);
-       color: #ffffff;
-      
+  background-color: rgba(50, 50, 50, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
 }
 
- .overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Black with transparency */
-            z-index: 998; /* Below the popup */
-            backdrop-filter: blur(4px); 
-  }
+.overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+  z-index: 998; /* Below the popup */
+  backdrop-filter: blur(5px);
+  filter: grayscale(100%);
+}
+
+
+body.no-scroll {
+  overflow: hidden; /* Disable scrolling */
+}
 
 /*===== Popup code ===== */
 /*===== CLASS CSS ===== */

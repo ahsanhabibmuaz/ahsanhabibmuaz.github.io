@@ -529,7 +529,7 @@
                 ];
         
                 var typed = new Typed(".qsub", {
-                    strings: ["education&#x1F9E1;", "courses&#x1F49A;", "journeys&#128151;", "achievements&#128155;", "qualifications&#128156;", "experiences&#128153;"],
+                    strings: ["education &#x1F9E1;", "courses &#x1F49A;", "journeys &#128151;", "achievements &#128155;", "qualifications &#128156;", "experiences &#128153;"],
                     typeSpeed: 35,
                     backSpeed: 80,
                     loop: true,
@@ -592,17 +592,20 @@ document.getElementById("xplay2").addEventListener("click", function() {
 
   <!--===== POPUP SCRIPT =====-->
        <script>
-       // Show the popup after the page loads
-       window.onload = function() {
-           document.getElementById('popup').style.display = 'block';
-           document.getElementById('overlay').style.display = 'block';
-       };
+// Show the popup after the page loads
+    window.onload = function() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    document.body.classList.add('no-scroll');
+};
 
-       // Function to close the popup
-       function closePopup() {
-           document.getElementById('popup').style.display = 'none';
-           document.getElementById('overlay').style.display = 'none';
-       }
+// Function to close the popup
+    function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    document.body.classList.remove('no-scroll');
+}
+
    </script>
 
     </body>

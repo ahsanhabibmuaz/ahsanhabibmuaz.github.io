@@ -431,42 +431,30 @@ body.no-scroll {
 
 /* this is qsub type styles */
 
-.typed-cursor {
- 
-}
 
 .qsubx1 {
   color: var(--color1-dark);
-  transition: .5s;
 
 }
 .qsubx2 {
   color: var(--color2-dark);
-  transition: .5s;
 
 }
 .qsubx3 {
   color: var(--color3-dark);
-  transition: .5s;
 
 }
 .qsubx4 {
   color: var(--color4-dark);
-  transition: .5s;
 
 }
 .qsubx5 {
   color: var(--color5-dark);
-  transition: .5s;
 
 }
 .qsubx6 {
   color: var(--color6-dark);
-  transition: .5s;
-
 }
-
-/*     */
 
 
 #xplay, #xplay2 {
@@ -884,6 +872,14 @@ font-weight: var(--font-semi);
   .home__img {
     width: 200px;
   }
+
+  .popup {
+    padding: 15px;
+  }
+  .close-btn {
+    margin-top: 5px;
+  }
+
   p.container {
     margin-left: var(--mb-0-2);
     margin-right: var(--mb-0-2);
@@ -911,6 +907,13 @@ font-weight: var(--font-semi);
   .home__img {
     width: 300px;
     bottom: 25%;
+  }
+
+  .popup {
+    padding: 20px;
+  }
+  .close-btn {
+    margin-top: 10px;
   }
   .about__container {
     grid-template-columns: repeat(2, 1fr);

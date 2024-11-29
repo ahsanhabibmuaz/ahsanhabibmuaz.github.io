@@ -22,3 +22,5 @@ We would like to thank the following individuals for responsibly disclosing vuln
 
 - [AHSAN HABIB MUAZ](https://facebook.com/ahsanhabibmuaz)
 
+- [ABID HASSAN MAHMUD](https://facebook.com/IamAbidHassanMahmud)
+

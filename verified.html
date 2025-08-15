@@ -1,25 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Profile Verified</title>
-  <meta http-equiv="refresh" content="5;url=https://anilist.co/user/ahsanhabibmuaz">
+  <!-- redirect after 5 seconds -->
+  <meta http-equiv="refresh" content="5;url=https://anilist.co/user/ahsanhabibmuaz" />
   <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 4em;
-      background-color: #f9f9f9;
+    :root{
+      --bg: #f9f9f9;
+      --accent: #0b74de;
+      --text: #111;
     }
-    img {
-      width: 80px;
-      height: 80px;
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* center everything on screen */
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      box-sizing:border-box;
+    }
+
+    .card{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:1.25rem;
+      text-align:center;
+      max-width:900px;
+      width:100%;
+    }
+
+    /* responsive image size */
+    .verified{
+      width: clamp(120px, 22vmin, 260px); /* responsive and large */
+      height: auto;
+      display:block;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,.12));
+    }
+
+    /* Big headline that's responsive */
+    h1{
+      margin:0;
+      font-weight:800;
+      line-height:1;
+      font-size: clamp(36px, 6.6vw, 84px);
+      letter-spacing: -0.02em;
+    }
+
+    /* subtext */
+    p {
+      margin:0;
+      font-size: clamp(16px, 2.4vw, 24px);
+      opacity:.9;
+    }
+
+    .countdown {
+      margin-top:.25rem;
+      font-weight:600;
+      font-size: clamp(14px, 1.8vw, 18px);
+      color:var(--accent);
+    }
+
+    /* small UX improvements for mobile */
+    @media (max-width:420px){
+      .card { gap: 0.75rem; }
+      h1 { letter-spacing: -0.01em; }
     }
   </style>
 </head>
 <body>
-  <img src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified Logo">
-  <h1>This profile is verified</h1>
-  <p>Redirecting to previous page...</p>
+  <div class="wrap">
+    <div class="card" role="main" aria-live="polite">
+      <img class="verified" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+      <h1>This profile is verified</h1>
+      <p>Redirecting to the original AniList profile...</p>
+      <div class="countdown">Redirecting in <span id="t">5</span>s</div>
+    </div>
+  </div>
+
+  <script>
+    // simple countdown to show remaining seconds (keeps in sync with meta refresh)
+    (function(){
+      var tEl = document.getElementById('t');
+      var t = 5;
+      var iv = setInterval(function(){
+        t--;
+        if(t <= 0){
+          tEl.textContent = 0;
+          clearInterval(iv);
+        } else {
+          tEl.textContent = t;
+        }
+      }, 1000);
+    })();
+  </script>
 </body>
 </html>

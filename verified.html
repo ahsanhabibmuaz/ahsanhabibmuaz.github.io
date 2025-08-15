@@ -29,7 +29,7 @@
 
     html, body {
       height: 100%;
-      overflow: hidden; /* Prevent scrolling */
+      overflow: hidden;
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
@@ -39,8 +39,8 @@
       padding: 20px;
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
-      touch-action: none; /* Prevent mobile scrolling */
-      -webkit-overflow-scrolling: none; /* iOS specific */
+      touch-action: none;
+      -webkit-overflow-scrolling: none;
     }
 
     .verification-card {
@@ -117,7 +117,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 5px 15px rgba(63, 169, 245, 0.3));
+      filter: drop-shadow(0 0 20px rgba(63, 169, 245, 0.8));
     }
 
     h1 {
@@ -221,23 +221,77 @@
       .verification-card {
         padding: 30px 20px;
       }
-      
       h1 {
         font-size: 26px;
       }
-      
       .verified-container {
         width: 130px;
         height: 130px;
       }
     }
 
-    /* Prevent scrolling on all devices */
-    body.prevent-scroll {
-      overflow: hidden;
-      position: fixed;
-      width: 100%;
-      height: 100%;
+    /* PC responsiveness */
+    @media (min-width: 768px) {
+      .verification-card {
+        max-width: 650px;
+        padding: 50px 60px;
+      }
+      h1 {
+        font-size: 40px;
+      }
+      .verified-container {
+        width: 200px;
+        height: 200px;
+      }
+      .countdown {
+        font-size: 20px;
+      }
+      .countdown-number {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+      }
+      .verification-details {
+        font-size: 15px;
+        padding: 20px;
+      }
+      .logo {
+        font-size: 28px;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+      .badge {
+        font-size: 13px;
+        padding: 5px 12px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .verification-card {
+        max-width: 750px;
+        padding: 60px 80px;
+      }
+      h1 {
+        font-size: 46px;
+      }
+      .verified-container {
+        width: 230px;
+        height: 230px;
+      }
+      .verification-details {
+        font-size: 16px;
+      }
+      .countdown {
+        font-size: 22px;
+      }
+      .countdown-number {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -261,18 +315,9 @@
     <div class="username">@ahsanhabibmuaz</div>
     
     <div class="verification-details">
-      <div class="detail-item">
-        <div class="detail-icon">✓</div>
-        <div>Account ownership confirmed</div>
-      </div>
-      <div class="detail-item">
-        <div class="detail-icon">✓</div>
-        <div>Meets AniList verification requirements</div>
-      </div>
-      <div class="detail-item">
-        <div class="detail-icon">✓</div>
-        <div>Identity authenticated</div>
-      </div>
+      <div class="detail-item"><div class="detail-icon">✓</div>Account ownership confirmed</div>
+      <div class="detail-item"><div class="detail-icon">✓</div>Meets AniList verification requirements</div>
+      <div class="detail-item"><div class="detail-icon">✓</div>Identity authenticated</div>
     </div>
     
     <p class="redirect-message">Redirecting to the original AniList profile...</p>
@@ -289,9 +334,7 @@
     
     <div class="footer">
       <div>AniList Profile Verification System</div>
-      <div class="secure-notice">
-        <span>🔒</span> Secure Connection • Encrypted Verification
-      </div>
+      <div class="secure-notice"><span>🔒</span> Secure Connection • Encrypted Verification</div>
     </div>
   </div>
 
@@ -300,10 +343,8 @@
     const tEl = document.getElementById('t');
     const progressBar = document.getElementById('progress');
     
-    // Initialize progress bar
     progressBar.style.width = '0%';
     
-    // Update progress every 100ms for smoother animation
     const interval = setInterval(() => {
       t -= 0.1;
       if (t >= 0) {
@@ -317,14 +358,10 @@
       }
     }, 100);
     
-    // Prevent scrolling with keyboard
     document.addEventListener('keydown', function(e) {
-      if ([32, 37, 38, 39, 40].includes(e.keyCode)) {
-        e.preventDefault();
-      }
+      if ([32, 37, 38, 39, 40].includes(e.keyCode)) e.preventDefault();
     }, false);
     
-    // Prevent touch scrolling
     document.addEventListener('touchmove', function(e) {
       e.preventDefault();
     }, { passive: false });

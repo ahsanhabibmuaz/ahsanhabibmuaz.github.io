@@ -7,18 +7,30 @@
   <meta http-equiv="refresh" content="5;url=https://anilist.co/user/ahsanhabibmuaz" />
   <style>
     :root {
-      --bg: #f9f9f9;
       --accent: #0b74de;
-      --text: #111;
+      --accent2: #34c759;
+      --text: #fff;
     }
 
     html, body {
       height: 100%;
       margin: 0;
-      overflow: hidden; /* Prevent scrolling */
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg);
+      overflow: hidden; /* Prevent scroll */
+      font-family: "Segoe UI", Inter, Arial, sans-serif;
       color: var(--text);
+    }
+
+    /* Animated gradient background */
+    body {
+      background: linear-gradient(-45deg, #0b74de, #34c759, #4f46e5, #14b8a6);
+      background-size: 400% 400%;
+      animation: bgMove 10s ease infinite;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .wrap {
@@ -28,13 +40,34 @@
       justify-content: center;
       text-align: center;
       flex-direction: column;
-      transform: translateY(-8%); /* Moves everything slightly higher */
+      transform: translateY(-8%);
+      animation: fadeIn 1s ease forwards;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20%); }
+      to { opacity: 1; transform: translateY(-8%); }
+    }
+
+    .card {
+      padding: 2rem 3rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Verified logo glow */
     .verified {
-      width: clamp(120px, 22vmin, 260px);
+      width: clamp(140px, 20vmin, 240px);
       height: auto;
       margin-bottom: 1rem;
+      animation: glow 2.5s infinite ease-in-out;
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)) drop-shadow(0 0 16px var(--accent)); }
+      50% { filter: drop-shadow(0 0 16px rgba(255,255,255,1)) drop-shadow(0 0 24px var(--accent2)); }
     }
 
     h1 {
@@ -42,11 +75,12 @@
       font-weight: 800;
       font-size: clamp(36px, 6.6vw, 84px);
       letter-spacing: -0.02em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
 
     p {
       margin: 0.5rem 0 0;
-      font-size: clamp(16px, 2.4vw, 24px);
+      font-size: clamp(16px, 2.4vw, 22px);
       opacity: 0.9;
     }
 
@@ -54,16 +88,18 @@
       margin-top: 0.25rem;
       font-weight: 600;
       font-size: clamp(14px, 1.8vw, 18px);
-      color: var(--accent);
+      color: var(--accent2);
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <img class="verified" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
-    <h1>This profile is verified</h1>
-    <p>Redirecting to the original AniList profile...</p>
-    <div class="countdown">Redirecting in <span id="t">5</span>s</div>
+    <div class="card">
+      <img class="verified" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+      <h1>This profile is verified</h1>
+      <p>Redirecting to the official AniList profile...</p>
+      <div class="countdown">Redirecting in <span id="t">5</span>s</div>
+    </div>
   </div>
 
   <script>

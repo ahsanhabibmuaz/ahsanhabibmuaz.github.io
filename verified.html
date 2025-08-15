@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Profile Verified</title>
-  <meta http-equiv="refresh" content="5;url=https://anilist.co/user/ahsanhabibmuaz" />
+  <meta http-equiv="refresh" content="7;url=https://anilist.co/user/ahsanhabibmuaz" />
   <style>
     :root {
       --bg: #f9f9f9;
       --accent: #0b74de;
+      --accent2: #34c759;
       --text: #111;
     }
 
@@ -31,10 +32,17 @@
       transform: translateY(-8%); /* Moves everything slightly higher */
     }
 
+    /* Glow effect for logo */
     .verified {
       width: clamp(120px, 22vmin, 260px);
       height: auto;
       margin-bottom: 1rem;
+      animation: glow 2.5s infinite ease-in-out;
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(0,0,0,0.3)) drop-shadow(0 0 12px var(--accent)); }
+      50% { filter: drop-shadow(0 0 12px rgba(0,0,0,0.4)) drop-shadow(0 0 18px var(--accent2)); }
     }
 
     h1 {
@@ -63,11 +71,11 @@
     <img class="verified" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
     <h1>This profile is verified</h1>
     <p>Redirecting to the original AniList profile...</p>
-    <div class="countdown">Redirecting in <span id="t">5</span>s</div>
+    <div class="countdown">Redirecting in <span id="t">7</span>s</div>
   </div>
 
   <script>
-    let t = 5;
+    let t = 7;
     const tEl = document.getElementById('t');
     setInterval(() => {
       t--;

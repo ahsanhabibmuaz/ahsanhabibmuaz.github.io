@@ -3,83 +3,324 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Profile Verified</title>
-  <meta http-equiv="refresh" content="7;url=https://anilist.co/user/ahsanhabibmuaz" />
+  <title>AniList Profile Verification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f9f9f9;
-      --accent: #3FA9F5; /* Verified GIF exact blue color */
-      --text: #111;
+      --primary: #3FA9F5;
+      --primary-light: #d9efff;
+      --primary-dark: #2a7fc9;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
     }
 
-    html, body {
-      height: 100%;
+    * {
       margin: 0;
-      overflow: hidden; /* Prevent scrolling */
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-    }
-
-    .wrap {
-      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
+      background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .verification-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 40px;
       text-align: center;
-      flex-direction: column;
-      transform: translateY(-8%);
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease;
     }
 
-    /* Glow effect matching GIF color */
-    .verified {
-      width: clamp(120px, 22vmin, 260px);
-      height: auto;
-      margin-bottom: 1rem;
-      animation: glow 2.5s infinite ease-in-out;
+    .verification-card:hover {
+      transform: translateY(-5px);
     }
 
-    @keyframes glow {
-      0%, 100% { filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 12px var(--accent)); }
-      50% { filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 20px var(--accent)); }
+    .card-header {
+      margin-bottom: 30px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      margin-right: 8px;
+    }
+
+    .badge {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .verified-container {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 25px;
+    }
+
+    .verified-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 5px 15px rgba(63, 169, 245, 0.3));
+    }
+
+    .progress-ring {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
+      width: 160px;
+      height: 160px;
+    }
+
+    .progress-ring-circle {
+      stroke: var(--primary);
+      stroke-width: 6;
+      stroke-linecap: round;
+      fill: none;
+      transition: stroke-dashoffset 0.5s ease;
     }
 
     h1 {
-      margin: 0;
-      font-weight: 800;
-      font-size: clamp(36px, 6.6vw, 84px);
-      letter-spacing: -0.02em;
-      color: var(--accent);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+      line-height: 1.2;
     }
 
-    p {
-      margin: 0.5rem 0 0;
-      font-size: clamp(16px, 2.4vw, 24px);
-      opacity: 0.9;
+    .username {
+      color: var(--primary);
+      display: block;
+      margin-top: 5px;
+    }
+
+    .verification-details {
+      background: var(--primary-light);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 25px 0;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .detail-item {
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-icon {
+      color: var(--success);
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .redirect-message {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 25px;
     }
 
     .countdown {
-      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       font-weight: 600;
-      font-size: clamp(14px, 1.8vw, 18px);
-      color: var(--accent);
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .countdown-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      color: var(--primary);
+    }
+
+    .footer {
+      margin-top: 30px;
+      color: var(--text-light);
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .secure-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      color: var(--success);
+    }
+
+    @media (max-width: 480px) {
+      .verification-card {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 26px;
+      }
+      
+      .verified-container {
+        width: 130px;
+        height: 130px;
+      }
+      
+      .progress-ring {
+        width: 130px;
+        height: 130px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <img class="verified" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
-    <h1>This profile is verified</h1>
-    <p>Redirecting to the original AniList profile...</p>
-    <div class="countdown">Redirecting in <span id="t">7</span>s</div>
+  <div class="verification-card">
+    <div class="card-header">
+      <div class="logo-container">
+        <div class="logo">
+          <div class="logo-icon">A</div>
+          AniList
+        </div>
+        <div class="badge">VERIFICATION SERVICE</div>
+      </div>
+    </div>
+    
+    <div class="verified-container">
+      <svg class="progress-ring" id="progress-ring">
+        <circle class="progress-ring-circle" 
+                stroke-dasharray="440"
+                stroke-dashoffset="0"
+                r="70" 
+                cx="80" 
+                cy="80"></circle>
+      </svg>
+      <img class="verified-icon" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+    </div>
+    
+    <h1>Profile <span style="color: var(--primary);">Verified</span></h1>
+    
+    <div class="verification-details">
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Account ownership confirmed for <strong>ahsanhabibmuaz</strong></div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Profile meets AniList verification requirements</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Identity authenticated through our verification system</div>
+      </div>
+    </div>
+    
+    <p class="redirect-message">Redirecting to the original AniList profile...</p>
+    
+    <div class="countdown">
+      <span>Redirecting in</span>
+      <span class="countdown-number" id="t">5</span>
+      <span>seconds</span>
+    </div>
+    
+    <div class="footer">
+      <div>AniList Profile Verification System</div>
+      <div class="secure-notice">
+        <span>🔒</span> Secure Connection • Encrypted Verification
+      </div>
+    </div>
   </div>
 
   <script>
-    let t = 7;
+    let t = 5;
     const tEl = document.getElementById('t');
-    setInterval(() => {
+    const circle = document.querySelector('.progress-ring-circle');
+    const circumference = 2 * Math.PI * 70;
+    
+    // Initialize progress ring
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+    
+    const setProgress = (percent) => {
+      const offset = circumference - (percent / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+    };
+    
+    setProgress(0);
+    
+    const interval = setInterval(() => {
       t--;
-      if (t >= 0) tEl.textContent = t;
+      if (t >= 0) {
+        tEl.textContent = t;
+        const progress = 100 - (t * 20);
+        setProgress(progress);
+      }
+      if (t < 0) {
+        clearInterval(interval);
+        window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
+      }
     }, 1000);
   </script>
 </body>

@@ -25,14 +25,11 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
     }
 
     html, body {
       height: 100%;
+      overflow: hidden; /* Prevent scrolling */
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
@@ -42,18 +39,8 @@
       padding: 20px;
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
-      overflow: hidden;
-    }
-
-    .container {
-      max-height: 100vh;
-      overflow-y: auto;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      -webkit-overflow-scrolling: touch;
+      touch-action: none; /* Prevent mobile scrolling */
+      -webkit-overflow-scrolling: none; /* iOS specific */
     }
 
     .verification-card {
@@ -84,7 +71,6 @@
       justify-content: center;
       gap: 10px;
       margin-bottom: 15px;
-      flex-wrap: wrap;
     }
 
     .logo {
@@ -211,7 +197,7 @@
       height: 100%;
       background: var(--primary);
       width: 0%;
-      transition: width 0.1s linear;
+      transition: width 1s linear;
     }
 
     .footer {
@@ -231,23 +217,7 @@
       color: var(--success);
     }
 
-    /* Responsive adjustments */
-    @media (max-width: 1024px) {
-      .verification-card {
-        max-width: 90%;
-      }
-      
-      h1 {
-        font-size: 28px;
-      }
-      
-      .verified-container {
-        width: 140px;
-        height: 140px;
-      }
-    }
-    
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       .verification-card {
         padding: 30px 20px;
       }
@@ -256,158 +226,71 @@
         font-size: 26px;
       }
       
-      .logo {
-        font-size: 20px;
-      }
-      
       .verified-container {
-        width: 120px;
-        height: 120px;
-      }
-      
-      .verification-details {
-        font-size: 13px;
+        width: 130px;
+        height: 130px;
       }
     }
-    
-    @media (max-width: 480px) {
-      .container {
-        padding: 10px;
-      }
-      
-      h1 {
-        font-size: 24px;
-      }
-      
-      .countdown {
-        font-size: 16px;
-      }
-      
-      .countdown-number {
-        width: 30px;
-        height: 30px;
-      }
-    }
-    
-    @media (max-height: 700px) {
-      .container {
-        align-items: flex-start;
-        padding-top: 30px;
-      }
-    }
-    
-    @media (max-height: 600px) {
-      .container {
-        padding-top: 20px;
-      }
-      
-      .card-header {
-        margin-bottom: 20px;
-      }
-      
-      .verified-container {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 15px;
-      }
-      
-      h1 {
-        font-size: 22px;
-        margin-bottom: 5px;
-      }
-      
-      .verification-details {
-        margin: 15px 0;
-        padding: 12px;
-      }
-      
-      .redirect-message {
-        margin-bottom: 15px;
-      }
-    }
-    
-    /* Selection prevention */
-    .no-select {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    
-    /* Scrollbar styling */
-    .container::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    .container::-webkit-scrollbar-track {
-      background: var(--primary-light);
-      border-radius: 4px;
-    }
-    
-    .container::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-    
-    .container::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-dark);
+
+    /* Prevent scrolling on all devices */
+    body.prevent-scroll {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <div class="verification-card no-select">
-      <div class="card-header">
-        <div class="logo-container">
-          <div class="logo">
-            <div class="logo-icon">A</div>
-            AniList
-          </div>
-          <div class="badge">VERIFICATION SERVICE</div>
+<body class="prevent-scroll">
+  <div class="verification-card">
+    <div class="card-header">
+      <div class="logo-container">
+        <div class="logo">
+          <div class="logo-icon">A</div>
+          AniList
         </div>
+        <div class="badge">VERIFICATION SERVICE</div>
       </div>
-      
-      <div class="verified-container">
-        <img class="verified-icon" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+    </div>
+    
+    <div class="verified-container">
+      <img class="verified-icon" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+    </div>
+    
+    <h1>Profile <span style="color: var(--primary);">Verified</span></h1>
+    <div class="username">@ahsanhabibmuaz</div>
+    
+    <div class="verification-details">
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Account ownership confirmed</div>
       </div>
-      
-      <h1>Profile <span style="color: var(--primary);">Verified</span></h1>
-      <div class="username">@ahsanhabibmuaz</div>
-      
-      <div class="verification-details">
-        <div class="detail-item">
-          <div class="detail-icon">✓</div>
-          <div>Account ownership confirmed</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">✓</div>
-          <div>Meets AniList verification requirements</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">✓</div>
-          <div>Identity authenticated</div>
-        </div>
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Meets AniList verification requirements</div>
       </div>
-      
-      <p class="redirect-message">Redirecting to the original AniList profile...</p>
-      
-      <div class="countdown">
-        <span>Redirecting in</span>
-        <span class="countdown-number" id="t">8</span>
-        <span>seconds</span>
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Identity authenticated</div>
       </div>
-      
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress"></div>
-      </div>
-      
-      <div class="footer">
-        <div>AniList Profile Verification System</div>
-        <div class="secure-notice">
-          <span>🔒</span> Secure Connection • Encrypted Verification
-        </div>
+    </div>
+    
+    <p class="redirect-message">Redirecting to the original AniList profile...</p>
+    
+    <div class="countdown">
+      <span>Redirecting in</span>
+      <span class="countdown-number" id="t">8</span>
+      <span>seconds</span>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+    
+    <div class="footer">
+      <div>AniList Profile Verification System</div>
+      <div class="secure-notice">
+        <span>🔒</span> Secure Connection • Encrypted Verification
       </div>
     </div>
   </div>
@@ -416,18 +299,9 @@
     let t = 8;
     const tEl = document.getElementById('t');
     const progressBar = document.getElementById('progress');
-    let redirecting = false;
     
     // Initialize progress bar
     progressBar.style.width = '0%';
-    
-    // Function to redirect after progress completes
-    function redirect() {
-      if (!redirecting) {
-        redirecting = true;
-        window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
-      }
-    }
     
     // Update progress every 100ms for smoother animation
     const interval = setInterval(() => {
@@ -436,38 +310,24 @@
         tEl.textContent = Math.ceil(t);
         const progressPercent = 100 - (t * 12.5);
         progressBar.style.width = `${progressPercent}%`;
-      } else {
-        progressBar.style.width = '100%';
+      }
+      if (t < 0) {
         clearInterval(interval);
-        // Redirect only after progress bar completes
-        setTimeout(redirect, 100);
+        window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
       }
     }, 100);
     
-    // Allow refresh gestures
-    let touchStartY = 0;
-    
-    document.addEventListener('touchstart', e => {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    
-    document.addEventListener('touchmove', e => {
-      // Allow pull-to-refresh only at the very top of the page
-      if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
-        // Allow the default behavior for pull-to-refresh
-      } else if (document.querySelector('.container').scrollHeight > document.querySelector('.container').clientHeight) {
-        // Allow scrolling if content overflows
-      } else {
-        // Prevent scrolling otherwise
+    // Prevent scrolling with keyboard
+    document.addEventListener('keydown', function(e) {
+      if ([32, 37, 38, 39, 40].includes(e.keyCode)) {
         e.preventDefault();
       }
-    }, { passive: false });
+    }, false);
     
-    // Prevent text selection
-    document.addEventListener('selectstart', e => {
+    // Prevent touch scrolling
+    document.addEventListener('touchmove', function(e) {
       e.preventDefault();
-      return false;
-    });
+    }, { passive: false });
   </script>
 </body>
 </html>

@@ -121,6 +121,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
 
     .verified-icon {
@@ -147,6 +154,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 20px;
+      font-size: 18px;
+      font-weight: 500;
     }
 
     .verification-details {
@@ -173,6 +182,8 @@
       color: var(--success);
       margin-right: 10px;
       flex-shrink: 0;
+      font-weight: bold;
+      font-size: 16px;
     }
 
     .redirect-message {
@@ -202,6 +213,7 @@
       background: var(--primary-light);
       border-radius: 8px;
       color: var(--primary);
+      font-weight: 700;
     }
 
     .progress-bar {
@@ -210,6 +222,7 @@
       border-radius: 3px;
       margin-top: 20px;
       overflow: hidden;
+      position: relative;
     }
 
     .progress-fill {
@@ -322,7 +335,7 @@
     
     <div class="countdown">
       <span>Redirecting in</span>
-      <span class="countdown-number" id="t">8</span>
+      <span class="countdown-number" id="t">10</span>
       <span>seconds</span>
     </div>
     
@@ -339,42 +352,41 @@
   </div>
 
   <script>
-    let t = 8;
     const tEl = document.getElementById('t');
     const progressBar = document.getElementById('progress');
     
     // Initialize progress bar
     progressBar.style.width = '0%';
     
-    // Start time for precise countdown
+    // Set durations
+    const barDuration = 10000; // 10 seconds for progress bar
+    const extraWait = 1000; // 1 second after bar completes
+    
+    // Start time for precise timing
     const startTime = Date.now();
-    const totalDuration = 8000; // 8 seconds in milliseconds
+    const totalDuration = barDuration + extraWait;
     
     function updateCountdown() {
       const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, totalDuration - elapsed);
+      let secondsRemaining;
       
-      // Calculate remaining seconds (ceiling value)
-      const seconds = Math.ceil(remaining / 1000);
-      tEl.textContent = seconds;
-      
-      // Update progress bar
-      const progressPercent = Math.min(100, (elapsed / totalDuration) * 100);
-      progressBar.style.width = `${progressPercent}%`;
-      
-      // Check if we should redirect
-      if (remaining <= 0) {
-        // Ensure progress bar is at 100% before redirect
+      if (elapsed < barDuration) {
+        // Progress bar filling phase
+        secondsRemaining = Math.ceil((barDuration - elapsed) / 1000);
+        const progressPercent = Math.min(100, (elapsed / barDuration) * 100);
+        progressBar.style.width = `${progressPercent}%`;
+      } else if (elapsed < totalDuration) {
+        // Waiting phase after bar completion
+        secondsRemaining = 0;
         progressBar.style.width = '100%';
-        
-        // Wait for UI update then redirect
-        setTimeout(() => {
-          window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
-        }, 50);
       } else {
-        // Continue the animation
-        requestAnimationFrame(updateCountdown);
+        // Redirect after total duration
+        window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
+        return;
       }
+      
+      tEl.textContent = secondsRemaining;
+      requestAnimationFrame(updateCountdown);
     }
     
     // Start the countdown

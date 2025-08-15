@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AniList Profile Verification</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,9 +27,9 @@
       box-sizing: border-box;
     }
 
-    body {
-      height: 100vh;
-      margin: 0;
+    html, body {
+      height: 100%;
+      overflow: hidden; /* Prevent scrolling */
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
@@ -39,6 +39,8 @@
       padding: 20px;
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
+      touch-action: none; /* Prevent mobile scrolling */
+      -webkit-overflow-scrolling: none; /* iOS specific */
     }
 
     .verification-card {
@@ -103,10 +105,12 @@
     }
 
     .verified-container {
-      position: relative;
+      margin: 0 auto 25px;
       width: 160px;
       height: 160px;
-      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .verified-icon {
@@ -114,23 +118,6 @@
       height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 5px 15px rgba(63, 169, 245, 0.3));
-    }
-
-    .progress-ring {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: rotate(-90deg);
-      width: 160px;
-      height: 160px;
-    }
-
-    .progress-ring-circle {
-      stroke: var(--primary);
-      stroke-width: 6;
-      stroke-linecap: round;
-      fill: none;
-      transition: stroke-dashoffset 0.5s ease;
     }
 
     h1 {
@@ -198,6 +185,21 @@
       color: var(--primary);
     }
 
+    .progress-bar {
+      height: 6px;
+      background: var(--primary-light);
+      border-radius: 3px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 1s linear;
+    }
+
     .footer {
       margin-top: 30px;
       color: var(--text-light);
@@ -228,15 +230,18 @@
         width: 130px;
         height: 130px;
       }
-      
-      .progress-ring {
-        width: 130px;
-        height: 130px;
-      }
+    }
+
+    /* Prevent scrolling on all devices */
+    body.prevent-scroll {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
-<body>
+<body class="prevent-scroll">
   <div class="verification-card">
     <div class="card-header">
       <div class="logo-container">
@@ -249,31 +254,24 @@
     </div>
     
     <div class="verified-container">
-      <svg class="progress-ring" id="progress-ring">
-        <circle class="progress-ring-circle" 
-                stroke-dasharray="440"
-                stroke-dashoffset="0"
-                r="70" 
-                cx="80" 
-                cy="80"></circle>
-      </svg>
       <img class="verified-icon" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
     </div>
     
     <h1>Profile <span style="color: var(--primary);">Verified</span></h1>
+    <div class="username">@ahsanhabibmuaz</div>
     
     <div class="verification-details">
       <div class="detail-item">
         <div class="detail-icon">✓</div>
-        <div>Account ownership confirmed for <strong>ahsanhabibmuaz</strong></div>
+        <div>Account ownership confirmed</div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">✓</div>
-        <div>Profile meets AniList verification requirements</div>
+        <div>Meets AniList verification requirements</div>
       </div>
       <div class="detail-item">
         <div class="detail-icon">✓</div>
-        <div>Identity authenticated through our verification system</div>
+        <div>Identity authenticated</div>
       </div>
     </div>
     
@@ -281,8 +279,12 @@
     
     <div class="countdown">
       <span>Redirecting in</span>
-      <span class="countdown-number" id="t">5</span>
+      <span class="countdown-number" id="t">8</span>
       <span>seconds</span>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
     </div>
     
     <div class="footer">
@@ -294,34 +296,38 @@
   </div>
 
   <script>
-    let t = 5;
+    let t = 8;
     const tEl = document.getElementById('t');
-    const circle = document.querySelector('.progress-ring-circle');
-    const circumference = 2 * Math.PI * 70;
+    const progressBar = document.getElementById('progress');
     
-    // Initialize progress ring
-    circle.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle.style.strokeDashoffset = circumference;
+    // Initialize progress bar
+    progressBar.style.width = '0%';
     
-    const setProgress = (percent) => {
-      const offset = circumference - (percent / 100) * circumference;
-      circle.style.strokeDashoffset = offset;
-    };
-    
-    setProgress(0);
-    
+    // Update progress every 100ms for smoother animation
     const interval = setInterval(() => {
-      t--;
+      t -= 0.1;
       if (t >= 0) {
-        tEl.textContent = t;
-        const progress = 100 - (t * 20);
-        setProgress(progress);
+        tEl.textContent = Math.ceil(t);
+        const progressPercent = 100 - (t * 12.5);
+        progressBar.style.width = `${progressPercent}%`;
       }
       if (t < 0) {
         clearInterval(interval);
         window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
       }
-    }, 1000);
+    }, 100);
+    
+    // Prevent scrolling with keyboard
+    document.addEventListener('keydown', function(e) {
+      if ([32, 37, 38, 39, 40].includes(e.keyCode)) {
+        e.preventDefault();
+      }
+    }, false);
+    
+    // Prevent touch scrolling
+    document.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, { passive: false });
   </script>
 </body>
 </html>

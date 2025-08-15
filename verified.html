@@ -25,10 +25,6 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
     }
 
     html, body {
@@ -42,17 +38,15 @@
       padding: 20px;
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
+      touch-action: pan-y; /* Enable pull-to-refresh */
     }
 
-    .container {
-      max-height: 100vh;
-      overflow-y: auto;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      -webkit-overflow-scrolling: touch;
+    /* Prevent text selection/copying */
+    body {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     .verification-card {
@@ -209,7 +203,7 @@
       height: 100%;
       background: var(--primary);
       width: 0%;
-      transition: width 0.1s linear;
+      transition: width 1s linear;
     }
 
     .footer {
@@ -243,151 +237,108 @@
         height: 130px;
       }
     }
-
-    /* Scrollbar styling */
-    .container::-webkit-scrollbar {
-      width: 8px;
-    }
-    
-    .container::-webkit-scrollbar-track {
-      background: var(--primary-light);
-      border-radius: 4px;
-    }
-    
-    .container::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-    
-    .container::-webkit-scrollbar-thumb:hover {
-      background: var(--primary-dark);
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="verification-card">
-      <div class="card-header">
-        <div class="logo-container">
-          <div class="logo">
-            <div class="logo-icon">A</div>
-            AniList
-          </div>
-          <div class="badge">VERIFICATION SERVICE</div>
+  <div class="verification-card">
+    <div class="card-header">
+      <div class="logo-container">
+        <div class="logo">
+          <div class="logo-icon">A</div>
+          AniList
         </div>
+        <div class="badge">VERIFICATION SERVICE</div>
       </div>
-      
-      <div class="verified-container">
-        <img class="verified-icon" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+    </div>
+    
+    <div class="verified-container">
+      <img class="verified-icon" src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif" alt="Verified symbol">
+    </div>
+    
+    <h1>Profile <span style="color: var(--primary);">Verified</span></h1>
+    <div class="username">@ahsanhabibmuaz</div>
+    
+    <div class="verification-details">
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Account ownership confirmed</div>
       </div>
-      
-      <h1>Profile <span style="color: var(--primary);">Verified</span></h1>
-      <div class="username">@ahsanhabibmuaz</div>
-      
-      <div class="verification-details">
-        <div class="detail-item">
-          <div class="detail-icon">✓</div>
-          <div>Account ownership confirmed</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">✓</div>
-          <div>Meets AniList verification requirements</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-icon">✓</div>
-          <div>Identity authenticated</div>
-        </div>
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Meets AniList verification requirements</div>
       </div>
-      
-      <p class="redirect-message">Redirecting to the original AniList profile...</p>
-      
-      <div class="countdown">
-        <span>Redirecting in</span>
-        <span class="countdown-number" id="t">10</span>
-        <span>seconds</span>
+      <div class="detail-item">
+        <div class="detail-icon">✓</div>
+        <div>Identity authenticated</div>
       </div>
-      
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress"></div>
-      </div>
-      
-      <div class="footer">
-        <div>AniList Profile Verification System</div>
-        <div class="secure-notice">
-          <span>🔒</span> Secure Connection • Encrypted Verification
-        </div>
+    </div>
+    
+    <p class="redirect-message">Redirecting to the original AniList profile...</p>
+    
+    <div class="countdown">
+      <span>Redirecting in</span>
+      <span class="countdown-number" id="t">8</span>
+      <span>seconds</span>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+    
+    <div class="footer">
+      <div>AniList Profile Verification System</div>
+      <div class="secure-notice">
+        <span>🔒</span> Secure Connection • Encrypted Verification
       </div>
     </div>
   </div>
 
   <script>
-    let t = 10;
+    let t = 8;
     const tEl = document.getElementById('t');
     const progressBar = document.getElementById('progress');
-    let redirecting = false;
     
     // Initialize progress bar
     progressBar.style.width = '0%';
     
-    // Function to redirect after progress completes
-    function redirect() {
-      if (!redirecting) {
-        redirecting = true;
-        window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
+    // Start time for precise countdown
+    const startTime = Date.now();
+    const totalDuration = 8000; // 8 seconds in milliseconds
+    
+    function updateCountdown() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, totalDuration - elapsed);
+      
+      // Calculate remaining seconds (ceiling value)
+      const seconds = Math.ceil(remaining / 1000);
+      tEl.textContent = seconds;
+      
+      // Update progress bar
+      const progressPercent = Math.min(100, (elapsed / totalDuration) * 100);
+      progressBar.style.width = `${progressPercent}%`;
+      
+      // Check if we should redirect
+      if (remaining <= 0) {
+        // Ensure progress bar is at 100% before redirect
+        progressBar.style.width = '100%';
+        
+        // Wait for UI update then redirect
+        setTimeout(() => {
+          window.location.href = 'https://anilist.co/user/ahsanhabibmuaz';
+        }, 50);
+      } else {
+        // Continue the animation
+        requestAnimationFrame(updateCountdown);
       }
     }
     
-    // Update progress every 100ms for smoother animation
-    const interval = setInterval(() => {
-      t -= 0.1;
-      if (t >= 0) {
-        tEl.textContent = Math.ceil(t);
-        const progressPercent = 100 - (t * 10);
-        progressBar.style.width = `${progressPercent}%`;
-      } else {
-        progressBar.style.width = '100%';
-        clearInterval(interval);
-        // Redirect only after progress bar completes
-        setTimeout(redirect, 100);
-      }
-    }, 100);
+    // Start the countdown
+    requestAnimationFrame(updateCountdown);
     
-    // Allow pull-to-refresh
-    let touchStartY = 0;
-    
-    document.addEventListener('touchstart', e => {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    
-    document.addEventListener('touchmove', e => {
-      // Allow pull-to-refresh only at the very top of the page
-      if (window.scrollY === 0 && e.touches[0].clientY > touchStartY) {
-        // Allow the default behavior for pull-to-refresh
-        return;
-      }
-      
-      // Allow scrolling if content overflows
-      const container = document.querySelector('.container');
-      if (container.scrollHeight > container.clientHeight) {
-        return;
-      }
-      
-      // Otherwise prevent scrolling
+    // Prevent text selection via context menu
+    document.addEventListener('contextmenu', function(e) {
       e.preventDefault();
-    }, { passive: false });
-    
-    // Prevent text selection
-    document.addEventListener('selectstart', e => {
-      e.preventDefault();
-      return false;
     });
-    
-    // Prevent keyboard scrolling
-    document.addEventListener('keydown', function(e) {
-      if ([32, 37, 38, 39, 40].includes(e.keyCode)) {
-        e.preventDefault();
-      }
-    }, false);
   </script>
 </body>
 </html>

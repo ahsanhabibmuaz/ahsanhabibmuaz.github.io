@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Strikes Fantom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            background: radial-gradient(ellipse at center, #0a0e2a 0%, #000000 100%);
+            display: block;
+        }
+
+        #uiContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .uiElement {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .healthBar {
+            width: 200px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .healthFill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff9900);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        #gameTitle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        #gameTitle h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            letter-spacing: 3px;
+        }
+
+        #gameTitle p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .button {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #jetSelection {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .jetOption {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .jetOption:hover, .jetOption.selected {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+        }
+
+        .jetPreview {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+
+        #gameOverScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+        }
+
+        #finalScore {
+            font-size: 36px;
+            color: #ff9900;
+            margin: 20px 0;
+            text-shadow: 0 0 10px #ff9900;
+        }
+
+        #helpScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #helpScreen h2 {
+            color: #00ffff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        #helpScreen p {
+            margin: 10px 0;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        #helpScreen ul {
+            text-align: left;
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        #helpScreen li {
+            margin: 8px 0;
+        }
+
+        #cheatPopup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #00ff00;
+            z-index: 20;
+            color: #00ff00;
+            text-align: center;
+            animation: popup 2s forwards;
+        }
+
+        @keyframes popup {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        #watermark {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #watermark a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+
+        #helpCounter {
+            position: absolute;
+            bottom: 30px;
+            right: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div id="uiContainer">
+            <div class="uiElement">
+                <div>HEALTH:</div>
+                <div class="healthBar">
+                    <div id="healthFill" class="healthFill" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="uiElement">
+                <div>SCORE:</div>
+                <div id="score">0</div>
+            </div>
+        </div>
+        
+        <div id="gameTitle">
+            <h1>AIR STRIKES FANTOM</h1>
+            <p>by Muaz</p>
+            <button id="playButton" class="button">PLAY</button>
+            <button id="helpButton" class="button">HELP</button>
+        </div>
+        
+        <div id="jetSelection" class="hidden">
+            <h2>SELECT YOUR FIGHTER JET</h2>
+            <div class="jetOption" data-jet="1">
+                <div class="jetPreview">🚀</div>
+                <div>NOVA STRIKER</div>
+                <div>Fast & Agile</div>
+            </div>
+            <div class="jetOption" data-jet="2">
+                <div class="jetPreview">🛸</div>
+                <div>PHANTOM X</div>
+                <div>Balanced Power</div>
+            </div>
+            <div class="jetOption" data-jet="3">
+                <div class="jetPreview">✈️</div>
+                <div>CYBER HAWK</div>
+                <div>Heavy Firepower</div>
+            </div>
+            <button id="selectJetButton" class="button">SELECT</button>
+        </div>
+        
+        <div id="gameOverScreen" class="hidden">
+            <h2>GAME OVER</h2>
+            <div id="finalScore">SCORE: 0</div>
+            <button id="restartButton" class="button">PLAY AGAIN</button>
+            <button id="menuButton" class="button">MAIN MENU</button>
+        </div>
+        
+        <div id="helpScreen" class="hidden">
+            <h2>GAME CONTROLS & RULES</h2>
+            <p>Use <strong>ARROW KEYS</strong> or <strong>WASD</strong> to move your fighter jet</p>
+            <p>Press <strong>SPACEBAR</strong> to shoot</p>
+            <p>Avoid enemy bullets and obstacles</p>
+            <p>Destroy enemies to earn points</p>
+            <p>Defeat the BOSS for massive points!</p>
+            <ul>
+                <li>Red enemies: 10 points</li>
+                <li>Blue enemies: 20 points</li>
+                <li>BOSS: 500 points</li>
+            </ul>
+            <p>Watch out for shooting stars and space debris!</p>
+            <button id="closeHelpButton" class="button">CLOSE</button>
+        </div>
+        
+        <div id="watermark">
+            Made With ❤️ by <a href="https://ahsanhabibmuaz.github.io" target="_blank">Muaz</a>
+        </div>
+        
+        <div id="helpCounter">Help presses: 0</div>
+    </div>
+
+    <script>
+        // Game variables
+        let canvas, ctx;
+        let gameActive = false;
+        let player;
+        let enemies = [];
+        let enemyBullets = [];
+        let playerBullets = [];
+        let particles = [];
+        let obstacles = [];
+        let score = 0;
+        let health = 100;
+        let selectedJet = 1;
+        let boss = null;
+        let bossActive = false;
+        let helpPressCount = 0;
+        let cheatMode = false;
+
+        // Audio elements
+        const shootSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const explosionSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const hitSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+
+        // Initialize game
+        function init() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Set up event listeners
+            document.getElementById('playButton').addEventListener('click', showJetSelection);
+            document.getElementById('helpButton').addEventListener('click', showHelp);
+            document.getElementById('closeHelpButton').addEventListener('click', closeHelp);
+            document.getElementById('selectJetButton').addEventListener('click', startGame);
+            document.getElementById('restartButton').addEventListener('click', restartGame);
+            document.getElementById('menuButton').addEventListener('click', showMainMenu);
+            
+            // Jet selection
+            const jetOptions = document.querySelectorAll('.jetOption');
+            jetOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    jetOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedJet = parseInt(this.getAttribute('data-jet'));
+                });
+            });
+            
+            // Help button counter for cheat mode
+            document.getElementById('helpButton').addEventListener('click', function() {
+                helpPressCount++;
+                document.getElementById('helpCounter').textContent = `Help presses: ${helpPressCount}`;
+                
+                if (helpPressCount >= 7 && !cheatMode) {
+                    activateCheatMode();
+                }
+            });
+            
+            // Set initial jet selection
+            jetOptions[0].classList.add('selected');
+            
+            // Start game loop
+            gameLoop();
+        }
+
+        // Show jet selection screen
+        function showJetSelection() {
+            document.getElementById('gameTitle').classList.add('hidden');
+            document.getElementById('jetSelection').classList.remove('hidden');
+        }
+
+        // Show help screen
+        function showHelp() {
+            document.getElementById('helpScreen').classList.remove('hidden');
+        }
+
+        // Close help screen
+        function closeHelp() {
+            document.getElementById('helpScreen').classList.add('hidden');
+        }
+
+        // Show main menu
+        function showMainMenu() {
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('gameTitle').classList.remove('hidden');
+            resetGame();
+        }
+
+        // Start the game
+        function startGame() {
+            document.getElementById('jetSelection').classList.add('hidden');
+            gameActive = true;
+            resetGame();
+            
+            // Create player
+            player = {
+                x: canvas.width / 2,
+                y: canvas.height - 100,
+                width: 50,
+                height: 50,
+                speed: 6,
+                color: getJetColor(selectedJet),
+                lastShot: 0,
+                shootDelay: getShootDelay(selectedJet)
+            };
+        }
+
+        // Restart game
+        function restartGame() {
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            gameActive = true;
+            resetGame();
+            
+            // Create player
+            player = {
+                x: canvas.width / 2,
+                y: canvas.height - 100,
+                width: 50,
+                height: 50,
+                speed: 6,
+                color: getJetColor(selectedJet),
+                lastShot: 0,
+                shootDelay: getShootDelay(selectedJet)
+            };
+        }
+
+        // Reset game state
+        function resetGame() {
+            enemies = [];
+            enemyBullets = [];
+            playerBullets = [];
+            particles = [];
+            obstacles = [];
+            score = 0;
+            health = 100;
+            boss = null;
+            bossActive = false;
+            document.getElementById('score').textContent = '0';
+            document.getElementById('healthFill').style.width = '100%';
+        }
+
+        // Get jet color based on selection
+        function getJetColor(jetType) {
+            switch(jetType) {
+                case 1: return '#00ffff'; // Cyan
+                case 2: return '#ff00ff'; // Magenta
+                case 3: return '#ffff00'; // Yellow
+                default: return '#ffffff';
+            }
+        }
+
+        // Get shoot delay based on jet type
+        function getShootDelay(jetType) {
+            switch(jetType) {
+                case 1: return 200; // Fast shooter
+                case 2: return 300; // Medium
+                case 3: return 400; // Slow but powerful
+                default: return 300;
+            }
+        }
+
+        // Activate cheat mode
+        function activateCheatMode() {
+            cheatMode = true;
+            health = 9999; // Unlimited health
+            document.getElementById('healthFill').style.width = '100%';
+            
+            // Show cheat mode popup
+            const popup = document.createElement('div');
+            popup.id = 'cheatPopup';
+            popup.textContent = 'CHEAT MODE ENABLED!';
+            document.getElementById('gameContainer').appendChild(popup);
+            
+            setTimeout(() => {
+                popup.remove();
+            }, 2000);
+        }
+
+        // Game loop
+        function gameLoop() {
+            if (gameActive) {
+                update();
+                render();
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Update game state
+        function update() {
+            if (!player) return;
+            
+            // Spawn enemies
+            if (Math.random() < 0.03) {
+                spawnEnemy();
+            }
+            
+            // Spawn obstacles
+            if (Math.random() < 0.01) {
+                spawnObstacle();
+            }
+            
+            // Spawn boss if score is high enough
+            if (score >= 500 && !bossActive) {
+                spawnBoss();
+                bossActive = true;
+            }
+            
+            // Update player bullets
+            for (let i = playerBullets.length - 1; i >= 0; i--) {
+                playerBullets[i].y -= playerBullets[i].speed;
+                
+                // Remove if off screen
+                if (playerBullets[i].y < 0) {
+                    playerBullets.splice(i, 1);
+                    continue;
+                }
+                
+                // Check collision with enemies
+                for (let j = enemies.length - 1; j >= 0; j--) {
+                    if (checkCollision(playerBullets[i], enemies[j])) {
+                        // One-shot kill in cheat mode
+                        if (cheatMode) {
+                            createExplosion(enemies[j].x, enemies[j].y, enemies[j].color);
+                            score += enemies[j].points;
+                            enemies.splice(j, 1);
+                            playerBullets.splice(i, 1);
+                            break;
+                        } else {
+                            enemies[j].health--;
+                            if (enemies[j].health <= 0) {
+                                createExplosion(enemies[j].x, enemies[j].y, enemies[j].color);
+                                score += enemies[j].points;
+                                enemies.splice(j, 1);
+                            }
+                            playerBullets.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                
+                // Check collision with boss
+                if (boss && checkCollision(playerBullets[i], boss)) {
+                    if (cheatMode) {
+                        // One-shot kill boss in cheat mode
+                        createExplosion(boss.x, boss.y, boss.color);
+                        score += boss.points;
+                        boss = null;
+                        bossActive = false;
+                    } else {
+                        boss.health--;
+                        if (boss.health <= 0) {
+                            createExplosion(boss.x, boss.y, boss.color);
+                            score += boss.points;
+                            boss = null;
+                            bossActive = false;
+                        }
+                    }
+                    playerBullets.splice(i, 1);
+                }
+            }
+            
+            // Update enemy bullets
+            for (let i = enemyBullets.length - 1; i >= 0; i--) {
+                enemyBullets[i].y += enemyBullets[i].speed;
+                
+                // Remove if off screen
+                if (enemyBullets[i].y > canvas.height) {
+                    enemyBullets.splice(i, 1);
+                    continue;
+                }
+                
+                // Check collision with player
+                if (checkCollision(enemyBullets[i], player)) {
+                    if (!cheatMode) {
+                        health -= 10;
+                        document.getElementById('healthFill').style.width = `${health}%`;
+                        
+                        if (health <= 0) {
+                            gameOver();
+                        }
+                    }
+                    enemyBullets.splice(i, 1);
+                    createExplosion(player.x, player.y, '#ff0000');
+                }
+            }
+            
+            // Update enemies
+            for (let i = enemies.length - 1; i >= 0; i--) {
+                enemies[i].y += enemies[i].speed;
+                
+                // Remove if off screen
+                if (enemies[i].y > canvas.height) {
+                    enemies.splice(i, 1);
+                    continue;
+                }
+                
+                // Enemy shooting
+                if (Math.random() < 0.01) {
+                    enemyBullets.push({
+                        x: enemies[i].x,
+                        y: enemies[i].y + enemies[i].height,
+                        width: 4,
+                        height: 10,
+                        speed: 5,
+                        color: '#ff0000'
+                    });
+                }
+                
+                // Check collision with player
+                if (checkCollision(enemies[i], player)) {
+                    if (!cheatMode) {
+                        health -= 20;
+                        document.getElementById('healthFill').style.width = `${health}%`;
+                        
+                        if (health <= 0) {
+                            gameOver();
+                        }
+                    }
+                    createExplosion(enemies[i].x, enemies[i].y, enemies[i].color);
+                    enemies.splice(i, 1);
+                }
+            }
+            
+            // Update boss
+            if (boss) {
+                // Boss movement
+                boss.x += boss.speedX;
+                if (boss.x <= 0 || boss.x >= canvas.width - boss.width) {
+                    boss.speedX *= -1;
+                }
+                
+                // Boss shooting
+                if (Math.random() < 0.05) {
+                    enemyBullets.push({
+                        x: boss.x + boss.width / 2,
+                        y: boss.y + boss.height,
+                        width: 8,
+                        height: 20,
+                        speed: 4,
+                        color: '#ff0000'
+                    });
+                }
+                
+                // Check collision with player
+                if (checkCollision(boss, player)) {
+                    if (!cheatMode) {
+                        health = 0;
+                        document.getElementById('healthFill').style.width = '0%';
+                        gameOver();
+                    }
+                }
+            }
+            
+            // Update obstacles
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].y += obstacles[i].speed;
+                
+                // Remove if off screen
+                if (obstacles[i].y > canvas.height) {
+                    obstacles.splice(i, 1);
+                    continue;
+                }
+                
+                // Check collision with player
+                if (checkCollision(obstacles[i], player)) {
+                    if (!cheatMode) {
+                        health -= 15;
+                        document.getElementById('healthFill').style.width = `${health}%`;
+                        
+                        if (health <= 0) {
+                            gameOver();
+                        }
+                    }
+                    createExplosion(obstacles[i].x, obstacles[i].y, obstacles[i].color);
+                    obstacles.splice(i, 1);
+                }
+            }
+            
+            // Update particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].x += particles[i].vx;
+                particles[i].y += particles[i].vy;
+                particles[i].alpha -= 0.02;
+                
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            
+            // Update score display
+            document.getElementById('score').textContent = score;
+        }
+
+        // Render game
+        function render() {
+            // Clear canvas
+            ctx.fillStyle = 'rgba(10, 14, 42, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw stars
+            drawStars();
+            
+            // Draw player
+            if (player) {
+                drawJet(player.x, player.y, player.width, player.height, player.color);
+            }
+            
+            // Draw player bullets
+            playerBullets.forEach(bullet => {
+                drawNeonBullet(bullet.x, bullet.y, bullet.width, bullet.height, bullet.color);
+            });
+            
+            // Draw enemies
+            enemies.forEach(enemy => {
+                drawEnemy(enemy.x, enemy.y, enemy.width, enemy.height, enemy.color);
+            });
+            
+            // Draw enemy bullets
+            enemyBullets.forEach(bullet => {
+                ctx.fillStyle = bullet.color;
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+            
+            // Draw boss
+            if (boss) {
+                drawBoss(boss.x, boss.y, boss.width, boss.height, boss.color);
+                
+                // Draw boss health bar
+                const barWidth = 200;
+                const barHeight = 10;
+                const barX = canvas.width / 2 - barWidth / 2;
+                const barY = 20;
+                
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.fillRect(barX, barY, barWidth, barHeight);
+                
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(barX, barY, (boss.health / boss.maxHealth) * barWidth, barHeight);
+            }
+            
+            // Draw obstacles
+            obstacles.forEach(obstacle => {
+                drawObstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height, obstacle.type);
+            });
+            
+            // Draw particles
+            particles.forEach(particle => {
+                ctx.globalAlpha = particle.alpha;
+                ctx.fillStyle = particle.color;
+                ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
+            });
+            ctx.globalAlpha = 1;
+        }
+
+        // Draw player jet
+        function drawJet(x, y, width, height, color) {
+            ctx.fillStyle = color;
+            
+            // Jet body
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - width/2, y + height);
+            ctx.lineTo(x + width/2, y + height);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Jet wings
+            ctx.beginPath();
+            ctx.moveTo(x - width/2, y + height/2);
+            ctx.lineTo(x - width, y + height);
+            ctx.lineTo(x - width/2, y + height);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.moveTo(x + width/2, y + height/2);
+            ctx.lineTo(x + width, y + height);
+            ctx.lineTo(x + width/2, y + height);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Neon glow
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = color;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        // Draw neon bullet
+        function drawNeonBullet(x, y, width, height, color) {
+            ctx.fillStyle = color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = color;
+            ctx.fillRect(x - width/2, y, width, height);
+            ctx.shadowBlur = 0;
+        }
+
+        // Draw enemy
+        function drawEnemy(x, y, width, height, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, width/2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Enemy details
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(x - width/4, y - height/4, width/8, 0, Math.PI * 2);
+            ctx.arc(x + width/4, y - height/4, width/8, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Draw boss
+        function drawBoss(x, y, width, height, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+            
+            // Boss details
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x + 10, y + 10, 20, 20);
+            ctx.fillRect(x + width - 30, y + 10, 20, 20);
+            
+            // Boss glow
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = color;
+            ctx.fillRect(x, y, width, height);
+            ctx.shadowBlur = 0;
+        }
+
+        // Draw obstacle
+        function drawObstacle(x, y, width, height, type) {
+            if (type === 'rock') {
+                ctx.fillStyle = '#888888';
+                ctx.beginPath();
+                ctx.arc(x, y, width/2, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (type === 'star') {
+                ctx.fillStyle = '#ffff00';
+                ctx.beginPath();
+                for (let i = 0; i < 5; i++) {
+                    const angle = (i * 2 * Math.PI) / 5;
+                    const spikeX = x + Math.cos(angle) * width/2;
+                    const spikeY = y + Math.sin(angle) * width/2;
+                    if (i === 0) {
+                        ctx.moveTo(spikeX, spikeY);
+                    } else {
+                        ctx.lineTo(spikeX, spikeY);
+                    }
+                }
+                ctx.closePath();
+                ctx.fill();
+            } else if (type === 'astronaut') {
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(x, y, width/2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Astronaut details
+                ctx.fillStyle = '#000000';
+                ctx.beginPath();
+                ctx.arc(x - width/4, y, width/8, 0, Math.PI * 2);
+                ctx.arc(x + width/4, y, width/8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Draw stars in background
+        function drawStars() {
+            for (let i = 0; i < 100; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 2;
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(x, y, size, size);
+            }
+        }
+
+        // Create explosion effect
+        function createExplosion(x, y, color) {
+            for (let i = 0; i < 20; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 5,
+                    vy: (Math.random() - 0.5) * 5,
+                    size: Math.random() * 3 + 1,
+                    color: color,
+                    alpha: 1
+                });
+            }
+        }
+
+        // Spawn enemy
+        function spawnEnemy() {
+            const type = Math.random();
+            let enemy;
+            
+            if (type < 0.7) {
+                // Basic enemy
+                enemy = {
+                    x: Math.random() * (canvas.width - 40) + 20,
+                    y: -30,
+                    width: 30,
+                    height: 30,
+                    speed: 2,
+                    color: '#ff0000',
+                    health: 1,
+                    points: 10
+                };
+            } else {
+                // Advanced enemy
+                enemy = {
+                    x: Math.random() * (canvas.width - 40) + 20,
+                    y: -30,
+                    width: 40,
+                    height: 40,
+                    speed: 1.5,
+                    color: '#0000ff',
+                    health: 2,
+                    points: 20
+                };
+            }
+            
+            enemies.push(enemy);
+        }
+
+        // Spawn obstacle
+        function spawnObstacle() {
+            const types = ['rock', 'star', 'astronaut'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            
+            const obstacle = {
+                x: Math.random() * (canvas.width - 30) + 15,
+                y: -30,
+                width: 30,
+                height: 30,
+                speed: 3,
+                type: type
+            };
+            
+            if (type === 'rock') obstacle.color = '#888888';
+            else if (type === 'star') obstacle.color = '#ffff00';
+            else if (type === 'astronaut') obstacle.color = '#ffffff';
+            
+            obstacles.push(obstacle);
+        }
+
+        // Spawn boss
+        function spawnBoss() {
+            boss = {
+                x: canvas.width / 2 - 75,
+                y: 50,
+                width: 150,
+                height: 80,
+                speedX: 3,
+                color: '#ff00ff',
+                health: 50,
+                maxHealth: 50,
+                points: 500
+            };
+        }
+
+        // Check collision between two objects
+        function checkCollision(obj1, obj2) {
+            return obj1.x < obj2.x + obj2.width &&
+                   obj1.x + obj1.width > obj2.x &&
+                   obj1.y < obj2.y + obj2.height &&
+                   obj1.y + obj1.height > obj2.y;
+        }
+
+        // Game over
+        function gameOver() {
+            gameActive = false;
+            document.getElementById('finalScore').textContent = `SCORE: ${score}`;
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+        }
+
+        // Handle keyboard input
+        document.addEventListener('keydown', function(e) {
+            if (!gameActive || !player) return;
+            
+            // Player movement
+            if ((e.key === 'ArrowLeft' || e.key === 'a') && player.x > 0) {
+                player.x -= player.speed;
+            }
+            if ((e.key === 'ArrowRight' || e.key === 'd') && player.x < canvas.width - player.width) {
+                player.x += player.speed;
+            }
+            if ((e.key === 'ArrowUp' || e.key === 'w') && player.y > 0) {
+                player.y -= player.speed;
+            }
+            if ((e.key === 'ArrowDown' || e.key === 's') && player.y < canvas.height - player.height) {
+                player.y += player.speed;
+            }
+            
+            // Shooting
+            if (e.key === ' ' && Date.now() - player.lastShot > player.shootDelay) {
+                playerBullets.push({
+                    x: player.x,
+                    y: player.y,
+                    width: 6,
+                    height: 15,
+                    speed: 8,
+                    color: player.color
+                });
+                player.lastShot = Date.now();
+                
+                // Play shoot sound
+                shootSound.currentTime = 0;
+                shootSound.play();
+            }
+        });
+
+        // Initialize game when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>

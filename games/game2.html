@@ -286,27 +286,21 @@
         #watermark {
             position: absolute;
             bottom: 10px;
-            right: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
             z-index: 10;
-            animation: colorChange 3s infinite alternate;
+            animation: fadeInOut 3s infinite alternate;
         }
 
-        @keyframes colorChange {
-            0% { color: rgba(255, 0, 0, 0.2); }
-            33% { color: rgba(0, 255, 0, 0.2); }
-            66% { color: rgba(0, 0, 255, 0.2); }
-            100% { color: rgba(255, 255, 0, 0.2); }
+        @keyframes fadeInOut {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         #helpCounter {
-            position: absolute;
-            bottom: 30px;
-            right: 10px;
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.3);
-            z-index: 10;
+            display: none;
         }
 
         /* Touch Controls */
@@ -338,25 +332,6 @@
 
         #shootButton {
             background: rgba(255, 0, 0, 0.2);
-        }
-
-        /* Fullscreen button */
-        #fullscreenButton {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            color: white;
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 15;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         /* Mobile-specific adjustments */
@@ -461,6 +436,16 @@
         #orientationWarning p {
             margin-bottom: 10px;
             font-size: 18px;
+            white-space: nowrap;
+        }
+
+        #copyright {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         /* Hide orientation warning by default */
@@ -509,14 +494,56 @@
             z-index: 10;
             display: none;
         }
+
+        /* Lock popup */
+        #lockPopup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff9900;
+            z-index: 20;
+            color: #ff9900;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        #closePopup {
+            margin-top: 15px;
+            padding: 5px 15px;
+            background: #ff9900;
+            border: none;
+            border-radius: 5px;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Thunder effect for Thunder X */
+        .thunder-effect {
+            position: absolute;
+            width: 100px;
+            height: 200px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.5), transparent);
+            transform: skewX(-20deg);
+            animation: thunderFlash 0.3s infinite alternate;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes thunderFlash {
+            0% { opacity: 0; }
+            100% { opacity: 0.7; }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
-        
-        <button id="fullscreenButton">⛶</button>
         
         <div id="uiContainer">
             <div class="uiElement">
@@ -542,26 +569,25 @@
             <p>by Muaz</p>
             <button id="playButton" class="button">PLAY</button>
             <button id="helpButton" class="button">HELP</button>
-            <button id="fullscreenBtn" class="button">FULL SCREEN</button>
         </div>
         
         <div id="jetSelection" class="hidden">
             <h2>SELECT YOUR FIGHTER JET</h2>
             <div class="jetOption" data-jet="1">
                 <div class="jetPreview">🚀</div>
-                <div>NOVA STRIKER</div>
+                <div>NOVA C3</div>
                 <div>Fast & Agile</div>
             </div>
             <div class="jetOption" data-jet="2">
                 <div class="jetPreview">🛸</div>
-                <div>PHANTOM X</div>
+                <div>ROG 91</div>
                 <div>Balanced Power</div>
             </div>
             <div class="jetOption locked" data-jet="3">
                 <div class="jetPreview">✈️</div>
-                <div>CYBER HAWK</div>
+                <div>THUNDER X</div>
                 <div>Heavy Firepower</div>
-                <div class="lockReason">Unlock at 1000 points</div>
+                <div class="lockReason">Locked</div>
             </div>
             <button id="selectJetButton" class="button">SELECT</button>
         </div>
@@ -585,9 +611,17 @@
                 <li>Blue enemies: 20 points</li>
                 <li>BOSS: 500 points</li>
             </ul>
-            <p>Watch out for shooting stars and space debris!</p>
-            <p>Unlock the third jet at 1000 points!</p>
+            <p>Destroy rocks and astronauts, but avoid shooting stars!</p>
+            <p>Unlock the Thunder X at 1000 points!</p>
             <button id="closeHelpButton" class="button">CLOSE</button>
+        </div>
+        
+        <!-- Lock Popup -->
+        <div id="lockPopup" class="hidden">
+            <h3>THUNDER X LOCKED</h3>
+            <p>You need 1000 points to unlock this jet!</p>
+            <p>Keep playing to earn more points.</p>
+            <button id="closePopup">OK</button>
         </div>
         
         <!-- Touch Controls for Mobile -->
@@ -609,9 +643,9 @@
 
     <!-- Orientation Warning for Mobile -->
     <div id="orientationWarning">
-        <h2>PLEASE ROTATE YOUR DEVICE</h2>
+        <h2>ROTATE YOUR DEVICE</h2>
         <p>This game works best in landscape mode</p>
-        <p>Please rotate your device to continue</p>
+        <div id="copyright">© 2025 Air Strikes Fantom v4.0 by Muaz</div>
     </div>
 
     <script>
@@ -641,6 +675,7 @@
         let wave = 1;
         let bossSpawnScore = 500;
         let backgroundMusic;
+        let thunderEffectInterval;
 
         // Load high score from localStorage
         if (localStorage.getItem('airStrikesHighScore')) {
@@ -673,37 +708,35 @@
             window.addEventListener('resize', resizeCanvas);
             
             // Set up event listeners
-            document.getElementById('playButton').addEventListener('click', showJetSelection);
+            document.getElementById('playButton').addEventListener('click', startGameFullscreen);
             document.getElementById('helpButton').addEventListener('click', showHelp);
             document.getElementById('closeHelpButton').addEventListener('click', closeHelp);
             document.getElementById('selectJetButton').addEventListener('click', startGame);
             document.getElementById('restartButton').addEventListener('click', restartGame);
             document.getElementById('menuButton').addEventListener('click', showMainMenu);
-            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
-            document.getElementById('fullscreenButton').addEventListener('click', toggleFullscreen);
+            document.getElementById('closePopup').addEventListener('click', closeLockPopup);
             
             // Jet selection
             const jetOptions = document.querySelectorAll('.jetOption');
             jetOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    if (this.classList.contains('locked')) {
-                        if (score >= 1000 || cheatMode) {
-                            this.classList.remove('locked');
-                            selectSound.play();
-                        } else {
-                            return;
-                        }
+                    if (this.classList.contains('locked') && this.getAttribute('data-jet') === '3') {
+                        showLockPopup();
+                        return;
                     }
+                    
                     jetOptions.forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedJet = parseInt(this.getAttribute('data-jet'));
+                    
+                    // Update jet preview based on selection
+                    updateJetPreviews();
                 });
             });
             
-            // Help button counter for cheat mode
+            // Help button counter for cheat mode (hidden)
             document.getElementById('helpButton').addEventListener('click', function() {
                 helpPressCount++;
-                document.getElementById('helpCounter').textContent = `Help presses: ${helpPressCount}`;
                 
                 if (helpPressCount >= 7 && !cheatMode) {
                     activateCheatMode();
@@ -712,6 +745,7 @@
             
             // Set initial jet selection
             jetOptions[0].classList.add('selected');
+            updateJetPreviews();
             
             // Setup touch controls if mobile
             if (isMobile) {
@@ -720,6 +754,49 @@
             
             // Start game loop
             gameLoop();
+        }
+
+        // Update jet previews based on selection
+        function updateJetPreviews() {
+            const jetOptions = document.querySelectorAll('.jetOption');
+            jetOptions.forEach(option => {
+                const jetPreview = option.querySelector('.jetPreview');
+                const jetType = parseInt(option.getAttribute('data-jet'));
+                
+                // Reset preview
+                jetPreview.style.background = 'rgba(255, 255, 255, 0.1)';
+                
+                // Set colors based on jet type
+                if (jetType === 1) {
+                    jetPreview.style.background = 'rgba(255, 0, 0, 0.3)';
+                } else if (jetType === 2) {
+                    jetPreview.style.background = 'rgba(0, 255, 128, 0.3)';
+                } else if (jetType === 3) {
+                    jetPreview.style.background = 'rgba(255, 255, 0, 0.3)';
+                }
+            });
+        }
+
+        // Show lock popup
+        function showLockPopup() {
+            document.getElementById('lockPopup').classList.remove('hidden');
+        }
+
+        // Close lock popup
+        function closeLockPopup() {
+            document.getElementById('lockPopup').classList.add('hidden');
+        }
+
+        // Start game in fullscreen
+        function startGameFullscreen() {
+            // Enter fullscreen
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            }
+            
+            showJetSelection();
         }
 
         // Resize canvas to fit container
@@ -870,6 +947,13 @@
 
         // Start the game
         function startGame() {
+            // Check if selected jet is locked
+            const selectedJetOption = document.querySelector('.jetOption.selected');
+            if (selectedJetOption.classList.contains('locked')) {
+                showLockPopup();
+                return;
+            }
+            
             document.getElementById('jetSelection').classList.add('hidden');
             gameActive = true;
             resetGame();
@@ -886,8 +970,41 @@
                 shootDelay: getShootDelay(selectedJet)
             };
             
+            // Start thunder effect for Thunder X
+            if (selectedJet === 3) {
+                startThunderEffect();
+            }
+            
             // Start background music
             backgroundMusic.play();
+        }
+
+        // Start thunder effect for Thunder X
+        function startThunderEffect() {
+            if (thunderEffectInterval) {
+                clearInterval(thunderEffectInterval);
+            }
+            
+            thunderEffectInterval = setInterval(() => {
+                if (!gameActive || selectedJet !== 3) {
+                    clearInterval(thunderEffectInterval);
+                    return;
+                }
+                
+                // Create thunder effect element
+                const thunder = document.createElement('div');
+                thunder.className = 'thunder-effect';
+                thunder.style.left = (player.x - 50) + 'px';
+                thunder.style.top = (player.y - 100) + 'px';
+                document.getElementById('gameContainer').appendChild(thunder);
+                
+                // Remove thunder effect after animation
+                setTimeout(() => {
+                    if (thunder.parentNode) {
+                        thunder.parentNode.removeChild(thunder);
+                    }
+                }, 300);
+            }, 1000);
         }
 
         // Restart game
@@ -907,6 +1024,11 @@
                 lastShot: 0,
                 shootDelay: getShootDelay(selectedJet)
             };
+            
+            // Start thunder effect for Thunder X
+            if (selectedJet === 3) {
+                startThunderEffect();
+            }
             
             // Start background music
             backgroundMusic.play();
@@ -970,19 +1092,6 @@
             setTimeout(() => {
                 popup.remove();
             }, 2000);
-        }
-
-        // Toggle fullscreen
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
         }
 
         // Game loop
@@ -1053,21 +1162,36 @@
                     }
                 }
                 
+                // Check collision with obstacles (rocks and astronauts only)
+                for (let j = obstacles.length - 1; j >= 0; j--) {
+                    if (obstacles[j].type !== 'star' && checkCollision(playerBullets[i], obstacles[j])) {
+                        createExplosion(obstacles[j].x, obstacles[j].y, obstacles[j].color);
+                        obstacles.splice(j, 1);
+                        playerBullets.splice(i, 1);
+                        break;
+                    }
+                }
+                
                 // Check collision with boss
                 if (boss && checkCollision(playerBullets[i], boss)) {
                     if (cheatMode) {
-                        // One-shot kill boss in cheat mode
-                        createExplosion(boss.x, boss.y, boss.color);
-                        score += boss.points * 3; // 3x score in cheat mode
-                        boss = null;
-                        bossActive = false;
-                        document.getElementById('bossHealthContainer').style.display = 'none';
-                        wave++;
-                        document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
-                        document.getElementById('waveIndicator').style.display = 'block';
-                        setTimeout(() => {
-                            document.getElementById('waveIndicator').style.display = 'none';
-                        }, 3000);
+                        // In cheat mode, boss requires at least 50 hits
+                        boss.health--;
+                        document.getElementById('bossHealthBar').style.width = `${(boss.health / boss.maxHealth) * 100}%`;
+                        
+                        if (boss.health <= 0) {
+                            createExplosion(boss.x, boss.y, boss.color);
+                            score += boss.points * 3; // 3x score in cheat mode
+                            boss = null;
+                            bossActive = false;
+                            document.getElementById('bossHealthContainer').style.display = 'none';
+                            wave++;
+                            document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
+                            document.getElementById('waveIndicator').style.display = 'block';
+                            setTimeout(() => {
+                                document.getElementById('waveIndicator').style.display = 'none';
+                            }, 3000);
+                        }
                     } else {
                         boss.health--;
                         document.getElementById('bossHealthBar').style.width = `${(boss.health / boss.maxHealth) * 100}%`;
@@ -1102,7 +1226,7 @@
                 // Check collision with player
                 if (checkCollision(enemyBullets[i], player)) {
                     if (!cheatMode) {
-                        health -= 10;
+                        health -= 5; // Reduced damage for more hits
                         document.getElementById('healthFill').style.width = `${health}%`;
                         
                         if (health <= 0) {
@@ -1140,7 +1264,7 @@
                 // Check collision with player
                 if (checkCollision(enemies[i], player)) {
                     if (!cheatMode) {
-                        health -= 20;
+                        health -= 10;
                         document.getElementById('healthFill').style.width = `${health}%`;
                         
                         if (health <= 0) {
@@ -1199,7 +1323,12 @@
                 // Check collision with player
                 if (checkCollision(obstacles[i], player)) {
                     if (!cheatMode) {
-                        health -= 15;
+                        // Different damage based on obstacle type
+                        if (obstacles[i].type === 'star') {
+                            health -= 15;
+                        } else {
+                            health -= 10;
+                        }
                         document.getElementById('healthFill').style.width = `${health}%`;
                         
                         if (health <= 0) {
@@ -1490,6 +1619,12 @@
             const baseWidth = Math.min(150, canvas.width * 0.2);
             const baseHeight = Math.min(80, canvas.width * 0.1);
             
+            // Boss health increases with waves and is tougher in cheat mode
+            let bossHealth = 50 + wave * 10;
+            if (cheatMode) {
+                bossHealth = 50; // Minimum 50 hits required even in cheat mode
+            }
+            
             boss = {
                 x: canvas.width / 2 - baseWidth / 2,
                 y: 50,
@@ -1497,8 +1632,8 @@
                 height: baseHeight,
                 speedX: (3 + wave * 0.2) * (800 / canvas.width),
                 color: '#ff00ff',
-                health: 50 + wave * 10,
-                maxHealth: 50 + wave * 10,
+                health: bossHealth,
+                maxHealth: bossHealth,
                 points: 500
             };
             
@@ -1524,6 +1659,11 @@
             // Stop background music
             backgroundMusic.pause();
             backgroundMusic.currentTime = 0;
+            
+            // Stop thunder effect
+            if (thunderEffectInterval) {
+                clearInterval(thunderEffectInterval);
+            }
             
             // Play game over sound
             gameOverSound.play();

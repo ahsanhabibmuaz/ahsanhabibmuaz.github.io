@@ -312,6 +312,11 @@
             animation: fadeInOut 3s infinite alternate;
         }
 
+        #watermark a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+
         @keyframes fadeInOut {
             0% { opacity: 0.5; }
             100% { opacity: 1; }
@@ -350,6 +355,51 @@
 
         #shootButton {
             background: rgba(255, 0, 0, 0.2);
+        }
+
+        /* Pause Button */
+        #pauseButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Pause Menu */
+        #pauseMenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 20;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        /* RGB Glow for AXX 7 */
+        .rgb-glow {
+            animation: rgbGlow 2s infinite alternate;
+        }
+
+        @keyframes rgbGlow {
+            0% { box-shadow: 0 0 10px #ff0000; }
+            33% { box-shadow: 0 0 10px #00ff00; }
+            66% { box-shadow: 0 0 10px #0000ff; }
+            100% { box-shadow: 0 0 10px #ffff00; }
         }
 
         /* Mobile-specific adjustments */
@@ -538,29 +588,14 @@
             cursor: pointer;
             font-weight: bold;
         }
-
-        /* Thunder effect for Thunder X */
-        .thunder-effect {
-            position: absolute;
-            width: 100px;
-            height: 200px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 0, 0.5), transparent);
-            transform: skewX(-20deg);
-            animation: thunderFlash 0.3s infinite alternate;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        @keyframes thunderFlash {
-            0% { opacity: 0; }
-            100% { opacity: 0.7; }
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
+        
+        <button id="pauseButton" class="hidden">⏸️</button>
         
         <div id="uiContainer">
             <div class="uiElement">
@@ -601,7 +636,7 @@
                 </div>
                 <div class="jetOption locked" data-jet="3">
                     <div class="jetPreview">✈️</div>
-                    <div class="jetName">THUNDER X</div>
+                    <div class="jetName">AXX 7</div>
                 </div>
             </div>
             <button id="selectJetButton" class="button">SELECT</button>
@@ -627,13 +662,20 @@
                 <li>BOSS: 500 points</li>
             </ul>
             <p>Destroy rocks and astronauts, but avoid shooting stars!</p>
-            <p>Unlock the Thunder X at 1000 points!</p>
+            <p>Unlock the AXX 7 at 1000 points!</p>
             <button id="closeHelpButton" class="button">CLOSE</button>
+        </div>
+        
+        <!-- Pause Menu -->
+        <div id="pauseMenu" class="hidden">
+            <h2>GAME PAUSED</h2>
+            <button id="resumeButton" class="button">RESUME</button>
+            <button id="mainMenuButton" class="button">MAIN MENU</button>
         </div>
         
         <!-- Lock Popup -->
         <div id="lockPopup" class="hidden">
-            <h3>THUNDER X LOCKED</h3>
+            <h3>AXX 7 LOCKED</h3>
             <p>You need 1000 points to unlock this jet!</p>
             <p>Keep playing to earn more points.</p>
             <button id="closePopup">OK</button>
@@ -650,23 +692,24 @@
         </div>
         
         <div id="watermark">
-            Made With ❤️ by Muaz
+            Made With ❤️ by <a href="https://drift.rip/muaz" target="_blank">Muaz</a>
         </div>
         
-        <div id="helpCounter">Help presses: 0</div>
+        <div id="helpCounter">secret : 0</div>
     </div>
 
     <!-- Orientation Warning for Mobile -->
     <div id="orientationWarning">
         <h2>ROTATE YOUR DEVICE</h2>
         <p>This game works best in landscape mode</p>
-        <div id="copyright">© 2025 Air Strikes Fantom v5.0 by Muaz</div>
+        <div id="copyright">© 2025 Air Strikes Fantom v5.2 by Muaz</div>
     </div>
 
     <script>
         // Game variables
         let canvas, ctx;
         let gameActive = false;
+        let gamePaused = false;
         let player;
         let enemies = [];
         let enemyBullets = [];
@@ -690,7 +733,7 @@
         let wave = 1;
         let bossSpawnScore = 500;
         let backgroundMusic;
-        let thunderEffectInterval;
+        let rgbGlowInterval;
 
         // Load high score from localStorage
         if (localStorage.getItem('airStrikesHighScore')) {
@@ -729,6 +772,9 @@
             document.getElementById('selectJetButton').addEventListener('click', startGame);
             document.getElementById('restartButton').addEventListener('click', restartGame);
             document.getElementById('menuButton').addEventListener('click', showMainMenu);
+            document.getElementById('pauseButton').addEventListener('click', togglePause);
+            document.getElementById('resumeButton').addEventListener('click', togglePause);
+            document.getElementById('mainMenuButton').addEventListener('click', showMainMenu);
             document.getElementById('closePopup').addEventListener('click', closeLockPopup);
             
             // Jet selection
@@ -780,6 +826,7 @@
                 
                 // Reset preview
                 jetPreview.style.background = 'rgba(255, 255, 255, 0.1)';
+                jetPreview.classList.remove('rgb-glow');
                 
                 // Set colors based on jet type
                 if (jetType === 1) {
@@ -788,6 +835,7 @@
                     jetPreview.style.background = 'rgba(0, 255, 128, 0.3)';
                 } else if (jetType === 3) {
                     jetPreview.style.background = 'rgba(255, 255, 0, 0.3)';
+                    jetPreview.classList.add('rgb-glow');
                 }
             });
         }
@@ -812,6 +860,19 @@
             }
             
             showJetSelection();
+        }
+
+        // Toggle pause
+        function togglePause() {
+            gamePaused = !gamePaused;
+            
+            if (gamePaused) {
+                document.getElementById('pauseMenu').classList.remove('hidden');
+                backgroundMusic.pause();
+            } else {
+                document.getElementById('pauseMenu').classList.add('hidden');
+                backgroundMusic.play();
+            }
         }
 
         // Resize canvas to fit container
@@ -956,7 +1017,9 @@
         // Show main menu
         function showMainMenu() {
             document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('pauseMenu').classList.add('hidden');
             document.getElementById('gameTitle').classList.remove('hidden');
+            gamePaused = false;
             resetGame();
         }
 
@@ -973,6 +1036,9 @@
             gameActive = true;
             resetGame();
             
+            // Show pause button
+            document.getElementById('pauseButton').classList.remove('hidden');
+            
             // Create player
             player = {
                 x: canvas.width / 2,
@@ -985,41 +1051,33 @@
                 shootDelay: getShootDelay(selectedJet)
             };
             
-            // Start thunder effect for Thunder X
+            // Start RGB glow effect for AXX 7
             if (selectedJet === 3) {
-                startThunderEffect();
+                startRGBGlow();
             }
             
             // Start background music
             backgroundMusic.play();
         }
 
-        // Start thunder effect for Thunder X
-        function startThunderEffect() {
-            if (thunderEffectInterval) {
-                clearInterval(thunderEffectInterval);
+        // Start RGB glow effect for AXX 7
+        function startRGBGlow() {
+            if (rgbGlowInterval) {
+                clearInterval(rgbGlowInterval);
             }
             
-            thunderEffectInterval = setInterval(() => {
+            let colorIndex = 0;
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            
+            rgbGlowInterval = setInterval(() => {
                 if (!gameActive || selectedJet !== 3) {
-                    clearInterval(thunderEffectInterval);
+                    clearInterval(rgbGlowInterval);
                     return;
                 }
                 
-                // Create thunder effect element
-                const thunder = document.createElement('div');
-                thunder.className = 'thunder-effect';
-                thunder.style.left = (player.x - 50) + 'px';
-                thunder.style.top = (player.y - 100) + 'px';
-                document.getElementById('gameContainer').appendChild(thunder);
-                
-                // Remove thunder effect after animation
-                setTimeout(() => {
-                    if (thunder.parentNode) {
-                        thunder.parentNode.removeChild(thunder);
-                    }
-                }, 300);
-            }, 1000);
+                player.color = colors[colorIndex];
+                colorIndex = (colorIndex + 1) % colors.length;
+            }, 200);
         }
 
         // Restart game
@@ -1028,6 +1086,9 @@
             gameActive = true;
             resetGame();
             
+            // Show pause button
+            document.getElementById('pauseButton').classList.remove('hidden');
+            
             // Create player
             player = {
                 x: canvas.width / 2,
@@ -1040,9 +1101,9 @@
                 shootDelay: getShootDelay(selectedJet)
             };
             
-            // Start thunder effect for Thunder X
+            // Start RGB glow effect for AXX 7
             if (selectedJet === 3) {
-                startThunderEffect();
+                startRGBGlow();
             }
             
             // Start background music
@@ -1066,6 +1127,7 @@
             document.getElementById('healthFill').style.width = '100%';
             document.getElementById('bossHealthContainer').style.display = 'none';
             document.getElementById('waveIndicator').style.display = 'none';
+            document.getElementById('pauseButton').classList.add('hidden');
         }
 
         // Get jet color based on selection
@@ -1073,7 +1135,7 @@
             switch(jetType) {
                 case 1: return '#ff0000'; // Red
                 case 2: return '#00ff80'; // Green-Pinkish
-                case 3: return '#ffff00'; // Yellow
+                case 3: return '#ffff00'; // Yellow (will be overridden by RGB glow)
                 default: return '#ffffff';
             }
         }
@@ -1083,7 +1145,7 @@
             switch(jetType) {
                 case 1: return 300; // Same power for first two jets
                 case 2: return 300; // Same power for first two jets
-                case 3: return 150; // Faster for Thunder X
+                case 3: return 150; // Faster for AXX 7
                 default: return 300;
             }
         }
@@ -1111,7 +1173,7 @@
 
         // Game loop
         function gameLoop() {
-            if (gameActive) {
+            if (gameActive && !gamePaused) {
                 update();
                 render();
             }
@@ -1126,8 +1188,8 @@
             // Scale enemy spawn rate based on screen size and wave
             const spawnRate = 0.03 * (800 / canvas.width) * (1 + wave * 0.2);
             
-            // Spawn enemies
-            if (Math.random() < spawnRate) {
+            // Spawn enemies (only if boss is not active)
+            if (!bossActive && Math.random() < spawnRate) {
                 spawnEnemy();
             }
             
@@ -1278,7 +1340,7 @@
                         width: 4,
                         height: 10,
                         speed: 5,
-                        color: '#ff0000'
+                        color: enemies[i].color // Match bullet color to enemy color
                     });
                 }
                 
@@ -1491,20 +1553,48 @@
             ctx.fill();
         }
 
-        // Draw boss
+        // Draw boss (scary spider-like shape)
         function drawBoss(x, y, width, height, color) {
+            // Main body
             ctx.fillStyle = color;
-            ctx.fillRect(x, y, width, height);
+            ctx.beginPath();
+            ctx.ellipse(x + width/2, y + height/2, width/2, height/2, 0, 0, Math.PI * 2);
+            ctx.fill();
             
-            // Boss details
+            // Eyes
             ctx.fillStyle = '#000000';
-            ctx.fillRect(x + 10, y + 10, 20, 20);
-            ctx.fillRect(x + width - 30, y + 10, 20, 20);
+            ctx.beginPath();
+            ctx.arc(x + width/3, y + height/3, width/8, 0, Math.PI * 2);
+            ctx.arc(x + width*2/3, y + height/3, width/8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Mouth (scary teeth)
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.moveTo(x + width/3, y + height*2/3);
+            ctx.lineTo(x + width*2/3, y + height*2/3);
+            ctx.lineTo(x + width/2, y + height*3/4);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Legs
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3;
+            for (let i = 0; i < 4; i++) {
+                const angle = Math.PI/6 + (i * Math.PI/6);
+                ctx.beginPath();
+                ctx.moveTo(x + width/2, y + height);
+                ctx.lineTo(
+                    x + width/2 + Math.cos(angle) * width/2,
+                    y + height + Math.sin(angle) * width/2
+                );
+                ctx.stroke();
+            }
             
             // Boss glow
             ctx.shadowBlur = 20;
             ctx.shadowColor = color;
-            ctx.fillRect(x, y, width, height);
+            ctx.fill();
             ctx.shadowBlur = 0;
         }
 
@@ -1681,9 +1771,9 @@
             backgroundMusic.pause();
             backgroundMusic.currentTime = 0;
             
-            // Stop thunder effect
-            if (thunderEffectInterval) {
-                clearInterval(thunderEffectInterval);
+            // Stop RGB glow effect
+            if (rgbGlowInterval) {
+                clearInterval(rgbGlowInterval);
             }
             
             // Play game over sound
@@ -1692,7 +1782,7 @@
 
         // Handle keyboard input
         document.addEventListener('keydown', function(e) {
-            if (!gameActive || !player) return;
+            if (!gameActive || !player || gamePaused) return;
             
             // Player movement
             if ((e.key === 'ArrowLeft' || e.key === 'a') && player.x > 0) {
@@ -1711,6 +1801,11 @@
             // Shooting
             if (e.key === ' ' && Date.now() - player.lastShot > player.shootDelay) {
                 shoot();
+            }
+            
+            // Pause with P key
+            if (e.key === 'p' || e.key === 'P') {
+                togglePause();
             }
         });
 

@@ -157,16 +157,25 @@
             max-width: 500px;
         }
 
+        .jetsContainer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
         .jetOption {
-            display: inline-block;
-            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px;
             padding: 10px;
             border: 2px solid transparent;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
-            width: 120px;
-            position: relative;
+            width: 110px;
         }
 
         .jetOption:hover, .jetOption.selected {
@@ -188,8 +197,8 @@
         }
 
         .jetPreview {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             margin-bottom: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
@@ -197,6 +206,15 @@
             justify-content: center;
             align-items: center;
             font-size: 30px;
+        }
+
+        .jetName {
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            text-align: center;
         }
 
         #gameOverScreen {
@@ -356,8 +374,7 @@
             }
             
             .jetOption {
-                width: 100px;
-                margin: 5px;
+                width: 90px;
             }
             
             .jetPreview {
@@ -573,21 +590,19 @@
         
         <div id="jetSelection" class="hidden">
             <h2>SELECT YOUR FIGHTER JET</h2>
-            <div class="jetOption" data-jet="1">
-                <div class="jetPreview">🚀</div>
-                <div>NOVA C3</div>
-                <div>Fast & Agile</div>
-            </div>
-            <div class="jetOption" data-jet="2">
-                <div class="jetPreview">🛸</div>
-                <div>ROG 91</div>
-                <div>Balanced Power</div>
-            </div>
-            <div class="jetOption locked" data-jet="3">
-                <div class="jetPreview">✈️</div>
-                <div>THUNDER X</div>
-                <div>Heavy Firepower</div>
-                <div class="lockReason">Locked</div>
+            <div class="jetsContainer">
+                <div class="jetOption" data-jet="1">
+                    <div class="jetPreview">🚀</div>
+                    <div class="jetName">NOVA C3</div>
+                </div>
+                <div class="jetOption" data-jet="2">
+                    <div class="jetPreview">🛸</div>
+                    <div class="jetName">ROG 91</div>
+                </div>
+                <div class="jetOption locked" data-jet="3">
+                    <div class="jetPreview">✈️</div>
+                    <div class="jetName">THUNDER X</div>
+                </div>
             </div>
             <button id="selectJetButton" class="button">SELECT</button>
         </div>
@@ -645,7 +660,7 @@
     <div id="orientationWarning">
         <h2>ROTATE YOUR DEVICE</h2>
         <p>This game works best in landscape mode</p>
-        <div id="copyright">© 2025 Air Strikes Fantom v4.0 by Muaz</div>
+        <div id="copyright">© 2025 Air Strikes Fantom v5.0 by Muaz</div>
     </div>
 
     <script>
@@ -1066,9 +1081,9 @@
         // Get shoot delay based on jet type
         function getShootDelay(jetType) {
             switch(jetType) {
-                case 1: return 200; // Fast shooter
-                case 2: return 300; // Medium
-                case 3: return 150; // Fastest (premium jet)
+                case 1: return 300; // Same power for first two jets
+                case 2: return 300; // Same power for first two jets
+                case 3: return 150; // Faster for Thunder X
                 default: return 300;
             }
         }
@@ -1139,6 +1154,8 @@
                     continue;
                 }
                 
+                let bulletRemoved = false;
+                
                 // Check collision with enemies
                 for (let j = enemies.length - 1; j >= 0; j--) {
                     if (checkCollision(playerBullets[i], enemies[j])) {
@@ -1147,8 +1164,6 @@
                             createExplosion(enemies[j].x, enemies[j].y, enemies[j].color);
                             score += enemies[j].points * 3; // 3x score in cheat mode
                             enemies.splice(j, 1);
-                            playerBullets.splice(i, 1);
-                            break;
                         } else {
                             enemies[j].health--;
                             if (enemies[j].health <= 0) {
@@ -1156,11 +1171,14 @@
                                 score += enemies[j].points;
                                 enemies.splice(j, 1);
                             }
-                            playerBullets.splice(i, 1);
-                            break;
                         }
+                        playerBullets.splice(i, 1);
+                        bulletRemoved = true;
+                        break;
                     }
                 }
+                
+                if (bulletRemoved) continue;
                 
                 // Check collision with obstacles (rocks and astronauts only)
                 for (let j = obstacles.length - 1; j >= 0; j--) {
@@ -1168,9 +1186,12 @@
                         createExplosion(obstacles[j].x, obstacles[j].y, obstacles[j].color);
                         obstacles.splice(j, 1);
                         playerBullets.splice(i, 1);
+                        bulletRemoved = true;
                         break;
                     }
                 }
+                
+                if (bulletRemoved) continue;
                 
                 // Check collision with boss
                 if (boss && checkCollision(playerBullets[i], boss)) {

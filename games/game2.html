@@ -15,7 +15,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -86,6 +86,12 @@
             font-weight: bold;
             color: #00ffff;
             text-shadow: 0 0 10px #00ffff;
+        }
+
+        #highScore {
+            font-size: 14px;
+            color: #ff9900;
+            text-shadow: 0 0 5px #ff9900;
         }
 
         #gameTitle {
@@ -160,11 +166,25 @@
             cursor: pointer;
             transition: all 0.3s;
             width: 120px;
+            position: relative;
         }
 
         .jetOption:hover, .jetOption.selected {
             border-color: #00ffff;
             box-shadow: 0 0 15px #00ffff;
+        }
+
+        .jetOption.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .jetOption.locked::after {
+            content: "🔒";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
         }
 
         .jetPreview {
@@ -266,16 +286,18 @@
         #watermark {
             position: absolute;
             bottom: 10px;
-            width: 100%;
-            text-align: center;
+            right: 10px;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.2);
             z-index: 10;
+            animation: colorChange 3s infinite alternate;
         }
 
-        #watermark a {
-            color: #00ffff;
-            text-decoration: none;
+        @keyframes colorChange {
+            0% { color: rgba(255, 0, 0, 0.2); }
+            33% { color: rgba(0, 255, 0, 0.2); }
+            66% { color: rgba(0, 0, 255, 0.2); }
+            100% { color: rgba(255, 255, 0, 0.2); }
         }
 
         #helpCounter {
@@ -316,6 +338,25 @@
 
         #shootButton {
             background: rgba(255, 0, 0, 0.2);
+        }
+
+        /* Fullscreen button */
+        #fullscreenButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Mobile-specific adjustments */
@@ -433,11 +474,49 @@
                 display: flex;
             }
         }
+
+        /* Boss health bar */
+        #bossHealthContainer {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 10;
+            display: none;
+        }
+
+        #bossHealthBar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff9900);
+            width: 100%;
+            transition: width 0.3s;
+        }
+
+        /* Wave indicator */
+        #waveIndicator {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff00ff;
+            font-size: 18px;
+            text-shadow: 0 0 10px #ff00ff;
+            z-index: 10;
+            display: none;
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
+        
+        <button id="fullscreenButton">⛶</button>
         
         <div id="uiContainer">
             <div class="uiElement">
@@ -447,16 +526,23 @@
                 </div>
             </div>
             <div class="uiElement">
-                <div>SCORE:</div>
-                <div id="score">0</div>
+                <div>SCORE: <span id="score">0</span></div>
+                <div>HIGH: <span id="highScore">0</span></div>
             </div>
         </div>
+        
+        <div id="bossHealthContainer">
+            <div id="bossHealthBar"></div>
+        </div>
+        
+        <div id="waveIndicator">WAVE 1</div>
         
         <div id="gameTitle">
             <h1>AIR STRIKES FANTOM</h1>
             <p>by Muaz</p>
             <button id="playButton" class="button">PLAY</button>
             <button id="helpButton" class="button">HELP</button>
+            <button id="fullscreenBtn" class="button">FULL SCREEN</button>
         </div>
         
         <div id="jetSelection" class="hidden">
@@ -471,10 +557,11 @@
                 <div>PHANTOM X</div>
                 <div>Balanced Power</div>
             </div>
-            <div class="jetOption" data-jet="3">
+            <div class="jetOption locked" data-jet="3">
                 <div class="jetPreview">✈️</div>
                 <div>CYBER HAWK</div>
                 <div>Heavy Firepower</div>
+                <div class="lockReason">Unlock at 1000 points</div>
             </div>
             <button id="selectJetButton" class="button">SELECT</button>
         </div>
@@ -499,7 +586,7 @@
                 <li>BOSS: 500 points</li>
             </ul>
             <p>Watch out for shooting stars and space debris!</p>
-            <p><em>Tip: Press HELP 7 times to activate Cheat Mode!</em></p>
+            <p>Unlock the third jet at 1000 points!</p>
             <button id="closeHelpButton" class="button">CLOSE</button>
         </div>
         
@@ -514,7 +601,7 @@
         </div>
         
         <div id="watermark">
-            Made With ❤️ by <a href="https://ahsanhabibmuaz.github.io" target="_blank">Muaz</a>
+            Made With ❤️ by Muaz
         </div>
         
         <div id="helpCounter">Help presses: 0</div>
@@ -550,17 +637,28 @@
         let playerStartX = 0;
         let playerStartY = 0;
         let isTouching = false;
+        let highScore = 0;
+        let wave = 1;
+        let bossSpawnScore = 500;
+        let backgroundMusic;
 
-        // Audio elements (placeholder - you can add real sounds)
-        const shootSound = {
-            play: function() { /* Placeholder for sound */ }
-        };
-        const explosionSound = {
-            play: function() { /* Placeholder for sound */ }
-        };
-        const hitSound = {
-            play: function() { /* Placeholder for sound */ }
-        };
+        // Load high score from localStorage
+        if (localStorage.getItem('airStrikesHighScore')) {
+            highScore = parseInt(localStorage.getItem('airStrikesHighScore'));
+            document.getElementById('highScore').textContent = highScore;
+        }
+
+        // Sound effects
+        const shootSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const explosionSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const hitSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const gameOverSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const selectSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        
+        // Background music (placeholder - replace with actual music)
+        backgroundMusic = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        backgroundMusic.loop = true;
+        backgroundMusic.volume = 0.5;
 
         // Initialize game
         function init() {
@@ -581,11 +679,21 @@
             document.getElementById('selectJetButton').addEventListener('click', startGame);
             document.getElementById('restartButton').addEventListener('click', restartGame);
             document.getElementById('menuButton').addEventListener('click', showMainMenu);
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+            document.getElementById('fullscreenButton').addEventListener('click', toggleFullscreen);
             
             // Jet selection
             const jetOptions = document.querySelectorAll('.jetOption');
             jetOptions.forEach(option => {
                 option.addEventListener('click', function() {
+                    if (this.classList.contains('locked')) {
+                        if (score >= 1000 || cheatMode) {
+                            this.classList.remove('locked');
+                            selectSound.play();
+                        } else {
+                            return;
+                        }
+                    }
                     jetOptions.forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
                     selectedJet = parseInt(this.getAttribute('data-jet'));
@@ -697,17 +805,37 @@
 
         // Shoot function
         function shoot() {
-            playerBullets.push({
-                x: player.x + player.width / 2 - 3,
-                y: player.y,
-                width: 6,
-                height: 15,
-                speed: 8,
-                color: player.color
-            });
+            if (cheatMode) {
+                // Cheat mode: shoot 10 bullets in a spread pattern
+                for (let i = 0; i < 10; i++) {
+                    const angle = -Math.PI/4 + (i * Math.PI/18); // Spread from -45 to +45 degrees
+                    playerBullets.push({
+                        x: player.x + player.width / 2 - 3,
+                        y: player.y,
+                        width: 6,
+                        height: 15,
+                        speed: 8,
+                        color: player.color,
+                        vx: Math.sin(angle) * 2,
+                        vy: -Math.cos(angle) * 8
+                    });
+                }
+            } else {
+                playerBullets.push({
+                    x: player.x + player.width / 2 - 3,
+                    y: player.y,
+                    width: 6,
+                    height: 15,
+                    speed: 8,
+                    color: player.color,
+                    vx: 0,
+                    vy: -8
+                });
+            }
             player.lastShot = Date.now();
             
             // Play shoot sound
+            shootSound.currentTime = 0;
             shootSound.play();
         }
 
@@ -715,6 +843,12 @@
         function showJetSelection() {
             document.getElementById('gameTitle').classList.add('hidden');
             document.getElementById('jetSelection').classList.remove('hidden');
+            
+            // Update jet locks based on score
+            const jet3 = document.querySelector('.jetOption[data-jet="3"]');
+            if (score >= 1000 || cheatMode) {
+                jet3.classList.remove('locked');
+            }
         }
 
         // Show help screen
@@ -751,6 +885,9 @@
                 lastShot: 0,
                 shootDelay: getShootDelay(selectedJet)
             };
+            
+            // Start background music
+            backgroundMusic.play();
         }
 
         // Restart game
@@ -770,6 +907,9 @@
                 lastShot: 0,
                 shootDelay: getShootDelay(selectedJet)
             };
+            
+            // Start background music
+            backgroundMusic.play();
         }
 
         // Reset game state
@@ -783,15 +923,19 @@
             health = 100;
             boss = null;
             bossActive = false;
+            wave = 1;
+            bossSpawnScore = 500;
             document.getElementById('score').textContent = '0';
             document.getElementById('healthFill').style.width = '100%';
+            document.getElementById('bossHealthContainer').style.display = 'none';
+            document.getElementById('waveIndicator').style.display = 'none';
         }
 
         // Get jet color based on selection
         function getJetColor(jetType) {
             switch(jetType) {
-                case 1: return '#00ffff'; // Cyan
-                case 2: return '#ff00ff'; // Magenta
+                case 1: return '#ff0000'; // Red
+                case 2: return '#00ff80'; // Green-Pinkish
                 case 3: return '#ffff00'; // Yellow
                 default: return '#ffffff';
             }
@@ -802,7 +946,7 @@
             switch(jetType) {
                 case 1: return 200; // Fast shooter
                 case 2: return 300; // Medium
-                case 3: return 400; // Slow but powerful
+                case 3: return 150; // Fastest (premium jet)
                 default: return 300;
             }
         }
@@ -813,6 +957,10 @@
             health = 9999; // Unlimited health
             document.getElementById('healthFill').style.width = '100%';
             
+            // Unlock all jets
+            const jetOptions = document.querySelectorAll('.jetOption');
+            jetOptions.forEach(jet => jet.classList.remove('locked'));
+            
             // Show cheat mode popup
             const popup = document.createElement('div');
             popup.id = 'cheatPopup';
@@ -822,6 +970,19 @@
             setTimeout(() => {
                 popup.remove();
             }, 2000);
+        }
+
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
         }
 
         // Game loop
@@ -838,8 +999,8 @@
         function update() {
             if (!player) return;
             
-            // Scale enemy spawn rate based on screen size
-            const spawnRate = 0.03 * (800 / canvas.width);
+            // Scale enemy spawn rate based on screen size and wave
+            const spawnRate = 0.03 * (800 / canvas.width) * (1 + wave * 0.2);
             
             // Spawn enemies
             if (Math.random() < spawnRate) {
@@ -847,22 +1008,24 @@
             }
             
             // Spawn obstacles
-            if (Math.random() < 0.01) {
+            if (Math.random() < 0.01 * (1 + wave * 0.1)) {
                 spawnObstacle();
             }
             
             // Spawn boss if score is high enough
-            if (score >= 500 && !bossActive) {
+            if (score >= bossSpawnScore && !bossActive) {
                 spawnBoss();
                 bossActive = true;
+                bossSpawnScore += 500 * wave; // Increase next boss spawn score
             }
             
             // Update player bullets
             for (let i = playerBullets.length - 1; i >= 0; i--) {
-                playerBullets[i].y -= playerBullets[i].speed;
+                playerBullets[i].x += playerBullets[i].vx;
+                playerBullets[i].y += playerBullets[i].vy;
                 
                 // Remove if off screen
-                if (playerBullets[i].y < 0) {
+                if (playerBullets[i].y < 0 || playerBullets[i].x < 0 || playerBullets[i].x > canvas.width) {
                     playerBullets.splice(i, 1);
                     continue;
                 }
@@ -873,7 +1036,7 @@
                         // One-shot kill in cheat mode
                         if (cheatMode) {
                             createExplosion(enemies[j].x, enemies[j].y, enemies[j].color);
-                            score += enemies[j].points;
+                            score += enemies[j].points * 3; // 3x score in cheat mode
                             enemies.splice(j, 1);
                             playerBullets.splice(i, 1);
                             break;
@@ -895,16 +1058,31 @@
                     if (cheatMode) {
                         // One-shot kill boss in cheat mode
                         createExplosion(boss.x, boss.y, boss.color);
-                        score += boss.points;
+                        score += boss.points * 3; // 3x score in cheat mode
                         boss = null;
                         bossActive = false;
+                        document.getElementById('bossHealthContainer').style.display = 'none';
+                        wave++;
+                        document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
+                        document.getElementById('waveIndicator').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('waveIndicator').style.display = 'none';
+                        }, 3000);
                     } else {
                         boss.health--;
+                        document.getElementById('bossHealthBar').style.width = `${(boss.health / boss.maxHealth) * 100}%`;
                         if (boss.health <= 0) {
                             createExplosion(boss.x, boss.y, boss.color);
                             score += boss.points;
                             boss = null;
                             bossActive = false;
+                            document.getElementById('bossHealthContainer').style.display = 'none';
+                            wave++;
+                            document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
+                            document.getElementById('waveIndicator').style.display = 'block';
+                            setTimeout(() => {
+                                document.getElementById('waveIndicator').style.display = 'none';
+                            }, 3000);
                         }
                     }
                     playerBullets.splice(i, 1);
@@ -933,6 +1111,7 @@
                     }
                     enemyBullets.splice(i, 1);
                     createExplosion(player.x, player.y, '#ff0000');
+                    hitSound.play();
                 }
             }
             
@@ -947,7 +1126,7 @@
                 }
                 
                 // Enemy shooting
-                if (Math.random() < 0.01) {
+                if (Math.random() < 0.01 * (1 + wave * 0.1)) {
                     enemyBullets.push({
                         x: enemies[i].x + enemies[i].width / 2 - 2,
                         y: enemies[i].y + enemies[i].height,
@@ -970,6 +1149,7 @@
                     }
                     createExplosion(enemies[i].x, enemies[i].y, enemies[i].color);
                     enemies.splice(i, 1);
+                    hitSound.play();
                 }
             }
             
@@ -982,15 +1162,18 @@
                 }
                 
                 // Boss shooting
-                if (Math.random() < 0.05) {
-                    enemyBullets.push({
-                        x: boss.x + boss.width / 2 - 4,
-                        y: boss.y + boss.height,
-                        width: 8,
-                        height: 20,
-                        speed: 4,
-                        color: '#ff0000'
-                    });
+                if (Math.random() < 0.05 * (1 + wave * 0.2)) {
+                    // Boss shoots multiple bullets in a spread
+                    for (let i = 0; i < 3; i++) {
+                        enemyBullets.push({
+                            x: boss.x + boss.width / 2 - 4 + (i-1)*20,
+                            y: boss.y + boss.height,
+                            width: 8,
+                            height: 20,
+                            speed: 4,
+                            color: '#ff0000'
+                        });
+                    }
                 }
                 
                 // Check collision with player
@@ -1025,6 +1208,7 @@
                     }
                     createExplosion(obstacles[i].x, obstacles[i].y, obstacles[i].color);
                     obstacles.splice(i, 1);
+                    hitSound.play();
                 }
             }
             
@@ -1041,6 +1225,13 @@
             
             // Update score display
             document.getElementById('score').textContent = score;
+            
+            // Update high score if needed
+            if (score > highScore) {
+                highScore = score;
+                document.getElementById('highScore').textContent = highScore;
+                localStorage.setItem('airStrikesHighScore', highScore);
+            }
         }
 
         // Render game
@@ -1076,18 +1267,6 @@
             // Draw boss
             if (boss) {
                 drawBoss(boss.x, boss.y, boss.width, boss.height, boss.color);
-                
-                // Draw boss health bar
-                const barWidth = canvas.width * 0.25;
-                const barHeight = 10;
-                const barX = canvas.width / 2 - barWidth / 2;
-                const barY = 20;
-                
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fillRect(barX, barY, barWidth, barHeight);
-                
-                ctx.fillStyle = '#ff0000';
-                ctx.fillRect(barX, barY, (boss.health / boss.maxHealth) * barWidth, barHeight);
             }
             
             // Draw obstacles
@@ -1241,6 +1420,7 @@
                     alpha: 1
                 });
             }
+            explosionSound.play();
         }
 
         // Spawn enemy
@@ -1258,7 +1438,7 @@
                     y: -30,
                     width: baseSize,
                     height: baseSize,
-                    speed: 2 * (600 / canvas.height),
+                    speed: (2 + wave * 0.2) * (600 / canvas.height),
                     color: '#ff0000',
                     health: 1,
                     points: 10
@@ -1270,7 +1450,7 @@
                     y: -30,
                     width: baseSize * 1.3,
                     height: baseSize * 1.3,
-                    speed: 1.5 * (600 / canvas.height),
+                    speed: (1.5 + wave * 0.2) * (600 / canvas.height),
                     color: '#0000ff',
                     health: 2,
                     points: 20
@@ -1293,7 +1473,7 @@
                 y: -30,
                 width: baseSize,
                 height: baseSize,
-                speed: 3 * (600 / canvas.height),
+                speed: (3 + wave * 0.2) * (600 / canvas.height),
                 type: type
             };
             
@@ -1315,12 +1495,16 @@
                 y: 50,
                 width: baseWidth,
                 height: baseHeight,
-                speedX: 3 * (800 / canvas.width),
+                speedX: (3 + wave * 0.2) * (800 / canvas.width),
                 color: '#ff00ff',
-                health: 50,
-                maxHealth: 50,
+                health: 50 + wave * 10,
+                maxHealth: 50 + wave * 10,
                 points: 500
             };
+            
+            // Show boss health bar
+            document.getElementById('bossHealthContainer').style.display = 'block';
+            document.getElementById('bossHealthBar').style.width = '100%';
         }
 
         // Check collision between two objects
@@ -1336,6 +1520,13 @@
             gameActive = false;
             document.getElementById('finalScore').textContent = `SCORE: ${score}`;
             document.getElementById('gameOverScreen').classList.remove('hidden');
+            
+            // Stop background music
+            backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
+            
+            // Play game over sound
+            gameOverSound.play();
         }
 
         // Handle keyboard input

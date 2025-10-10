@@ -2,13 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Air Strikes Fantom</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -20,20 +26,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            touch-action: none;
         }
 
         #gameContainer {
             position: relative;
-            width: 800px;
-            height: 600px;
+            width: 100%;
+            height: 100%;
+            max-width: 800px;
+            max-height: 600px;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-            border-radius: 10px;
             overflow: hidden;
         }
 
         #gameCanvas {
             background: radial-gradient(ellipse at center, #0a0e2a 0%, #000000 100%);
             display: block;
+            width: 100%;
+            height: 100%;
         }
 
         #uiContainer {
@@ -41,36 +51,38 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 15px;
+            padding: 10px;
             display: flex;
             justify-content: space-between;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
+            z-index: 10;
         }
 
         .uiElement {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 14px;
         }
 
         .healthBar {
-            width: 200px;
-            height: 20px;
+            width: 120px;
+            height: 15px;
             background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            border-radius: 7px;
             overflow: hidden;
         }
 
         .healthFill {
             height: 100%;
             background: linear-gradient(90deg, #ff0000, #ff9900);
-            border-radius: 10px;
+            border-radius: 7px;
             transition: width 0.3s;
         }
 
         #score {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
             color: #00ffff;
             text-shadow: 0 0 10px #00ffff;
@@ -83,37 +95,39 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 10;
+            width: 90%;
         }
 
         #gameTitle h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: clamp(28px, 8vw, 48px);
+            margin-bottom: 15px;
             color: #00ffff;
             text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         #gameTitle p {
-            font-size: 18px;
-            margin-bottom: 30px;
+            font-size: clamp(14px, 4vw, 18px);
+            margin-bottom: 20px;
             color: #ff00ff;
             text-shadow: 0 0 10px #ff00ff;
         }
 
         .button {
-            padding: 12px 30px;
-            font-size: 18px;
+            padding: 10px 25px;
+            font-size: 16px;
             background: linear-gradient(45deg, #ff00ff, #00ffff);
             border: none;
             border-radius: 50px;
             color: white;
             cursor: pointer;
-            margin: 10px;
+            margin: 8px;
             transition: all 0.3s;
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+            min-width: 120px;
         }
 
-        .button:hover {
+        .button:hover, .button:active {
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 255, 255, 1);
         }
@@ -130,19 +144,22 @@
             text-align: center;
             z-index: 10;
             background: rgba(0, 0, 0, 0.8);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 15px;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            width: 90%;
+            max-width: 500px;
         }
 
         .jetOption {
             display: inline-block;
-            margin: 20px;
-            padding: 15px;
+            margin: 10px;
+            padding: 10px;
             border: 2px solid transparent;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
+            width: 120px;
         }
 
         .jetOption:hover, .jetOption.selected {
@@ -151,15 +168,15 @@
         }
 
         .jetPreview {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 10px;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 40px;
+            font-size: 30px;
         }
 
         #gameOverScreen {
@@ -170,15 +187,17 @@
             text-align: center;
             z-index: 10;
             background: rgba(0, 0, 0, 0.8);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 15px;
             box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
         }
 
         #finalScore {
-            font-size: 36px;
+            font-size: 28px;
             color: #ff9900;
-            margin: 20px 0;
+            margin: 15px 0;
             text-shadow: 0 0 10px #ff9900;
         }
 
@@ -190,33 +209,37 @@
             text-align: center;
             z-index: 10;
             background: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 20px;
+            border-radius: 15px;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         #helpScreen h2 {
             color: #00ffff;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 0 0 10px #00ffff;
         }
 
         #helpScreen p {
-            margin: 10px 0;
+            margin: 8px 0;
             text-align: left;
             line-height: 1.5;
+            font-size: 14px;
         }
 
         #helpScreen ul {
             text-align: left;
-            margin: 15px 0;
+            margin: 12px 0;
             padding-left: 20px;
         }
 
         #helpScreen li {
-            margin: 8px 0;
+            margin: 6px 0;
+            font-size: 14px;
         }
 
         #cheatPopup {
@@ -225,7 +248,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             box-shadow: 0 0 20px #00ff00;
             z-index: 20;
@@ -245,8 +268,9 @@
             bottom: 10px;
             width: 100%;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
+            z-index: 10;
         }
 
         #watermark a {
@@ -258,14 +282,162 @@
             position: absolute;
             bottom: 30px;
             right: 10px;
-            font-size: 12px;
+            font-size: 10px;
             color: rgba(255, 255, 255, 0.3);
+            z-index: 10;
+        }
+
+        /* Touch Controls */
+        #touchControls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .touchArea {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 24px;
+            pointer-events: auto;
+        }
+
+        #shootButton {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .uiElement {
+                font-size: 12px;
+            }
+            
+            .healthBar {
+                width: 100px;
+                height: 12px;
+            }
+            
+            #score {
+                font-size: 14px;
+            }
+            
+            .button {
+                padding: 8px 20px;
+                font-size: 14px;
+                min-width: 100px;
+            }
+            
+            .jetOption {
+                width: 100px;
+                margin: 5px;
+            }
+            
+            .jetPreview {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .touchArea {
+                width: 80px;
+                height: 80px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .uiElement {
+                font-size: 10px;
+            }
+            
+            .healthBar {
+                width: 80px;
+                height: 10px;
+            }
+            
+            #score {
+                font-size: 12px;
+            }
+            
+            .button {
+                padding: 6px 15px;
+                font-size: 12px;
+                min-width: 80px;
+                margin: 5px;
+            }
+            
+            .jetOption {
+                width: 80px;
+            }
+            
+            .jetPreview {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .touchArea {
+                width: 70px;
+                height: 70px;
+                font-size: 16px;
+            }
+        }
+
+        /* Orientation warning for mobile */
+        #orientationWarning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #orientationWarning h2 {
+            color: #ff9900;
+            margin-bottom: 20px;
+        }
+
+        #orientationWarning p {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        /* Hide orientation warning by default */
+        #orientationWarning {
+            display: none;
+        }
+
+        /* Show orientation warning only in portrait mode on mobile */
+        @media (max-width: 768px) and (orientation: portrait) {
+            #orientationWarning {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
     <div id="gameContainer">
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <canvas id="gameCanvas"></canvas>
         
         <div id="uiContainer">
             <div class="uiElement">
@@ -316,8 +488,8 @@
         
         <div id="helpScreen" class="hidden">
             <h2>GAME CONTROLS & RULES</h2>
-            <p>Use <strong>ARROW KEYS</strong> or <strong>WASD</strong> to move your fighter jet</p>
-            <p>Press <strong>SPACEBAR</strong> to shoot</p>
+            <p><strong>DESKTOP:</strong> Use ARROW KEYS or WASD to move, SPACEBAR to shoot</p>
+            <p><strong>MOBILE:</strong> Touch and drag to move, tap SHOOT button to fire</p>
             <p>Avoid enemy bullets and obstacles</p>
             <p>Destroy enemies to earn points</p>
             <p>Defeat the BOSS for massive points!</p>
@@ -327,7 +499,18 @@
                 <li>BOSS: 500 points</li>
             </ul>
             <p>Watch out for shooting stars and space debris!</p>
+            <p><em>Tip: Press HELP 7 times to activate Cheat Mode!</em></p>
             <button id="closeHelpButton" class="button">CLOSE</button>
+        </div>
+        
+        <!-- Touch Controls for Mobile -->
+        <div id="touchControls" class="hidden">
+            <div class="touchArea" id="moveArea">
+                <div>MOVE</div>
+            </div>
+            <div class="touchArea" id="shootButton">
+                <div>SHOOT</div>
+            </div>
         </div>
         
         <div id="watermark">
@@ -335,6 +518,13 @@
         </div>
         
         <div id="helpCounter">Help presses: 0</div>
+    </div>
+
+    <!-- Orientation Warning for Mobile -->
+    <div id="orientationWarning">
+        <h2>PLEASE ROTATE YOUR DEVICE</h2>
+        <p>This game works best in landscape mode</p>
+        <p>Please rotate your device to continue</p>
     </div>
 
     <script>
@@ -354,16 +544,35 @@
         let bossActive = false;
         let helpPressCount = 0;
         let cheatMode = false;
+        let isMobile = false;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let playerStartX = 0;
+        let playerStartY = 0;
+        let isTouching = false;
 
-        // Audio elements
-        const shootSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
-        const explosionSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
-        const hitSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        // Audio elements (placeholder - you can add real sounds)
+        const shootSound = {
+            play: function() { /* Placeholder for sound */ }
+        };
+        const explosionSound = {
+            play: function() { /* Placeholder for sound */ }
+        };
+        const hitSound = {
+            play: function() { /* Placeholder for sound */ }
+        };
 
         // Initialize game
         function init() {
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
+            
+            // Detect mobile device
+            isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // Set canvas size based on container
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
             
             // Set up event listeners
             document.getElementById('playButton').addEventListener('click', showJetSelection);
@@ -396,8 +605,110 @@
             // Set initial jet selection
             jetOptions[0].classList.add('selected');
             
+            // Setup touch controls if mobile
+            if (isMobile) {
+                setupTouchControls();
+            }
+            
             // Start game loop
             gameLoop();
+        }
+
+        // Resize canvas to fit container
+        function resizeCanvas() {
+            const container = document.getElementById('gameContainer');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            
+            // Update player position if game is active
+            if (gameActive && player) {
+                player.x = Math.min(player.x, canvas.width - player.width);
+                player.y = Math.min(player.y, canvas.height - player.height);
+            }
+        }
+
+        // Setup touch controls for mobile
+        function setupTouchControls() {
+            const moveArea = document.getElementById('moveArea');
+            const shootButton = document.getElementById('shootButton');
+            const touchControls = document.getElementById('touchControls');
+            
+            // Show touch controls
+            touchControls.classList.remove('hidden');
+            
+            // Move area touch events
+            moveArea.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                playerStartX = player.x;
+                playerStartY = player.y;
+                isTouching = true;
+            });
+            
+            moveArea.addEventListener('touchmove', function(e) {
+                if (!isTouching) return;
+                e.preventDefault();
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - touchStartX;
+                const deltaY = touch.clientY - touchStartY;
+                
+                // Update player position with sensitivity adjustment
+                player.x = Math.max(0, Math.min(canvas.width - player.width, playerStartX + deltaX * 1.5));
+                player.y = Math.max(0, Math.min(canvas.height - player.height, playerStartY + deltaY * 1.5));
+            });
+            
+            moveArea.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                isTouching = false;
+            });
+            
+            // Shoot button
+            shootButton.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                if (gameActive && player && Date.now() - player.lastShot > player.shootDelay) {
+                    shoot();
+                }
+            });
+            
+            // Continuous shooting when holding
+            shootButton.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+            });
+            
+            let shootInterval;
+            shootButton.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                // Start shooting when button is pressed
+                shootInterval = setInterval(function() {
+                    if (gameActive && player && Date.now() - player.lastShot > player.shootDelay) {
+                        shoot();
+                    }
+                }, player ? player.shootDelay : 300);
+            });
+            
+            shootButton.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                // Stop shooting when button is released
+                clearInterval(shootInterval);
+            });
+        }
+
+        // Shoot function
+        function shoot() {
+            playerBullets.push({
+                x: player.x + player.width / 2 - 3,
+                y: player.y,
+                width: 6,
+                height: 15,
+                speed: 8,
+                color: player.color
+            });
+            player.lastShot = Date.now();
+            
+            // Play shoot sound
+            shootSound.play();
         }
 
         // Show jet selection screen
@@ -433,8 +744,8 @@
             player = {
                 x: canvas.width / 2,
                 y: canvas.height - 100,
-                width: 50,
-                height: 50,
+                width: Math.min(50, canvas.width * 0.06),
+                height: Math.min(50, canvas.width * 0.06),
                 speed: 6,
                 color: getJetColor(selectedJet),
                 lastShot: 0,
@@ -452,8 +763,8 @@
             player = {
                 x: canvas.width / 2,
                 y: canvas.height - 100,
-                width: 50,
-                height: 50,
+                width: Math.min(50, canvas.width * 0.06),
+                height: Math.min(50, canvas.width * 0.06),
                 speed: 6,
                 color: getJetColor(selectedJet),
                 lastShot: 0,
@@ -527,8 +838,11 @@
         function update() {
             if (!player) return;
             
+            // Scale enemy spawn rate based on screen size
+            const spawnRate = 0.03 * (800 / canvas.width);
+            
             // Spawn enemies
-            if (Math.random() < 0.03) {
+            if (Math.random() < spawnRate) {
                 spawnEnemy();
             }
             
@@ -635,7 +949,7 @@
                 // Enemy shooting
                 if (Math.random() < 0.01) {
                     enemyBullets.push({
-                        x: enemies[i].x,
+                        x: enemies[i].x + enemies[i].width / 2 - 2,
                         y: enemies[i].y + enemies[i].height,
                         width: 4,
                         height: 10,
@@ -670,7 +984,7 @@
                 // Boss shooting
                 if (Math.random() < 0.05) {
                     enemyBullets.push({
-                        x: boss.x + boss.width / 2,
+                        x: boss.x + boss.width / 2 - 4,
                         y: boss.y + boss.height,
                         width: 8,
                         height: 20,
@@ -764,7 +1078,7 @@
                 drawBoss(boss.x, boss.y, boss.width, boss.height, boss.color);
                 
                 // Draw boss health bar
-                const barWidth = 200;
+                const barWidth = canvas.width * 0.25;
                 const barHeight = 10;
                 const barX = canvas.width / 2 - barWidth / 2;
                 const barY = 20;
@@ -796,24 +1110,24 @@
             
             // Jet body
             ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x - width/2, y + height);
-            ctx.lineTo(x + width/2, y + height);
+            ctx.moveTo(x + width/2, y);
+            ctx.lineTo(x, y + height);
+            ctx.lineTo(x + width, y + height);
             ctx.closePath();
             ctx.fill();
             
             // Jet wings
             ctx.beginPath();
-            ctx.moveTo(x - width/2, y + height/2);
-            ctx.lineTo(x - width, y + height);
-            ctx.lineTo(x - width/2, y + height);
+            ctx.moveTo(x, y + height/2);
+            ctx.lineTo(x - width/3, y + height);
+            ctx.lineTo(x, y + height);
             ctx.closePath();
             ctx.fill();
             
             ctx.beginPath();
-            ctx.moveTo(x + width/2, y + height/2);
+            ctx.moveTo(x + width, y + height/2);
+            ctx.lineTo(x + width + width/3, y + height);
             ctx.lineTo(x + width, y + height);
-            ctx.lineTo(x + width/2, y + height);
             ctx.closePath();
             ctx.fill();
             
@@ -829,7 +1143,7 @@
             ctx.fillStyle = color;
             ctx.shadowBlur = 10;
             ctx.shadowColor = color;
-            ctx.fillRect(x - width/2, y, width, height);
+            ctx.fillRect(x, y, width, height);
             ctx.shadowBlur = 0;
         }
 
@@ -837,14 +1151,14 @@
         function drawEnemy(x, y, width, height, color) {
             ctx.fillStyle = color;
             ctx.beginPath();
-            ctx.arc(x, y, width/2, 0, Math.PI * 2);
+            ctx.arc(x + width/2, y + height/2, width/2, 0, Math.PI * 2);
             ctx.fill();
             
             // Enemy details
             ctx.fillStyle = '#000000';
             ctx.beginPath();
-            ctx.arc(x - width/4, y - height/4, width/8, 0, Math.PI * 2);
-            ctx.arc(x + width/4, y - height/4, width/8, 0, Math.PI * 2);
+            ctx.arc(x + width/4, y + height/4, width/8, 0, Math.PI * 2);
+            ctx.arc(x + width*3/4, y + height/4, width/8, 0, Math.PI * 2);
             ctx.fill();
         }
 
@@ -870,15 +1184,15 @@
             if (type === 'rock') {
                 ctx.fillStyle = '#888888';
                 ctx.beginPath();
-                ctx.arc(x, y, width/2, 0, Math.PI * 2);
+                ctx.arc(x + width/2, y + height/2, width/2, 0, Math.PI * 2);
                 ctx.fill();
             } else if (type === 'star') {
                 ctx.fillStyle = '#ffff00';
                 ctx.beginPath();
                 for (let i = 0; i < 5; i++) {
                     const angle = (i * 2 * Math.PI) / 5;
-                    const spikeX = x + Math.cos(angle) * width/2;
-                    const spikeY = y + Math.sin(angle) * width/2;
+                    const spikeX = x + width/2 + Math.cos(angle) * width/2;
+                    const spikeY = y + height/2 + Math.sin(angle) * width/2;
                     if (i === 0) {
                         ctx.moveTo(spikeX, spikeY);
                     } else {
@@ -890,14 +1204,14 @@
             } else if (type === 'astronaut') {
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
-                ctx.arc(x, y, width/2, 0, Math.PI * 2);
+                ctx.arc(x + width/2, y + height/2, width/2, 0, Math.PI * 2);
                 ctx.fill();
                 
                 // Astronaut details
                 ctx.fillStyle = '#000000';
                 ctx.beginPath();
-                ctx.arc(x - width/4, y, width/8, 0, Math.PI * 2);
-                ctx.arc(x + width/4, y, width/8, 0, Math.PI * 2);
+                ctx.arc(x + width/4, y + height/2, width/8, 0, Math.PI * 2);
+                ctx.arc(x + width*3/4, y + height/2, width/8, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
@@ -934,14 +1248,17 @@
             const type = Math.random();
             let enemy;
             
+            // Scale enemy size based on screen size
+            const baseSize = Math.min(30, canvas.width * 0.04);
+            
             if (type < 0.7) {
                 // Basic enemy
                 enemy = {
-                    x: Math.random() * (canvas.width - 40) + 20,
+                    x: Math.random() * (canvas.width - baseSize*2) + baseSize,
                     y: -30,
-                    width: 30,
-                    height: 30,
-                    speed: 2,
+                    width: baseSize,
+                    height: baseSize,
+                    speed: 2 * (600 / canvas.height),
                     color: '#ff0000',
                     health: 1,
                     points: 10
@@ -949,11 +1266,11 @@
             } else {
                 // Advanced enemy
                 enemy = {
-                    x: Math.random() * (canvas.width - 40) + 20,
+                    x: Math.random() * (canvas.width - baseSize*1.5) + baseSize*0.75,
                     y: -30,
-                    width: 40,
-                    height: 40,
-                    speed: 1.5,
+                    width: baseSize * 1.3,
+                    height: baseSize * 1.3,
+                    speed: 1.5 * (600 / canvas.height),
                     color: '#0000ff',
                     health: 2,
                     points: 20
@@ -968,12 +1285,15 @@
             const types = ['rock', 'star', 'astronaut'];
             const type = types[Math.floor(Math.random() * types.length)];
             
+            // Scale obstacle size based on screen size
+            const baseSize = Math.min(30, canvas.width * 0.04);
+            
             const obstacle = {
-                x: Math.random() * (canvas.width - 30) + 15,
+                x: Math.random() * (canvas.width - baseSize) + baseSize/2,
                 y: -30,
-                width: 30,
-                height: 30,
-                speed: 3,
+                width: baseSize,
+                height: baseSize,
+                speed: 3 * (600 / canvas.height),
                 type: type
             };
             
@@ -986,12 +1306,16 @@
 
         // Spawn boss
         function spawnBoss() {
+            // Scale boss size based on screen size
+            const baseWidth = Math.min(150, canvas.width * 0.2);
+            const baseHeight = Math.min(80, canvas.width * 0.1);
+            
             boss = {
-                x: canvas.width / 2 - 75,
+                x: canvas.width / 2 - baseWidth / 2,
                 y: 50,
-                width: 150,
-                height: 80,
-                speedX: 3,
+                width: baseWidth,
+                height: baseHeight,
+                speedX: 3 * (800 / canvas.width),
                 color: '#ff00ff',
                 health: 50,
                 maxHealth: 50,
@@ -1034,19 +1358,7 @@
             
             // Shooting
             if (e.key === ' ' && Date.now() - player.lastShot > player.shootDelay) {
-                playerBullets.push({
-                    x: player.x,
-                    y: player.y,
-                    width: 6,
-                    height: 15,
-                    speed: 8,
-                    color: player.color
-                });
-                player.lastShot = Date.now();
-                
-                // Play shoot sound
-                shootSound.currentTime = 0;
-                shootSound.play();
+                shoot();
             }
         });
 

@@ -357,10 +357,10 @@
             background: rgba(255, 0, 0, 0.2);
         }
 
-        /* Pause Button */
+        /* Pause Button - Fixed position */
         #pauseButton {
             position: absolute;
-            top: 10px;
+            top: 60px;
             right: 10px;
             background: rgba(0, 0, 0, 0.5);
             border: none;
@@ -402,6 +402,28 @@
             100% { box-shadow: 0 0 10px #ffff00; }
         }
 
+        /* Shield indicator */
+        #shieldIndicator {
+            position: absolute;
+            top: 10px;
+            right: 60px;
+            font-size: 20px;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+            z-index: 15;
+            display: none;
+        }
+
+        /* Shield effect around player */
+        .shield-effect {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+            pointer-events: none;
+            z-index: 5;
+        }
+
         /* Mobile-specific adjustments */
         @media (max-width: 768px) {
             .uiElement {
@@ -436,6 +458,15 @@
             .touchArea {
                 width: 80px;
                 height: 80px;
+                font-size: 18px;
+            }
+
+            #pauseButton {
+                top: 50px;
+            }
+
+            #shieldIndicator {
+                right: 50px;
                 font-size: 18px;
             }
         }
@@ -474,6 +505,18 @@
             .touchArea {
                 width: 70px;
                 height: 70px;
+                font-size: 16px;
+            }
+
+            #pauseButton {
+                top: 45px;
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            #shieldIndicator {
+                right: 45px;
                 font-size: 16px;
             }
         }
@@ -610,6 +653,8 @@
             </div>
         </div>
         
+        <div id="shieldIndicator" class="hidden">🛡️</div>
+        
         <div id="bossHealthContainer">
             <div id="bossHealthBar"></div>
         </div>
@@ -662,6 +707,8 @@
                 <li>BOSS: 500 points</li>
             </ul>
             <p>Destroy rocks and astronauts, but avoid shooting stars!</p>
+            <p>Collect medkits (🔋) to restore 50% health</p>
+            <p>Collect shields (🛡️) for 20 seconds of invincibility</p>
             <p>Unlock the AXX 7 at 1000 points!</p>
             <button id="closeHelpButton" class="button">CLOSE</button>
         </div>
@@ -702,7 +749,7 @@
     <div id="orientationWarning">
         <h2>ROTATE YOUR DEVICE, MF</h2>
         <p>This game works best in landscape mode</p>
-        <div id="copyright">© 2025 Air Strikes Fantom v5.2 by Muaz</div>
+        <div id="copyright">© 2025 Air Strikes Fantom v6.0 by Muaz</div>
     </div>
 
     <script>
@@ -716,6 +763,8 @@
         let playerBullets = [];
         let particles = [];
         let obstacles = [];
+        let medkits = [];
+        let shields = [];
         let score = 0;
         let health = 100;
         let selectedJet = 1;
@@ -734,6 +783,9 @@
         let bossSpawnScore = 500;
         let backgroundMusic;
         let rgbGlowInterval;
+        let shieldActive = false;
+        let shieldEndTime = 0;
+        let shieldElement = null;
 
         // Load high score from localStorage
         if (localStorage.getItem('airStrikesHighScore')) {
@@ -747,6 +799,7 @@
         const hitSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
         const gameOverSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
         const selectSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
+        const powerupSound = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
         
         // Background music (placeholder - replace with actual music)
         backgroundMusic = new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==");
@@ -1051,6 +1104,12 @@
                 shootDelay: getShootDelay(selectedJet)
             };
             
+            // Create shield element
+            shieldElement = document.createElement('div');
+            shieldElement.className = 'shield-effect';
+            shieldElement.style.display = 'none';
+            document.getElementById('gameContainer').appendChild(shieldElement);
+            
             // Start RGB glow effect for AXX 7
             if (selectedJet === 3) {
                 startRGBGlow();
@@ -1101,6 +1160,14 @@
                 shootDelay: getShootDelay(selectedJet)
             };
             
+            // Create shield element
+            if (!shieldElement) {
+                shieldElement = document.createElement('div');
+                shieldElement.className = 'shield-effect';
+                shieldElement.style.display = 'none';
+                document.getElementById('gameContainer').appendChild(shieldElement);
+            }
+            
             // Start RGB glow effect for AXX 7
             if (selectedJet === 3) {
                 startRGBGlow();
@@ -1117,17 +1184,26 @@
             playerBullets = [];
             particles = [];
             obstacles = [];
+            medkits = [];
+            shields = [];
             score = 0;
             health = 100;
             boss = null;
             bossActive = false;
             wave = 1;
             bossSpawnScore = 500;
+            shieldActive = false;
+            shieldEndTime = 0;
             document.getElementById('score').textContent = '0';
             document.getElementById('healthFill').style.width = '100%';
             document.getElementById('bossHealthContainer').style.display = 'none';
             document.getElementById('waveIndicator').style.display = 'none';
+            document.getElementById('shieldIndicator').style.display = 'none';
             document.getElementById('pauseButton').classList.add('hidden');
+            
+            if (shieldElement) {
+                shieldElement.style.display = 'none';
+            }
         }
 
         // Get jet color based on selection
@@ -1185,6 +1261,34 @@
         function update() {
             if (!player) return;
             
+            // Update wave based on score
+            const newWave = Math.floor(score / 100) + 1;
+            if (newWave > wave) {
+                wave = newWave;
+                document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
+                document.getElementById('waveIndicator').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('waveIndicator').style.display = 'none';
+                }, 3000);
+                
+                // Spawn medkit on every wave
+                spawnMedkit();
+                
+                // Spawn shield every 3 waves
+                if (wave % 3 === 0) {
+                    spawnShield();
+                }
+            }
+            
+            // Check shield status
+            if (shieldActive && Date.now() > shieldEndTime) {
+                shieldActive = false;
+                document.getElementById('shieldIndicator').style.display = 'none';
+                if (shieldElement) {
+                    shieldElement.style.display = 'none';
+                }
+            }
+            
             // Scale enemy spawn rate based on screen size and wave
             const spawnRate = 0.03 * (800 / canvas.width) * (1 + wave * 0.2);
             
@@ -1198,11 +1302,11 @@
                 spawnObstacle();
             }
             
-            // Spawn boss if score is high enough
-            if (score >= bossSpawnScore && !bossActive) {
+            // Spawn boss every 5 waves (first at wave 5, then 10, 15, etc.)
+            if (wave % 5 === 0 && !bossActive && score >= bossSpawnScore) {
                 spawnBoss();
                 bossActive = true;
-                bossSpawnScore += 500 * wave; // Increase next boss spawn score
+                bossSpawnScore += 500; // Increase next boss spawn score
             }
             
             // Update player bullets
@@ -1268,12 +1372,6 @@
                             boss = null;
                             bossActive = false;
                             document.getElementById('bossHealthContainer').style.display = 'none';
-                            wave++;
-                            document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
-                            document.getElementById('waveIndicator').style.display = 'block';
-                            setTimeout(() => {
-                                document.getElementById('waveIndicator').style.display = 'none';
-                            }, 3000);
                         }
                     } else {
                         boss.health--;
@@ -1284,12 +1382,6 @@
                             boss = null;
                             bossActive = false;
                             document.getElementById('bossHealthContainer').style.display = 'none';
-                            wave++;
-                            document.getElementById('waveIndicator').textContent = `WAVE ${wave}`;
-                            document.getElementById('waveIndicator').style.display = 'block';
-                            setTimeout(() => {
-                                document.getElementById('waveIndicator').style.display = 'none';
-                            }, 3000);
                         }
                     }
                     playerBullets.splice(i, 1);
@@ -1308,7 +1400,7 @@
                 
                 // Check collision with player
                 if (checkCollision(enemyBullets[i], player)) {
-                    if (!cheatMode) {
+                    if (!cheatMode && !shieldActive) {
                         health -= 5; // Reduced damage for more hits
                         document.getElementById('healthFill').style.width = `${health}%`;
                         
@@ -1346,7 +1438,7 @@
                 
                 // Check collision with player
                 if (checkCollision(enemies[i], player)) {
-                    if (!cheatMode) {
+                    if (!cheatMode && !shieldActive) {
                         health -= 10;
                         document.getElementById('healthFill').style.width = `${health}%`;
                         
@@ -1385,7 +1477,7 @@
                 
                 // Check collision with player
                 if (checkCollision(boss, player)) {
-                    if (!cheatMode) {
+                    if (!cheatMode && !shieldActive) {
                         health = 0;
                         document.getElementById('healthFill').style.width = '0%';
                         gameOver();
@@ -1405,7 +1497,7 @@
                 
                 // Check collision with player
                 if (checkCollision(obstacles[i], player)) {
-                    if (!cheatMode) {
+                    if (!cheatMode && !shieldActive) {
                         // Different damage based on obstacle type
                         if (obstacles[i].type === 'star') {
                             health -= 15;
@@ -1424,6 +1516,44 @@
                 }
             }
             
+            // Update medkits
+            for (let i = medkits.length - 1; i >= 0; i--) {
+                medkits[i].y += medkits[i].speed;
+                
+                // Remove if off screen
+                if (medkits[i].y > canvas.height) {
+                    medkits.splice(i, 1);
+                    continue;
+                }
+                
+                // Check collision with player
+                if (checkCollision(medkits[i], player)) {
+                    if (health < 100) {
+                        health = Math.min(100, health + 50); // Add 50% health, max 100
+                        document.getElementById('healthFill').style.width = `${health}%`;
+                        powerupSound.play();
+                    }
+                    medkits.splice(i, 1);
+                }
+            }
+            
+            // Update shields
+            for (let i = shields.length - 1; i >= 0; i--) {
+                shields[i].y += shields[i].speed;
+                
+                // Remove if off screen
+                if (shields[i].y > canvas.height) {
+                    shields.splice(i, 1);
+                    continue;
+                }
+                
+                // Check collision with player
+                if (checkCollision(shields[i], player)) {
+                    activateShield();
+                    shields.splice(i, 1);
+                }
+            }
+            
             // Update particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].x += particles[i].vx;
@@ -1433,6 +1563,14 @@
                 if (particles[i].alpha <= 0) {
                     particles.splice(i, 1);
                 }
+            }
+            
+            // Update shield element position
+            if (shieldElement && shieldActive) {
+                shieldElement.style.left = `${player.x - 15}px`;
+                shieldElement.style.top = `${player.y - 15}px`;
+                shieldElement.style.width = `${player.width + 30}px`;
+                shieldElement.style.height = `${player.height + 30}px`;
             }
             
             // Update score display
@@ -1484,6 +1622,16 @@
             // Draw obstacles
             obstacles.forEach(obstacle => {
                 drawObstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height, obstacle.type);
+            });
+            
+            // Draw medkits
+            medkits.forEach(medkit => {
+                drawMedkit(medkit.x, medkit.y, medkit.width, medkit.height);
+            });
+            
+            // Draw shields
+            shields.forEach(shield => {
+                drawShield(shield.x, shield.y, shield.width, shield.height);
             });
             
             // Draw particles
@@ -1635,6 +1783,44 @@
             }
         }
 
+        // Draw medkit
+        function drawMedkit(x, y, width, height) {
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(x, y, width, height);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(x + width/4, y + height/4, width/2, height/2);
+            
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(x + width/3, y + height/3, width/3, height/3);
+            
+            // Glow effect
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ff0000';
+            ctx.fillRect(x, y, width, height);
+            ctx.shadowBlur = 0;
+        }
+
+        // Draw shield
+        function drawShield(x, y, width, height) {
+            ctx.fillStyle = '#00ffff';
+            ctx.beginPath();
+            ctx.arc(x + width/2, y + height/2, width/2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Shield details
+            ctx.fillStyle = '#0000aa';
+            ctx.beginPath();
+            ctx.arc(x + width/2, y + height/2, width/3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Glow effect
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#00ffff';
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
         // Draw stars in background
         function drawStars() {
             for (let i = 0; i < 100; i++) {
@@ -1724,14 +1910,70 @@
             obstacles.push(obstacle);
         }
 
+        // Spawn medkit
+        function spawnMedkit() {
+            const baseSize = Math.min(30, canvas.width * 0.04);
+            
+            const medkit = {
+                x: Math.random() * (canvas.width - baseSize) + baseSize/2,
+                y: -30,
+                width: baseSize,
+                height: baseSize,
+                speed: 2 * (600 / canvas.height) // Slow speed for collection
+            };
+            
+            medkits.push(medkit);
+        }
+
+        // Spawn shield
+        function spawnShield() {
+            const baseSize = Math.min(30, canvas.width * 0.04);
+            
+            const shield = {
+                x: Math.random() * (canvas.width - baseSize) + baseSize/2,
+                y: -30,
+                width: baseSize,
+                height: baseSize,
+                speed: 2 * (600 / canvas.height) // Slow speed for collection
+            };
+            
+            shields.push(shield);
+        }
+
+        // Activate shield
+        function activateShield() {
+            shieldActive = true;
+            shieldEndTime = Date.now() + 20000; // 20 seconds
+            
+            // Show shield indicator
+            document.getElementById('shieldIndicator').style.display = 'block';
+            
+            // Show shield effect around player
+            if (shieldElement) {
+                shieldElement.style.display = 'block';
+                shieldElement.style.left = `${player.x - 15}px`;
+                shieldElement.style.top = `${player.y - 15}px`;
+                shieldElement.style.width = `${player.width + 30}px`;
+                shieldElement.style.height = `${player.height + 30}px`;
+            }
+            
+            powerupSound.play();
+        }
+
         // Spawn boss
         function spawnBoss() {
             // Scale boss size based on screen size
             const baseWidth = Math.min(150, canvas.width * 0.2);
             const baseHeight = Math.min(80, canvas.width * 0.1);
             
-            // Boss health increases with waves and is tougher in cheat mode
-            let bossHealth = 50 + wave * 10;
+            // Boss health increases with waves
+            let bossHealth = 30 + wave * 5; // First boss (wave 5) has 55 health
+            
+            // Special case for second boss (wave 10)
+            if (wave === 10) {
+                bossHealth = 70; // Second boss is stronger
+            }
+            
             if (cheatMode) {
                 bossHealth = 50; // Minimum 50 hits required even in cheat mode
             }
@@ -1774,6 +2016,11 @@
             // Stop RGB glow effect
             if (rgbGlowInterval) {
                 clearInterval(rgbGlowInterval);
+            }
+            
+            // Hide shield effect
+            if (shieldElement) {
+                shieldElement.style.display = 'none';
             }
             
             // Play game over sound

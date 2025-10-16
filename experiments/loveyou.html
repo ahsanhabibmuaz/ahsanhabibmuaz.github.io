@@ -1,284 +1,230 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Happy Birthday — Fireworks Letters</title>
-<style>
-  html,body { height:100%; margin:0; background:#0b0b10; }
-  canvas { display:block; width:100%; height:100%; }
-  .credit {
-    position:fixed; left:12px; bottom:12px; color:#aaa; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    font-size:12px;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You Nana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        canvas {
+            display: block;
+        }
+        
+        .loading {
+            position: absolute;
+            color: #fff;
+            font-size: 24px;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+        
+        .hidden {
+            opacity: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .loading {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
-<canvas id="c"></canvas>
-<div class="credit">Happy Birthday — animation by Muaz</div>
+    <div class="loading">Loading...</div>
+    <canvas id="canvas"></canvas>
 
-<script>
-(() => {
-  const canvas = document.getElementById('c');
-  const ctx = canvas.getContext('2d', { alpha: false });
+    <script>
+        // Configuration
+        const opts = {
+            charSize: 30,
+            fireworkSpawnTime: 60,
+            fireworkSpeed: 0.05,
+            letterSpacing: 40,
+            fireworkHeight: 100,
+            gravity: 0.2,
+            bounce: 0.8
+        };
 
-  // Options (tweak sizes/speeds here)
-  const opts = {
-    charSize: 96,
-    fontFamily: 'Inter, Roboto, system-ui, Arial',
-    fireworkSpawnTime: 6,   // ticks before spawn
-    fireworkSpeed: 6,       // pixels per tick (initial)
-    gravity: 0.36,
-    particleCount: 40,
-    particleFriction: 0.98,
-    letterGlow: 0.9,
-    letterSpacing: 8,
-    bgColor: [8,8,12],      // dark background RGB
-    sparkChance: 0.02
-  };
-
-  let W = 0, H = 0, hh = 0;
-  function resize() {
-    canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
-    canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
-    canvas.style.width = window.innerWidth + 'px';
-    canvas.style.height = window.innerHeight + 'px';
-    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); // make drawing easy
-    W = canvas.width / devicePixelRatio;
-    H = canvas.height / devicePixelRatio;
-    hh = H; // used as ground (fireworks start from bottom)
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  // The message
-  const message = "HAPPY BIRTHDAY";
-
-  // Pre-calc letter metrics
-  ctx.font = `${opts.charSize}px ${opts.fontFamily}`;
-  let calc = { totalWidth: 0, widths: [] };
-  for (let i = 0; i < message.length; i++) {
-    const ch = message[i];
-    const w = ctx.measureText(ch).width;
-    calc.widths.push(w);
-    calc.totalWidth += w + (i ? opts.letterSpacing : 0);
-  }
-
-  // Layout letters centered horizontally & vertically (slightly above center)
-  const startX = (W - calc.totalWidth) / 2;
-  const baselineY = H * 0.45; // target baseline for letters
-  let letters = [];
-  let xcursor = startX;
-  for (let i = 0; i < message.length; i++) {
-    const w = calc.widths[i];
-    const ch = message[i];
-    const cx = xcursor + w / 2; // center x for letter
-    const cy = baselineY;       // target y
-    letters.push(new Letter(ch, cx, cy));
-    xcursor += w + opts.letterSpacing;
-  }
-
-  // Particle helper
-  function Particle(x, y, hue) {
-    this.x = x;
-    this.y = y;
-    this.vx = (Math.random() - 0.5) * 6;
-    this.vy = (Math.random() - 0.9) * 6;
-    this.alpha = 1;
-    this.size = 1 + Math.random() * 2;
-    this.color = `hsla(${hue},85%,55%,alp)`;
-  }
-  Particle.prototype.step = function () {
-    this.vx *= opts.particleFriction;
-    this.vy += opts.gravity * 0.05;
-    this.x += this.vx;
-    this.y += this.vy;
-    this.alpha -= 0.02 + Math.random() * 0.01;
-  };
-
-  // Use your original constructor idea but corrected and expanded
-  function Letter(char, x, y) {
-    this.char = char;
-    this.x = x;            // center x of the letter
-    this.y = y;            // target baseline y
-    // center-draw offsets (we will draw centered)
-    ctx.font = `${opts.charSize}px ${opts.fontFamily}`;
-    this.dx = -ctx.measureText(char).width / 2;
-    this.dy = opts.charSize / 2; // to position baseline nicely
-    // firework start Y (from bottom with small random offset)
-    this.startY = H + 30 + Math.random() * 80;
-    this.currentY = this.startY;
-    // hue based on x position across total width
-    const hue = (x / calc.totalWidth) * 360;
-    this.hue = hue;
-    this.color = `hsl(${hue},80%,50%)`;
-    this.lightColor = `hsl(${hue},80%,70%)`;
-    this.alphaColor = `hsla(${hue},80%,50%,alp)`;
-    // state
-    this.reset();
-  }
-
-  Letter.prototype.reset = function () {
-    this.phase = "waiting"; // waiting -> firework -> spawn -> show
-    this.tick = 0;
-    this.spawned = false;
-    this.spawningTime = (opts.fireworkSpawnTime * Math.random()) | 0;
-    this.vy = - (opts.fireworkSpeed + Math.random() * 2); // vertical velocity upward
-    this.trail = []; // trail points for the firework
-    this.particles = [];
-    // small offset so letters don't all launch at once
-    this.launchDelay = Math.floor(Math.random() * 90);
-  };
-
-  Letter.prototype.step = function () {
-    this.tick++;
-    if (this.launchDelay > 0) { this.launchDelay--; return; }
-
-    if (this.phase === "waiting") {
-      this.phase = "firework";
-    }
-
-    if (this.phase === "firework") {
-      // move upward toward targetY
-      this.currentY += this.vy;
-      this.vy += opts.gravity * 0.03; // gravity slows ascent
-      this.trail.push({ x: this.x, y: this.currentY });
-      if (this.trail.length > 14) this.trail.shift();
-
-      // check arrival (if passed target y)
-      if (this.currentY <= this.y + 6) {
-        this.phase = "spawn";
-        this.spawnTick = 0;
-        // create radial particles
-        for (let i = 0; i < opts.particleCount; i++) {
-          this.particles.push(new Particle(this.x, this.y - this.dy/2, this.hue));
+        // Canvas setup
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, hh, hw;
+        
+        // Letters array
+        let letters = [];
+        
+        // Text to display
+        const text = "I LOVE YOU NANA";
+        
+        // Initialize
+        function init() {
+            resizeCanvas();
+            createLetters();
+            animate();
+            
+            // Hide loading text after 1.5 seconds
+            setTimeout(() => {
+                document.querySelector('.loading').classList.add('hidden');
+            }, 1500);
         }
-      }
-    } else if (this.phase === "spawn") {
-      // particles animation
-      this.spawnTick++;
-      for (let p of this.particles) {
-        p.step();
-      }
-      // remove dead particles
-      this.particles = this.particles.filter(p => p.alpha > 0.02);
-      if (this.spawnTick > 45 || this.particles.length === 0) {
-        this.phase = "show";
-        this.floatTick = 0;
-      }
-    } else if (this.phase === "show") {
-      // gentle float motion
-      this.floatTick++;
-      // small random sparkling
-      if (Math.random() < opts.sparkChance) {
-        this.particles.push(new Particle(this.x + (Math.random()-0.5)*40, this.y - this.dy/2 + (Math.random()-0.5)*8, this.hue));
-      }
-      for (let p of this.particles) p.step();
-      this.particles = this.particles.filter(p => p.alpha > 0.02);
-    }
-  };
-
-  Letter.prototype.draw = function (ctx) {
-    if (this.launchDelay > 0) return;
-
-    if (this.phase === "firework") {
-      // draw trail
-      for (let i = 0; i < this.trail.length; i++) {
-        const t = this.trail[i];
-        const alpha = i / this.trail.length;
-        ctx.fillStyle = `rgba(255,255,255,${0.06 + alpha * 0.6})`;
-        ctx.beginPath();
-        ctx.arc(t.x, t.y, 1.2 + alpha * 2.4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      // head bright dot
-      ctx.beginPath();
-      ctx.fillStyle = this.color;
-      ctx.arc(this.x, this.currentY, 3 + Math.random()*1.5, 0, Math.PI*2);
-      ctx.fill();
-    }
-
-    if (this.phase === "spawn" || this.phase === "show") {
-      // draw particles
-      for (let p of this.particles) {
-        ctx.beginPath();
-        const a = Math.max(0, Math.min(1, p.alpha));
-        ctx.fillStyle = p.color.replace('alp', a.toFixed(2));
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // draw letter with glow
-      ctx.save();
-      ctx.font = `${opts.charSize}px ${opts.fontFamily}`;
-      // outer glow
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.shadowBlur = 18;
-      ctx.shadowColor = this.lightColor;
-      ctx.fillStyle = this.color;
-      // slight vertical bobbing
-      const bob = Math.sin((this.floatTick || 0) * 0.06 + this.x * 0.02) * 2;
-      ctx.fillText(this.char, this.x + this.dx, this.y + bob);
-      ctx.shadowBlur = 0;
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.restore();
-    }
-  };
-
-  // Animation loop
-  let frames = 0;
-  function step() {
-    frames++;
-    // fade background with slight motion blur
-    const bg = opts.bgColor;
-    ctx.fillStyle = `rgba(${bg[0]},${bg[1]},${bg[2]},0.18)`;
-    ctx.fillRect(0,0,W,H);
-
-    // occasionally add tiny background sparkles
-    if (Math.random() < 0.02) {
-      ctx.fillStyle = 'rgba(255,255,255,0.06)';
-      ctx.fillRect(Math.random()*W, Math.random()*H, 2, 2);
-    }
-
-    // update + draw
-    for (let L of letters) {
-      L.step();
-      L.draw(ctx);
-    }
-
-    // finish: after a while, show a gentle banner-like glow behind the whole message
-    if (frames > 900) { // after ~15s at 60fps
-      ctx.save();
-      ctx.globalCompositeOperation = 'lighter';
-      const centerX = W/2, centerY = H/2 - 20;
-      const grad = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, Math.max(W,H));
-      grad.addColorStop(0, 'rgba(255,255,255,0.04)');
-      grad.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0,0,W,H);
-      ctx.restore();
-    }
-
-    requestAnimationFrame(step);
-  }
-
-  // Clear screen initial
-  ctx.fillStyle = `rgb(${opts.bgColor.join(',')})`;
-  ctx.fillRect(0,0,W,H);
-
-  // Start animation
-  requestAnimationFrame(step);
-
-  // Optional: click to relaunch/reset
-  window.addEventListener('click', () => {
-    for (let L of letters) {
-      L.startY = H + 20 + Math.random()*80;
-      L.currentY = L.startY;
-      L.reset();
-    }
-  });
-
-})();
-</script>
+        
+        // Resize canvas to fit window
+        function resizeCanvas() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            hh = h / 2;
+            hw = w / 2;
+        }
+        
+        // Letter constructor
+        function Letter(char, x, y) {
+            this.char = char;
+            this.x = x;
+            this.y = y;
+            this.dx = -ctx.measureText(char).width / 2;
+            this.dy = opts.charSize / 2;
+            this.fireworkDy = this.y - opts.fireworkHeight;
+            this.targetY = y;
+            
+            // Color based on position
+            const hue = (x / w) * 360;
+            this.color = `hsl(${hue}, 80%, 50%)`;
+            this.lightColor = `hsl(${hue}, 80%, 70%)`;
+            this.alphaColor = `hsla(${hue}, 80%, 50%, 0.7)`;
+            
+            this.reset();
+        }
+        
+        // Reset letter for animation
+        Letter.prototype.reset = function() {
+            this.phase = "firework";
+            this.tick = 0;
+            this.spawned = false;
+            this.spawningTime = (opts.fireworkSpawnTime * Math.random()) | 0;
+            this.y = h + 50; // Start below the screen
+            this.velocityY = -15 - Math.random() * 10;
+        };
+        
+        // Update letter position
+        Letter.prototype.update = function() {
+            if (this.phase === "firework") {
+                if (!this.spawned) {
+                    this.tick++;
+                    if (this.tick >= this.spawningTime) {
+                        this.spawned = true;
+                    }
+                    return;
+                }
+                
+                // Move up for firework effect
+                this.y += this.velocityY;
+                this.velocityY += opts.gravity;
+                
+                // When reaching target height, switch to falling
+                if (this.velocityY >= 0 && this.y <= this.targetY) {
+                    this.phase = "falling";
+                    this.velocityY = 0;
+                }
+            } else if (this.phase === "falling") {
+                // Apply gravity
+                this.velocityY += opts.gravity;
+                this.y += this.velocityY;
+                
+                // Bounce when hitting the target position
+                if (this.y >= this.targetY) {
+                    this.y = this.targetY;
+                    this.velocityY = -this.velocityY * opts.bounce;
+                    
+                    // Stop bouncing when velocity is small
+                    if (Math.abs(this.velocityY) < 0.5) {
+                        this.velocityY = 0;
+                        this.phase = "rest";
+                    }
+                }
+            }
+        };
+        
+        // Draw letter
+        Letter.prototype.draw = function() {
+            ctx.save();
+            
+            if (this.phase === "firework" && this.spawned) {
+                // Firework trail
+                ctx.fillStyle = this.alphaColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y + 10, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Glow effect
+                ctx.shadowColor = this.lightColor;
+                ctx.shadowBlur = 15;
+            }
+            
+            // Draw the letter
+            ctx.fillStyle = this.color;
+            ctx.font = `bold ${opts.charSize}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(this.char, this.x, this.y);
+            
+            ctx.restore();
+        };
+        
+        // Create letters from text
+        function createLetters() {
+            letters = [];
+            const totalWidth = (text.length - 1) * opts.letterSpacing;
+            const startX = (w - totalWidth) / 2;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (char === ' ') continue; // Skip spaces
+                
+                const x = startX + i * opts.letterSpacing;
+                const y = hh;
+                
+                letters.push(new Letter(char, x, y));
+            }
+        }
+        
+        // Animation loop
+        function animate() {
+            // Clear canvas with fade effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, w, h);
+            
+            // Update and draw letters
+            letters.forEach(letter => {
+                letter.update();
+                letter.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createLetters();
+        });
+        
+        // Start animation after 1.8 seconds (within 2 seconds as requested)
+        setTimeout(init, 1800);
+    </script>
 </body>
 </html>

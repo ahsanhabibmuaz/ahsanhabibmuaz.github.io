@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Love You Nana</title>
+    <title>For My Nana ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,249 +13,288 @@
         }
         
         body {
-            background: #000000;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
         }
         
-        canvas {
-            display: block;
-        }
-        
-        .loading {
-            position: absolute;
-            color: #ff3366;
-            font-size: 48px;
-            opacity: 1;
-            transition: opacity 1s ease;
-            text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+            position: relative;
             z-index: 10;
         }
         
-        .hidden {
-            opacity: 0;
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
+            z-index: 1;
         }
         
-        @media (max-width: 768px) {
-            .loading {
-                font-size: 36px;
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff3366, #ff758c);
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff3366, #ff758c);
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(45deg) scale(0);
+                opacity: 0;
             }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(45deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 51, 102, 0.8), 0 0 30px rgba(255, 51, 102, 0.6);
+            }
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 2s ease-out;
+        }
+        
+        .proposal {
+            font-size: 2.2rem;
+            margin: 40px 0;
+            font-weight: bold;
+            color: #ff758c;
+            text-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin-top: 30px;
+            color: #ffd3d3;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        .flowers {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="%23ff3366" opacity="0.2" d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill"></path></svg>');
+            background-size: cover;
+            z-index: 5;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .message {
+                font-size: 1.2rem;
+            }
+            
+            .proposal {
+                font-size: 1.8rem;
+            }
+            
+            .signature {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Special effects for interactive elements */
+        .interactive {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive:hover {
+            transform: scale(1.05);
+        }
+        
+        .hidden-message {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 117, 140, 0.2);
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 1s ease-out;
         }
     </style>
 </head>
 <body>
-    <div class="loading">&#x2764;&#xFE0F;</div>
-    <canvas id="canvas"></canvas>
+    <div class="heart-bg" id="heartContainer"></div>
+    <div class="flowers"></div>
+    
+    <div class="container">
+        <h1>For My Dearest Nana</h1>
+        
+        <div class="message">
+            <p>From the moment we met, my life has been filled with colors I never knew existed.</p>
+            <p>Every day with you feels like a beautiful dream I never want to wake up from.</p>
+        </div>
+        
+        <div class="proposal interactive" id="proposal">
+            Will you be mine forever?
+        </div>
+        
+        <div class="hidden-message" id="hiddenMessage">
+            <p>You are the missing piece I've been searching for my whole life.</p>
+            <p>Together, we can create a lifetime of beautiful memories.</p>
+        </div>
+        
+        <div class="signature">With all my love,<br>Your Best Friend</div>
+    </div>
+    
+    <div class="footer">
+        Made with &#x2764;&#xFE0F; by Muaz
+    </div>
 
     <script>
-        // Configuration
-        const opts = {
-            charSize: 30,
-            fireworkSpawnTime: 40,
-            fireworkSpeed: 0.08,
-            letterSpacing: 35,
-            fireworkHeight: 100,
-            gravity: 0.25,
-            bounce: 0.7
-        };
-
-        // Canvas setup
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let w, h, hh, hw;
-        
-        // Letters array
-        let letters = [];
-        
-        // Text to display
-        const text = "I LOVE YOU NANA";
-        
-        // Initialize
-        function init() {
-            resizeCanvas();
-            createLetters();
-            animate();
+        // Create floating hearts
+        function createHearts() {
+            const heartContainer = document.getElementById('heartContainer');
+            const heartCount = 30;
             
-            // Hide loading text after 1.5 seconds
-            setTimeout(() => {
-                document.querySelector('.loading').classList.add('hidden');
-            }, 1500);
-        }
-        
-        // Resize canvas to fit window
-        function resizeCanvas() {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-            hh = h / 2;
-            hw = w / 2;
-        }
-        
-        // Letter constructor
-        function Letter(char, x, y) {
-            this.char = char;
-            this.x = x;
-            this.y = y;
-            this.dx = -ctx.measureText(char).width / 2;
-            this.dy = opts.charSize / 2;
-            this.fireworkDy = this.y - opts.fireworkHeight;
-            this.targetY = y;
-            
-            // Color based on position
-            const hue = (x / w) * 360;
-            this.color = `hsl(${hue}, 80%, 50%)`;
-            this.lightColor = `hsl(${hue}, 80%, 70%)`;
-            this.alphaColor = `hsla(${hue}, 80%, 50%, 0.7)`;
-            
-            this.reset();
-        }
-        
-        // Reset letter for animation
-        Letter.prototype.reset = function() {
-            this.phase = "firework";
-            this.tick = 0;
-            this.spawned = false;
-            this.spawningTime = (opts.fireworkSpawnTime * Math.random()) | 0;
-            this.y = h + 50; // Start below the screen
-            this.velocityY = -15 - Math.random() * 10;
-        };
-        
-        // Update letter position
-        Letter.prototype.update = function() {
-            if (this.phase === "firework") {
-                if (!this.spawned) {
-                    this.tick++;
-                    if (this.tick >= this.spawningTime) {
-                        this.spawned = true;
-                    }
-                    return;
-                }
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
                 
-                // Move up for firework effect
-                this.y += this.velocityY;
-                this.velocityY += opts.gravity;
+                // Random properties for each heart
+                const size = Math.random() * 20 + 10;
+                const left = Math.random() * 100;
+                const animationDelay = Math.random() * 5;
+                const animationDuration = Math.random() * 3 + 5;
                 
-                // When reaching target height, switch to falling
-                if (this.velocityY >= 0 && this.y <= this.targetY) {
-                    this.phase = "falling";
-                    this.velocityY = 0;
-                }
-            } else if (this.phase === "falling") {
-                // Apply gravity
-                this.velocityY += opts.gravity;
-                this.y += this.velocityY;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.left = `${left}%`;
+                heart.style.animationDelay = `${animationDelay}s`;
+                heart.style.animationDuration = `${animationDuration}s`;
                 
-                // Bounce when hitting the target position
-                if (this.y >= this.targetY) {
-                    this.y = this.targetY;
-                    this.velocityY = -this.velocityY * opts.bounce;
-                    
-                    // Stop bouncing when velocity is small
-                    if (Math.abs(this.velocityY) < 0.5) {
-                        this.velocityY = 0;
-                        this.phase = "rest";
-                    }
-                }
-            }
-        };
-        
-        // Draw letter
-        Letter.prototype.draw = function() {
-            ctx.save();
-            
-            if (this.phase === "firework" && this.spawned) {
-                // Firework trail
-                ctx.fillStyle = this.alphaColor;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y + 10, 3, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Glow effect
-                ctx.shadowColor = this.lightColor;
-                ctx.shadowBlur = 15;
-            }
-            
-            // Draw the letter
-            ctx.fillStyle = this.color;
-            ctx.font = `bold ${opts.charSize}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(this.char, this.x, this.y);
-            
-            ctx.restore();
-        };
-        
-        // Create letters from text
-        function createLetters() {
-            letters = [];
-            
-            // Calculate the total width needed for the text
-            ctx.font = `bold ${opts.charSize}px Arial`;
-            let totalWidth = 0;
-            
-            // Calculate total width of all characters with spacing
-            for (let i = 0; i < text.length; i++) {
-                totalWidth += ctx.measureText(text[i]).width;
-                if (i < text.length - 1) {
-                    totalWidth += opts.letterSpacing;
-                }
-            }
-            
-            // Adjust letter spacing if text is too wide
-            let letterSpacing = opts.letterSpacing;
-            if (totalWidth > w * 0.9) {
-                const textWidthWithoutSpacing = totalWidth - (text.length - 1) * opts.letterSpacing;
-                letterSpacing = (w * 0.9 - textWidthWithoutSpacing) / (text.length - 1);
-                totalWidth = textWidthWithoutSpacing + (text.length - 1) * letterSpacing;
-            }
-            
-            // Calculate starting position to center the text
-            let currentX = (w - totalWidth) / 2;
-            
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                if (char === ' ') {
-                    currentX += ctx.measureText(' ').width + letterSpacing;
-                    continue;
-                }
-                
-                const charWidth = ctx.measureText(char).width;
-                const x = currentX + charWidth / 2;
-                const y = hh;
-                
-                letters.push(new Letter(char, x, y));
-                
-                currentX += charWidth + letterSpacing;
+                heartContainer.appendChild(heart);
             }
         }
         
-        // Animation loop
-        function animate() {
-            // Clear canvas with fade effect
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, w, h);
-            
-            // Update and draw letters
-            letters.forEach(letter => {
-                letter.update();
-                letter.draw();
-            });
-            
-            requestAnimationFrame(animate);
-        }
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            createLetters();
+        // Interactive proposal element
+        document.getElementById('proposal').addEventListener('click', function() {
+            const hiddenMessage = document.getElementById('hiddenMessage');
+            if (hiddenMessage.style.display === 'block') {
+                hiddenMessage.style.display = 'none';
+            } else {
+                hiddenMessage.style.display = 'block';
+            }
         });
         
-        // Start animation immediately
-        init();
+        // Initialize the page
+        window.onload = function() {
+            createHearts();
+            
+            // Add a gentle fade-in effect to the entire page
+            document.body.style.opacity = 0;
+            let opacity = 0;
+            const fadeIn = setInterval(() => {
+                opacity += 0.02;
+                document.body.style.opacity = opacity;
+                if (opacity >= 1) clearInterval(fadeIn);
+            }, 30);
+        };
     </script>
 </body>
 </html>

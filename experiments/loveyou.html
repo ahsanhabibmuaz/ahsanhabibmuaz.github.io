@@ -12,7 +12,7 @@
         }
         
         body {
-            background: #000;
+            background: #000000;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -27,37 +27,39 @@
         
         .loading {
             position: absolute;
-            color: #fff;
-            font-size: 24px;
+            color: #ff3366;
+            font-size: 48px;
             opacity: 1;
             transition: opacity 1s ease;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
         }
         
         .hidden {
             opacity: 0;
+            pointer-events: none;
         }
         
         @media (max-width: 768px) {
             .loading {
-                font-size: 18px;
+                font-size: 36px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="loading">Loading...</div>
+    <div class="loading">❤️</div>
     <canvas id="canvas"></canvas>
 
     <script>
         // Configuration
         const opts = {
             charSize: 30,
-            fireworkSpawnTime: 60,
-            fireworkSpeed: 0.05,
-            letterSpacing: 40,
+            fireworkSpawnTime: 40, // Reduced for faster animation
+            fireworkSpeed: 0.08,   // Increased for faster animation
+            letterSpacing: 35,
             fireworkHeight: 100,
-            gravity: 0.2,
-            bounce: 0.8
+            gravity: 0.25,         // Increased for faster animation
+            bounce: 0.7
         };
 
         // Canvas setup
@@ -188,14 +190,28 @@
         // Create letters from text
         function createLetters() {
             letters = [];
-            const totalWidth = (text.length - 1) * opts.letterSpacing;
+            
+            // Calculate the total width needed for the text
+            ctx.font = `bold ${opts.charSize}px Arial`;
+            const totalWidth = ctx.measureText(text).width + (text.length - 1) * opts.letterSpacing;
+            
+            // Ensure the text fits within the screen
+            if (totalWidth > w * 0.9) {
+                opts.letterSpacing = (w * 0.9 - ctx.measureText(text).width) / (text.length - 1);
+            }
+            
             const startX = (w - totalWidth) / 2;
             
             for (let i = 0; i < text.length; i++) {
                 const char = text[i];
-                if (char === ' ') continue; // Skip spaces
                 
-                const x = startX + i * opts.letterSpacing;
+                // Calculate x position for each character
+                let charWidth = ctx.measureText(char).width;
+                const x = startX + charWidth/2;
+                
+                // Update startX for next character
+                startX += charWidth + opts.letterSpacing;
+                
                 const y = hh;
                 
                 letters.push(new Letter(char, x, y));

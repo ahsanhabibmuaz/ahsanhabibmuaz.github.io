@@ -32,6 +32,7 @@
             opacity: 1;
             transition: opacity 1s ease;
             text-shadow: 0 0 10px rgba(255, 51, 102, 0.7);
+            z-index: 10;
         }
         
         .hidden {
@@ -47,18 +48,18 @@
     </style>
 </head>
 <body>
-    <div class="loading">❤️</div>
+    <div class="loading">&#x2764;&#xFE0F;</div>
     <canvas id="canvas"></canvas>
 
     <script>
         // Configuration
         const opts = {
             charSize: 30,
-            fireworkSpawnTime: 40, // Reduced for faster animation
-            fireworkSpeed: 0.08,   // Increased for faster animation
+            fireworkSpawnTime: 40,
+            fireworkSpeed: 0.08,
             letterSpacing: 35,
             fireworkHeight: 100,
-            gravity: 0.25,         // Increased for faster animation
+            gravity: 0.25,
             bounce: 0.7
         };
 
@@ -193,28 +194,41 @@
             
             // Calculate the total width needed for the text
             ctx.font = `bold ${opts.charSize}px Arial`;
-            const totalWidth = ctx.measureText(text).width + (text.length - 1) * opts.letterSpacing;
+            let totalWidth = 0;
             
-            // Ensure the text fits within the screen
-            if (totalWidth > w * 0.9) {
-                opts.letterSpacing = (w * 0.9 - ctx.measureText(text).width) / (text.length - 1);
+            // Calculate total width of all characters with spacing
+            for (let i = 0; i < text.length; i++) {
+                totalWidth += ctx.measureText(text[i]).width;
+                if (i < text.length - 1) {
+                    totalWidth += opts.letterSpacing;
+                }
             }
             
-            const startX = (w - totalWidth) / 2;
+            // Adjust letter spacing if text is too wide
+            let letterSpacing = opts.letterSpacing;
+            if (totalWidth > w * 0.9) {
+                const textWidthWithoutSpacing = totalWidth - (text.length - 1) * opts.letterSpacing;
+                letterSpacing = (w * 0.9 - textWidthWithoutSpacing) / (text.length - 1);
+                totalWidth = textWidthWithoutSpacing + (text.length - 1) * letterSpacing;
+            }
+            
+            // Calculate starting position to center the text
+            let currentX = (w - totalWidth) / 2;
             
             for (let i = 0; i < text.length; i++) {
                 const char = text[i];
+                if (char === ' ') {
+                    currentX += ctx.measureText(' ').width + letterSpacing;
+                    continue;
+                }
                 
-                // Calculate x position for each character
-                let charWidth = ctx.measureText(char).width;
-                const x = startX + charWidth/2;
-                
-                // Update startX for next character
-                startX += charWidth + opts.letterSpacing;
-                
+                const charWidth = ctx.measureText(char).width;
+                const x = currentX + charWidth / 2;
                 const y = hh;
                 
                 letters.push(new Letter(char, x, y));
+                
+                currentX += charWidth + letterSpacing;
             }
         }
         
@@ -239,8 +253,8 @@
             createLetters();
         });
         
-        // Start animation after 1.8 seconds (within 2 seconds as requested)
-        setTimeout(init, 1800);
+        // Start animation immediately
+        init();
     </script>
 </body>
 </html>

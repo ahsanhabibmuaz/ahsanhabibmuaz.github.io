@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Nana ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <title>For My Loving Best Friend Nana ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,9 +14,9 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #2d1b69 100%);
             color: #fff;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
@@ -27,14 +28,20 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 850px;
             width: 100%;
-            padding: 30px;
+            padding: 40px;
             position: relative;
             z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 20px 0;
         }
         
-        .heart-bg {
+        .heart-emoji-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -42,130 +49,226 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
         
-        .heart {
+        .heart-emoji {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(45deg, #ff3366, #ff758c);
-            transform: rotate(45deg);
+            font-size: 28px;
             opacity: 0;
-            animation: float 6s ease-in-out infinite;
+            animation: floatEmoji 8s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.7));
         }
         
-        .heart:before, .heart:after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(45deg, #ff3366, #ff758c);
-            border-radius: 50%;
-            position: absolute;
-        }
-        
-        .heart:before {
-            top: -10px;
-            left: 0;
-        }
-        
-        .heart:after {
-            top: 0;
-            left: -10px;
-        }
-        
-        @keyframes float {
+        @keyframes floatEmoji {
             0% {
-                transform: translateY(100vh) rotate(45deg) scale(0);
+                transform: translateY(100vh) rotate(0deg) scale(0);
                 opacity: 0;
             }
             10% {
-                opacity: 1;
+                opacity: 0.8;
             }
             90% {
-                opacity: 0.7;
+                opacity: 0.6;
             }
             100% {
-                transform: translateY(-100px) rotate(45deg) scale(1.5);
+                transform: translateY(-100px) rotate(360deg) scale(1.2);
                 opacity: 0;
             }
+        }
+        
+        .header-container {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+        }
+        
+        .header-container::after {
+            content: "❤️";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: #ff3366;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.7);
         }
         
         h1 {
             font-family: 'Dancing Script', cursive;
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
-            animation: glow 3s ease-in-out infinite alternate;
+            font-size: 3.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 51, 102, 0.7);
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 10px;
         }
         
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
-            }
-            to {
-                text-shadow: 0 0 20px rgba(255, 51, 102, 0.8), 0 0 30px rgba(255, 51, 102, 0.6);
-            }
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #ffd3d3;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
-        .message {
-            font-size: 1.5rem;
-            line-height: 1.8;
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .message-box {
+            font-size: 1.35rem;
+            line-height: 1.9;
+            margin: 40px 0;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 2s ease-out;
+            text-align: left;
+            position: relative;
+        }
+        
+        .message-box::before {
+            content: '"';
+            position: absolute;
+            top: -25px;
+            left: 20px;
+            font-size: 6rem;
+            font-family: 'Playfair Display', serif;
+            color: rgba(255, 117, 140, 0.3);
+            line-height: 1;
+        }
+        
+        .message-box p {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .message-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .highlight {
+            color: #ffb6c1;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 182, 193, 0.5);
+        }
+        
+        .proposal-container {
+            margin: 50px 0;
+            position: relative;
         }
         
         .proposal {
-            font-size: 2.2rem;
-            margin: 40px 0;
+            font-size: 2.3rem;
             font-weight: bold;
-            color: #ff758c;
-            text-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
-            animation: pulse 2s infinite;
+            color: #fff;
+            padding: 25px 40px;
+            background: linear-gradient(45deg, rgba(255, 51, 102, 0.9), rgba(255, 117, 140, 0.9));
+            border-radius: 15px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+        .proposal:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 51, 102, 0.6);
+            letter-spacing: 1.5px;
+        }
+        
+        .proposal i {
+            margin-left: 15px;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            5% { transform: scale(1.2); }
+            10% { transform: scale(1.1); }
+            15% { transform: scale(1.2); }
+            20% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+        
+        .hidden-message {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 182, 193, 0.15);
+            border-radius: 15px;
+            display: none;
+            animation: fadeIn 1.2s ease-out;
+            border-left: 5px solid #ff7eb3;
+            text-align: left;
+        }
+        
+        .signature-container {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
         
         .signature {
             font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            margin-top: 30px;
+            font-size: 2.8rem;
             color: #ffd3d3;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .date {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 1px;
+            margin-top: 5px;
         }
         
         .footer {
-            margin-top: 50px;
+            margin-top: 40px;
             padding: 20px;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             width: 100%;
+            max-width: 850px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
         }
         
-        .flowers {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="%23ff3366" opacity="0.2" d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" class="shape-fill"></path></svg>');
-            background-size: cover;
-            z-index: 5;
+        .footer i {
+            color: #ff3366;
+            margin: 0 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
         }
         
         @keyframes fadeIn {
@@ -179,96 +282,154 @@
             }
         }
         
+        .floral-border {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='30' viewBox='0 0 100 30'%3E%3Cpath d='M0,15 Q25,0 50,15 T100,15' stroke='%23ff758c' fill='transparent' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+        }
+        
+        .top-border {
+            top: 0;
+            left: 0;
+        }
+        
+        .bottom-border {
+            bottom: 0;
+            left: 0;
+            transform: rotate(180deg);
+        }
+        
         /* Mobile responsiveness */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
+            .container {
+                padding: 25px 20px;
+                margin: 10px 0;
             }
             
-            .message {
-                font-size: 1.2rem;
+            h1 {
+                font-size: 2.8rem;
+                white-space: normal;
+                line-height: 1.2;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+                white-space: normal;
+            }
+            
+            .message-box {
+                font-size: 1.15rem;
+                padding: 25px 20px;
             }
             
             .proposal {
-                font-size: 1.8rem;
+                font-size: 1.7rem;
+                padding: 20px;
+                white-space: normal;
             }
             
             .signature {
-                font-size: 2rem;
+                font-size: 2.2rem;
+                white-space: normal;
+            }
+            
+            .footer {
+                font-size: 1rem;
+                white-space: normal;
             }
         }
         
-        /* Special effects for interactive elements */
-        .interactive {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .interactive:hover {
-            transform: scale(1.05);
-        }
-        
-        .hidden-message {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 117, 140, 0.2);
-            border-radius: 10px;
-            display: none;
-            animation: fadeIn 1s ease-out;
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .proposal {
+                font-size: 1.5rem;
+                padding: 18px;
+            }
+            
+            .message-box {
+                font-size: 1.05rem;
+                padding: 20px 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="heart-bg" id="heartContainer"></div>
-    <div class="flowers"></div>
+    <div class="heart-emoji-bg" id="emojiContainer"></div>
     
     <div class="container">
-        <h1>For My Dearest Nana</h1>
+        <div class="floral-border top-border"></div>
         
-        <div class="message">
-            <p>From the moment we met, my life has been filled with colors I never knew existed.</p>
-            <p>Every day with you feels like a beautiful dream I never want to wake up from.</p>
+        <div class="header-container">
+            <h1>For My Loving Best Friend Nana</h1>
+            <div class="subtitle">Every moment with you is a treasure beyond measure</div>
         </div>
         
-        <div class="proposal interactive" id="proposal">
-            Will you be mine forever?
+        <div class="message-box">
+            <p>My dearest Nana, from the very first moment our paths crossed, you've brought a special light into my world that I never knew was missing. Your laughter is my favorite melody, your kindness my greatest inspiration, and your presence the comfort I always seek.</p>
+            
+            <p>With you, ordinary days transform into extraordinary memories. You see the best in me even when I can't see it myself. You are not just my best friend; you are the <span class="highlight">missing piece</span> that makes my life feel complete, the calm in my chaos, and the joy in my everyday.</p>
+            
+            <p>In your eyes, I've found a reflection of everything beautiful in this world. In your heart, I've discovered a home I never want to leave. What we share is rare and precious—a connection that transcends friendship and touches the very soul.</p>
         </div>
         
-        <div class="hidden-message" id="hiddenMessage">
-            <p>You are the missing piece I've been searching for my whole life.</p>
-            <p>Together, we can create a lifetime of beautiful memories.</p>
+        <div class="proposal-container">
+            <div class="proposal" id="proposal">
+                Will you continue this beautiful journey with me? <i class="fas fa-heart"></i>
+            </div>
+            
+            <div class="hidden-message" id="hiddenMessage">
+                <p><i class="fas fa-quote-left" style="color: #ff7eb3; margin-right: 10px;"></i> I promise to cherish every laugh, support you through every challenge, celebrate every victory, and love you more with each passing day. Together, we can build a future filled with shared dreams and unforgettable moments. You are my always and forever.</p>
+            </div>
         </div>
         
-        <div class="signature">With all my love,<br>Your Best Friend</div>
+        <div class="signature-container">
+            <div class="signature">With All My Heart,</div>
+            <div class="signature">Your Best Friend &amp; Secret Admirer</div>
+            <div class="date">Forever Yours</div>
+        </div>
+        
+        <div class="floral-border bottom-border"></div>
     </div>
     
     <div class="footer">
-        Made with &#x2764;&#xFE0F; by Muaz
+        Created with <i class="fas fa-heart"></i> by Muaz | A tribute to an extraordinary connection
     </div>
 
     <script>
-        // Create floating hearts
-        function createHearts() {
-            const heartContainer = document.getElementById('heartContainer');
-            const heartCount = 30;
+        // Create floating heart emojis
+        function createHeartEmojis() {
+            const emojiContainer = document.getElementById('emojiContainer');
+            const emojiCount = 40;
+            const heartEmojis = ['❤️', '🧡', '💛', '💚', '💙', '💜', '🤎', '🖤', '🤍', '💖', '💗', '💓', '💞', '💕'];
             
-            for (let i = 0; i < heartCount; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
+            for (let i = 0; i < emojiCount; i++) {
+                const emoji = document.createElement('div');
+                emoji.classList.add('heart-emoji');
                 
-                // Random properties for each heart
-                const size = Math.random() * 20 + 10;
+                // Random properties for each emoji
+                const randomEmoji = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                emoji.textContent = randomEmoji;
+                
+                const size = Math.random() * 24 + 20;
                 const left = Math.random() * 100;
                 const animationDelay = Math.random() * 5;
-                const animationDuration = Math.random() * 3 + 5;
+                const animationDuration = Math.random() * 4 + 6;
                 
-                heart.style.width = `${size}px`;
-                heart.style.height = `${size}px`;
-                heart.style.left = `${left}%`;
-                heart.style.animationDelay = `${animationDelay}s`;
-                heart.style.animationDuration = `${animationDuration}s`;
+                emoji.style.fontSize = `${size}px`;
+                emoji.style.left = `${left}%`;
+                emoji.style.animationDelay = `${animationDelay}s`;
+                emoji.style.animationDuration = `${animationDuration}s`;
                 
-                heartContainer.appendChild(heart);
+                // Random rotation
+                emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                emojiContainer.appendChild(emoji);
             }
         }
         
@@ -277,23 +438,62 @@
             const hiddenMessage = document.getElementById('hiddenMessage');
             if (hiddenMessage.style.display === 'block') {
                 hiddenMessage.style.display = 'none';
+                this.innerHTML = 'Will you continue this beautiful journey with me? <i class="fas fa-heart"></i>';
             } else {
                 hiddenMessage.style.display = 'block';
+                this.innerHTML = 'Thank you for being my everything <i class="fas fa-heart"></i>';
+                
+                // Add some extra floating hearts when clicked
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        createExtraHeart();
+                    }, i * 150);
+                }
             }
         });
         
+        // Create extra hearts for the click effect
+        function createExtraHeart() {
+            const emojiContainer = document.getElementById('emojiContainer');
+            const heartEmojis = ['❤️', '💖', '💗'];
+            const emoji = document.createElement('div');
+            emoji.classList.add('heart-emoji');
+            
+            emoji.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            emoji.style.fontSize = '32px';
+            emoji.style.left = `${Math.random() * 80 + 10}%`;
+            emoji.style.animationDelay = '0s';
+            emoji.style.animationDuration = '4s';
+            
+            emojiContainer.appendChild(emoji);
+            
+            // Remove the element after animation completes
+            setTimeout(() => {
+                emoji.remove();
+            }, 4000);
+        }
+        
         // Initialize the page
         window.onload = function() {
-            createHearts();
+            createHeartEmojis();
             
             // Add a gentle fade-in effect to the entire page
             document.body.style.opacity = 0;
             let opacity = 0;
             const fadeIn = setInterval(() => {
-                opacity += 0.02;
+                opacity += 0.03;
                 document.body.style.opacity = opacity;
                 if (opacity >= 1) clearInterval(fadeIn);
             }, 30);
+            
+            // Automatically show the hidden message after 5 seconds
+            setTimeout(() => {
+                const hiddenMessage = document.getElementById('hiddenMessage');
+                if (hiddenMessage.style.display !== 'block') {
+                    hiddenMessage.style.display = 'block';
+                    document.getElementById('proposal').innerHTML = 'You mean the world to me <i class="fas fa-heart"></i>';
+                }
+            }, 5000);
         };
     </script>
 </body>

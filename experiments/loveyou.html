@@ -34,7 +34,7 @@
             position: relative;
             z-index: 10;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(8px); /* Reduced blur as requested */
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -91,14 +91,15 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 24px;
-            background: #ff3366;
+            background: #ffffff; /* Changed to white as requested */
             width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(255, 51, 102, 0.7);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+            color: #ff3366; /* Heart emoji color remains red */
         }
         
         h1 {
@@ -133,7 +134,7 @@
             padding: 35px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px); /* Reduced blur as requested */
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 2s ease-out;
@@ -173,32 +174,55 @@
             position: relative;
         }
         
-        .proposal {
-            font-size: 2.3rem;
+        /* Special container for the single line text */
+        .single-line-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            overflow: visible;
+        }
+        
+        .single-line-text {
+            font-size: 2.8rem;
             font-weight: bold;
-            color: #fff;
-            padding: 25px 40px;
-            background: linear-gradient(45deg, rgba(255, 51, 102, 0.9), rgba(255, 117, 140, 0.9));
+            color: #ffffff;
+            padding: 25px 50px;
+            background: linear-gradient(45deg, rgba(255, 51, 102, 0.85), rgba(255, 117, 140, 0.85));
             border-radius: 15px;
             display: inline-block;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 30px rgba(255, 51, 102, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.25);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 100%;
+            text-align: center;
+            position: relative;
+            animation: gentlePulse 3s infinite ease-in-out;
+            line-height: 1.2;
+            letter-spacing: 1px;
         }
         
-        .proposal:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 15px 35px rgba(255, 51, 102, 0.6);
-            letter-spacing: 1.5px;
+        @keyframes gentlePulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 12px 30px rgba(255, 51, 102, 0.5);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 15px 35px rgba(255, 51, 102, 0.7);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 12px 30px rgba(255, 51, 102, 0.5);
+            }
         }
         
-        .proposal i {
+        .single-line-text i {
             margin-left: 15px;
+            color: white;
             animation: heartbeat 1.5s infinite;
         }
         
@@ -260,7 +284,7 @@
         }
         
         .footer i {
-            color: #ff3366;
+            color: #ffffff; /* Changed to white as requested */
             margin: 0 5px;
             animation: pulse 2s infinite;
         }
@@ -302,10 +326,25 @@
         }
         
         /* Mobile responsiveness */
+        @media (max-width: 1024px) {
+            .single-line-text {
+                font-size: 2.5rem;
+                padding: 22px 40px;
+            }
+        }
+        
+        @media (max-width: 850px) {
+            .single-line-text {
+                font-size: 2.2rem;
+                padding: 20px 35px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 25px 20px;
                 margin: 10px 0;
+                backdrop-filter: blur(5px); /* Consistent reduced blur */
             }
             
             h1 {
@@ -322,12 +361,15 @@
             .message-box {
                 font-size: 1.15rem;
                 padding: 25px 20px;
+                backdrop-filter: blur(3px); /* Reduced blur for mobile */
             }
             
-            .proposal {
-                font-size: 1.7rem;
-                padding: 20px;
-                white-space: normal;
+            .single-line-text {
+                font-size: 1.9rem;
+                padding: 18px 30px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             
             .signature {
@@ -342,20 +384,49 @@
         }
         
         /* Extra small devices */
+        @media (max-width: 600px) {
+            .single-line-text {
+                font-size: 1.7rem;
+                padding: 16px 25px;
+            }
+        }
+        
         @media (max-width: 480px) {
             h1 {
                 font-size: 2.2rem;
             }
             
-            .proposal {
+            .single-line-text {
                 font-size: 1.5rem;
-                padding: 18px;
+                padding: 14px 22px;
+                letter-spacing: 0.5px;
             }
             
             .message-box {
                 font-size: 1.05rem;
                 padding: 20px 15px;
             }
+        }
+        
+        /* Very small devices */
+        @media (max-width: 360px) {
+            .single-line-text {
+                font-size: 1.3rem;
+                padding: 12px 18px;
+            }
+            
+            .header-container::after {
+                background: #ffffff;
+                width: 35px;
+                height: 35px;
+                font-size: 20px;
+            }
+        }
+        
+        /* Prevent line break at all costs */
+        .no-wrap {
+            white-space: nowrap !important;
+            display: inline-block !important;
         }
     </style>
 </head>
@@ -378,14 +449,15 @@
             <p>In your eyes, I've found a reflection of everything beautiful in this world. In your heart, I've discovered a home I never want to leave. What we share is rare and precious—a connection that transcends friendship and touches the very soul.</p>
         </div>
         
-        <div class="proposal-container">
-            <div class="proposal" id="proposal">
-                Will you continue this beautiful journey with me? <i class="fas fa-heart"></i>
+        <!-- Special container for the single line text -->
+        <div class="single-line-container">
+            <div class="single-line-text">
+                <span class="no-wrap">You mean the world to me</span> <i class="fas fa-heart"></i>
             </div>
-            
-            <div class="hidden-message" id="hiddenMessage">
-                <p><i class="fas fa-quote-left" style="color: #ff7eb3; margin-right: 10px;"></i> I promise to cherish every laugh, support you through every challenge, celebrate every victory, and love you more with each passing day. Together, we can build a future filled with shared dreams and unforgettable moments. You are my always and forever.</p>
-            </div>
+        </div>
+        
+        <div class="hidden-message" id="hiddenMessage">
+            <p><i class="fas fa-quote-left" style="color: #ff7eb3; margin-right: 10px;"></i> I promise to cherish every laugh, support you through every challenge, celebrate every victory, and love you more with each passing day. Together, we can build a future filled with shared dreams and unforgettable moments. You are my always and forever.</p>
         </div>
         
         <div class="signature-container">
@@ -433,15 +505,15 @@
             }
         }
         
-        // Interactive proposal element
-        document.getElementById('proposal').addEventListener('click', function() {
+        // Make the single line text interactive
+        document.querySelector('.single-line-text').addEventListener('click', function() {
             const hiddenMessage = document.getElementById('hiddenMessage');
             if (hiddenMessage.style.display === 'block') {
                 hiddenMessage.style.display = 'none';
-                this.innerHTML = 'Will you continue this beautiful journey with me? <i class="fas fa-heart"></i>';
+                this.innerHTML = '<span class="no-wrap">You mean the world to me</span> <i class="fas fa-heart"></i>';
             } else {
                 hiddenMessage.style.display = 'block';
-                this.innerHTML = 'Thank you for being my everything <i class="fas fa-heart"></i>';
+                this.innerHTML = '<span class="no-wrap">And I will always cherish you</span> <i class="fas fa-heart"></i>';
                 
                 // Add some extra floating hearts when clicked
                 for (let i = 0; i < 10; i++) {
@@ -491,9 +563,30 @@
                 const hiddenMessage = document.getElementById('hiddenMessage');
                 if (hiddenMessage.style.display !== 'block') {
                     hiddenMessage.style.display = 'block';
-                    document.getElementById('proposal').innerHTML = 'You mean the world to me <i class="fas fa-heart"></i>';
+                    document.querySelector('.single-line-text').innerHTML = '<span class="no-wrap">You are my everything</span> <i class="fas fa-heart"></i>';
                 }
             }, 5000);
+            
+            // Ensure the single line text stays on one line
+            function ensureSingleLine() {
+                const singleLineText = document.querySelector('.single-line-text');
+                const containerWidth = document.querySelector('.single-line-container').offsetWidth;
+                const textWidth = singleLineText.scrollWidth;
+                
+                // If text is wider than container, reduce font size
+                if (textWidth > containerWidth * 0.95) {
+                    const currentSize = parseFloat(window.getComputedStyle(singleLineText).fontSize);
+                    const newSize = currentSize * 0.95;
+                    singleLineText.style.fontSize = `${newSize}px`;
+                    
+                    // Check again recursively
+                    setTimeout(ensureSingleLine, 10);
+                }
+            }
+            
+            // Run on load and resize
+            ensureSingleLine();
+            window.addEventListener('resize', ensureSingleLine);
         };
     </script>
 </body>

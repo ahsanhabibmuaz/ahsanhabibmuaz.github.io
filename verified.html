@@ -40,11 +40,10 @@
       padding: 20px;
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
-      touch-action: pan-y; /* Enable pull-to-refresh */
+      touch-action: pan-y;
       position: relative;
     }
 
-    /* Prevent text selection/copying */
     body {
       user-select: none;
       -webkit-user-select: none;
@@ -311,7 +310,7 @@
       margin-bottom: 28px;
       font-weight: 500;
       background: var(--primary-light);
-      padding: 16px;
+      padding: 20px;
       border-radius: 16px;
       border-left: 4px solid var(--warning);
     }
@@ -344,7 +343,6 @@
       transform: scale(0.98);
     }
 
-    /* Hide modal */
     .modal-overlay.hidden {
       display: none;
     }
@@ -462,14 +460,15 @@
     </div>
   </div>
 
-  <!-- Warning Popup Modal -->
+  <!-- Professional Disclaimer Popup -->
   <div class="modal-overlay" id="warningModal">
     <div class="modal-content">
       <div class="modal-header">
-        <span>⚠️</span> WARNING
+        <span>📢</span> DISCLAIMER
       </div>
       <div class="modal-body">
-        THIS IS A FAKE PARODY SITE.<br>Just for Fun Only.
+        This site is a parody and is <strong>not affiliated</strong> with AniList.<br>
+        Created for personal entertainment only.
       </div>
       <div class="modal-footer">
         <button class="modal-button" id="understoodBtn">Understood</button>
@@ -479,28 +478,22 @@
 
   <script>
     (function() {
-      // DOM elements
       const tEl = document.getElementById('t');
       const progressBar = document.getElementById('progress');
       const modal = document.getElementById('warningModal');
       const understoodBtn = document.getElementById('understoodBtn');
       
-      // Flag to ensure countdown starts only once
       let countdownStarted = false;
-      // Store the animation frame id for potential cleanup (not strictly needed)
       let animFrame = null;
 
-      // Initially progress bar at 0%
       progressBar.style.width = '0%';
       
-      // Function to start the countdown (called only after modal dismissed)
       function startCountdown() {
-        if (countdownStarted) return; // prevent multiple starts
+        if (countdownStarted) return;
         countdownStarted = true;
 
-        // Record start time right when user clicks
         const startTime = Date.now();
-        const barDuration = 10000; // 10 seconds for progress bar
+        const barDuration = 10000; // 10 seconds
         const extraWait = 1000;    // 1 second after bar completes
         const totalDuration = barDuration + extraWait;
 
@@ -509,16 +502,13 @@
           let secondsRemaining;
 
           if (elapsed < barDuration) {
-            // Progress bar filling phase
             secondsRemaining = Math.ceil((barDuration - elapsed) / 1000);
             const progressPercent = Math.min(100, (elapsed / barDuration) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else if (elapsed < totalDuration) {
-            // Waiting phase after bar completion
             secondsRemaining = 0;
             progressBar.style.width = '100%';
           } else {
-            // Redirect after total duration
             window.location.href = 'https://anilist.co/user/muaz';
             return;
           }
@@ -527,40 +517,27 @@
           animFrame = requestAnimationFrame(updateCountdown);
         }
 
-        // Start the animation loop
         animFrame = requestAnimationFrame(updateCountdown);
       }
 
-      // Event listener for "Understood" button
       understoodBtn.addEventListener('click', function() {
-        // Hide modal by adding hidden class
         modal.classList.add('hidden');
-        // Start countdown
         startCountdown();
       });
 
-      // Prevent accidental context menu (already in original, but safe)
       document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
       });
 
-      // Optional: If user clicks outside modal? We don't want that to close it,
-      // because they must click Understood. So we do nothing on overlay click.
-      // But to be safe, we can prevent closing by clicking backdrop.
+      // Prevent accidental closing by clicking backdrop
       modal.addEventListener('click', function(e) {
-        // If someone clicks the overlay itself (not the modal content), do nothing.
-        // Actually we want to force them to click the button, so no close on backdrop.
-        e.stopPropagation(); // not necessary, but just to avoid any accidental propagation.
+        // Only close if the user clicks the button, so do nothing here
       });
       
-      // Also ensure that the modal content click doesn't close it (but it's fine)
       const modalContent = document.querySelector('.modal-content');
       modalContent.addEventListener('click', function(e) {
-        e.stopPropagation(); // prevent click from reaching overlay (not that it matters)
+        e.stopPropagation();
       });
-
-      // One more nuance: The countdown numbers initially show "10". That's fine.
-      // The progress bar is at 0. Everything waits for user click.
 
     })();
   </script>

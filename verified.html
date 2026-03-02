@@ -18,9 +18,11 @@
       --text-light: #64748b;
       --border: #e2e8f0;
       --success: #10b981;
-      --warning: #f59e0b;
+      --warning-red: #dc2626;        /* Strong red for warning */
+      --warning-light: #fee2e2;       /* Light red background */
+      --warning-dark: #b91c1c;        /* Dark red for hover */
       --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-      --modal-overlay: rgba(15, 23, 42, 0.7);
+      --modal-overlay: rgba(127, 29, 29, 0.7); /* Reddish overlay */
     }
 
     * {
@@ -254,7 +256,7 @@
       white-space: nowrap;
     }
 
-    /* Modal overlay */
+    /* Modal overlay - red warning theme */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -274,11 +276,11 @@
     .modal-content {
       background: var(--card-bg);
       border-radius: 24px;
-      max-width: 480px;          /* Slightly larger to accommodate lines */
+      max-width: 500px;           /* generous width for text */
       width: 100%;
-      padding: 32px 28px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--border);
+      padding: 32px 24px;
+      box-shadow: 0 25px 50px -12px rgba(220, 38, 38, 0.4);
+      border: 2px solid var(--warning-red);
       text-align: center;
       animation: modalFadeIn 0.3s ease;
     }
@@ -291,7 +293,7 @@
     .modal-header {
       font-size: 32px;
       font-weight: 700;
-      color: var(--warning);
+      color: var(--warning-red);
       margin-bottom: 16px;
       display: flex;
       align-items: center;
@@ -301,32 +303,29 @@
     }
 
     .modal-header span {
-      font-size: 40px;
+      font-size: 42px;
     }
 
-    /* Modal body as a flex column with horizontal scroll if needed */
+    /* Modal body - no scroll, red background */
     .modal-body {
-      background: var(--primary-light);
+      background: var(--warning-light);
       border-radius: 16px;
       padding: 20px 16px;
       margin-bottom: 28px;
-      border-left: 4px solid var(--warning);
+      border-left: 4px solid var(--warning-red);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
-      overflow-x: auto;          /* Enables horizontal scroll on small screens */
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;     /* subtle scrollbar */
+      gap: 8px;
+      /* No overflow, lines forced to stay inline via white-space */
     }
 
-    /* Each line forced to stay in one line */
     .disclaimer-line {
       font-size: 18px;
       font-weight: 500;
       color: var(--text);
       white-space: nowrap;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .modal-footer {
@@ -335,7 +334,7 @@
     }
 
     .modal-button {
-      background: var(--primary);
+      background: var(--warning-red);
       color: white;
       border: none;
       border-radius: 50px;
@@ -344,13 +343,13 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
-      box-shadow: 0 8px 14px -4px rgba(63, 169, 245, 0.3);
-      border: 1px solid var(--primary-light);
+      box-shadow: 0 8px 14px -4px rgba(220, 38, 38, 0.3);
+      border: 1px solid #fca5a5;
       white-space: nowrap;
     }
 
     .modal-button:hover {
-      background: var(--primary-dark);
+      background: var(--warning-dark);
       transform: scale(1.02);
     }
 
@@ -362,38 +361,81 @@
       display: none;
     }
 
+    /* Responsive adjustments to keep two lines unbroken */
+    @media (max-width: 500px) {
+      .modal-content {
+        padding: 28px 20px;
+      }
+      .modal-header {
+        font-size: 28px;
+      }
+      .disclaimer-line {
+        font-size: 17px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .modal-content {
+        padding: 24px 16px;
+      }
+      .modal-header {
+        font-size: 26px;
+        gap: 6px;
+      }
+      .modal-header span {
+        font-size: 36px;
+      }
+      .disclaimer-line {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .modal-content {
+        padding: 20px 12px;
+      }
+      .modal-header {
+        font-size: 24px;
+      }
+      .modal-header span {
+        font-size: 32px;
+      }
+      .disclaimer-line {
+        font-size: 15px;           /* smallest, ensures line fits */
+      }
+      .modal-button {
+        padding: 12px 28px;
+        font-size: 16px;
+      }
+    }
+
+    /* For extremely narrow devices (e.g., 320px) */
+    @media (max-width: 330px) {
+      .disclaimer-line {
+        font-size: 14px;
+      }
+      .modal-body {
+        padding: 16px 10px;
+      }
+    }
+
+    /* Main card responsiveness remains unchanged */
     @media (max-width: 480px) {
       .verification-card {
         padding: 30px 20px;
       }
-      
       h1 {
         font-size: 26px;
       }
-      
       .verified-container {
         width: 130px;
         height: 130px;
       }
-      
       .logo {
         font-size: 20px;
       }
-      
       .detail-item {
         font-size: 13px;
-      }
-
-      .modal-content {
-        padding: 24px 20px;
-      }
-
-      .modal-header {
-        font-size: 28px;
-      }
-
-      .disclaimer-line {
-        font-size: 16px;
       }
     }
     
@@ -401,29 +443,17 @@
       h1 {
         font-size: 22px;
       }
-      
       .redirect-message {
         font-size: 14px;
       }
-      
       .countdown {
         font-size: 16px;
       }
-      
       .logo {
         font-size: 18px;
       }
-      
       .badge {
         font-size: 10px;
-      }
-
-      .modal-header {
-        font-size: 24px;
-      }
-
-      .disclaimer-line {
-        font-size: 15px;
       }
     }
   </style>
@@ -483,14 +513,14 @@
     </div>
   </div>
 
-  <!-- Professional Disclaimer Popup - two lines, never break -->
+  <!-- Red Warning Popup - two lines, never break, no scrollbar -->
   <div class="modal-overlay" id="warningModal">
     <div class="modal-content">
       <div class="modal-header">
-        <span>📢</span> DISCLAIMER
+        <span>⚠️</span> WARNING
       </div>
       <div class="modal-body">
-        <span class="disclaimer-line">This site is <strong>NOT</strong> affiliated with AniList.</span>
+        <span class="disclaimer-line">This site is <strong>NOT affiliated</strong> with AniList.</span>
         <span class="disclaimer-line">Created for entertainment purposes only.</span>
       </div>
       <div class="modal-footer">

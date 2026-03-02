@@ -274,7 +274,7 @@
     .modal-content {
       background: var(--card-bg);
       border-radius: 24px;
-      max-width: 420px;
+      max-width: 480px;          /* Slightly larger to accommodate lines */
       width: 100%;
       padding: 32px 28px;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -297,23 +297,36 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
+      white-space: nowrap;
     }
 
     .modal-header span {
       font-size: 40px;
     }
 
+    /* Modal body as a flex column with horizontal scroll if needed */
     .modal-body {
-      font-size: 18px;
-      line-height: 1.5;
-      color: var(--text);
-      margin-bottom: 28px;
-      font-weight: 500;
       background: var(--primary-light);
-      padding: 20px;
       border-radius: 16px;
+      padding: 20px 16px;
+      margin-bottom: 28px;
       border-left: 4px solid var(--warning);
-      word-break: keep-all; /* helps prevent mid-word breaks */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;          /* Enables horizontal scroll on small screens */
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;     /* subtle scrollbar */
+    }
+
+    /* Each line forced to stay in one line */
+    .disclaimer-line {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      line-height: 1.4;
     }
 
     .modal-footer {
@@ -333,6 +346,7 @@
       transition: background 0.2s, transform 0.1s;
       box-shadow: 0 8px 14px -4px rgba(63, 169, 245, 0.3);
       border: 1px solid var(--primary-light);
+      white-space: nowrap;
     }
 
     .modal-button:hover {
@@ -378,7 +392,7 @@
         font-size: 28px;
       }
 
-      .modal-body {
+      .disclaimer-line {
         font-size: 16px;
       }
     }
@@ -402,6 +416,14 @@
       
       .badge {
         font-size: 10px;
+      }
+
+      .modal-header {
+        font-size: 24px;
+      }
+
+      .disclaimer-line {
+        font-size: 15px;
       }
     }
   </style>
@@ -461,15 +483,15 @@
     </div>
   </div>
 
-  <!-- Professional Disclaimer Popup (two lines, grammatically correct) -->
+  <!-- Professional Disclaimer Popup - two lines, never break -->
   <div class="modal-overlay" id="warningModal">
     <div class="modal-content">
       <div class="modal-header">
         <span>📢</span> DISCLAIMER
       </div>
       <div class="modal-body">
-        This site is <strong>NOT affiliated</strong>strong>with AniList.<br>
-        Created for entertainment purposes only.
+        <span class="disclaimer-line">This site is <strong>NOT</strong> affiliated with AniList.</span>
+        <span class="disclaimer-line">Created for entertainment purposes only.</span>
       </div>
       <div class="modal-footer">
         <button class="modal-button" id="understoodBtn">Understood</button>
@@ -530,9 +552,9 @@
         e.preventDefault();
       });
 
-      // Prevent accidental closing by clicking backdrop
+      // Prevent modal from closing when clicking on background (only button closes it)
       modal.addEventListener('click', function(e) {
-        // Only the button click matters
+        // do nothing, only button click matters
       });
       
       const modalContent = document.querySelector('.modal-content');

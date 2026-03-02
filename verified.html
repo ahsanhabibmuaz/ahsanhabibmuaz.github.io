@@ -313,6 +313,7 @@
       padding: 20px;
       border-radius: 16px;
       border-left: 4px solid var(--warning);
+      word-break: keep-all; /* helps prevent mid-word breaks */
     }
 
     .modal-footer {
@@ -406,7 +407,7 @@
   </style>
 </head>
 <body>
-  <!-- Main Verification Card (unchanged) -->
+  <!-- Main Verification Card -->
   <div class="verification-card">
     <div class="card-header">
       <div class="logo-container">
@@ -460,14 +461,14 @@
     </div>
   </div>
 
-  <!-- Professional Disclaimer Popup -->
+  <!-- Professional Disclaimer Popup (two lines, grammatically correct) -->
   <div class="modal-overlay" id="warningModal">
     <div class="modal-content">
       <div class="modal-header">
         <span>📢</span> DISCLAIMER
       </div>
       <div class="modal-body">
-        This site is a is <strong>NOT affiliated</strong> with AniList.<br>
+        This site is <strong>NOT affiliated</strong>strong>with AniList.<br>
         Created for entertainment purposes only.
       </div>
       <div class="modal-footer">
@@ -531,7 +532,7 @@
 
       // Prevent accidental closing by clicking backdrop
       modal.addEventListener('click', function(e) {
-        // Only close if the user clicks the button, so do nothing here
+        // Only the button click matters
       });
       
       const modalContent = document.querySelector('.modal-content');

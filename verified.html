@@ -18,7 +18,9 @@
       --text-light: #64748b;
       --border: #e2e8f0;
       --success: #10b981;
+      --warning: #f59e0b;
       --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --modal-overlay: rgba(15, 23, 42, 0.7);
     }
 
     * {
@@ -39,6 +41,7 @@
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
       touch-action: pan-y; /* Enable pull-to-refresh */
+      position: relative;
     }
 
     /* Prevent text selection/copying */
@@ -61,6 +64,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
       transition: transform 0.3s ease;
+      z-index: 1;
     }
 
     .verification-card:hover {
@@ -251,6 +255,100 @@
       white-space: nowrap;
     }
 
+    /* Modal overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--modal-overlay);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 24px;
+      max-width: 420px;
+      width: 100%;
+      padding: 32px 28px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      text-align: center;
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--warning);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .modal-header span {
+      font-size: 40px;
+    }
+
+    .modal-body {
+      font-size: 18px;
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: 28px;
+      font-weight: 500;
+      background: var(--primary-light);
+      padding: 16px;
+      border-radius: 16px;
+      border-left: 4px solid var(--warning);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: center;
+    }
+
+    .modal-button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 36px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 8px 14px -4px rgba(63, 169, 245, 0.3);
+      border: 1px solid var(--primary-light);
+    }
+
+    .modal-button:hover {
+      background: var(--primary-dark);
+      transform: scale(1.02);
+    }
+
+    .modal-button:active {
+      transform: scale(0.98);
+    }
+
+    /* Hide modal */
+    .modal-overlay.hidden {
+      display: none;
+    }
+
     @media (max-width: 480px) {
       .verification-card {
         padding: 30px 20px;
@@ -271,6 +369,18 @@
       
       .detail-item {
         font-size: 13px;
+      }
+
+      .modal-content {
+        padding: 24px 20px;
+      }
+
+      .modal-header {
+        font-size: 28px;
+      }
+
+      .modal-body {
+        font-size: 16px;
       }
     }
     
@@ -298,6 +408,7 @@
   </style>
 </head>
 <body>
+  <!-- Main Verification Card (unchanged) -->
   <div class="verification-card">
     <div class="card-header">
       <div class="logo-container">
@@ -351,51 +462,107 @@
     </div>
   </div>
 
+  <!-- Warning Popup Modal -->
+  <div class="modal-overlay" id="warningModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>⚠️</span> WARNING
+      </div>
+      <div class="modal-body">
+        THIS IS A FAKE PARODY SITE.<br>Just for Fun Only.
+      </div>
+      <div class="modal-footer">
+        <button class="modal-button" id="understoodBtn">Understood</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const tEl = document.getElementById('t');
-    const progressBar = document.getElementById('progress');
-    
-    // Initialize progress bar
-    progressBar.style.width = '0%';
-    
-    // Set durations
-    const barDuration = 10000; // 10 seconds for progress bar
-    const extraWait = 1000; // 1 second after bar completes
-    
-    // Start time for precise timing
-    const startTime = Date.now();
-    const totalDuration = barDuration + extraWait;
-    
-    function updateCountdown() {
-      const elapsed = Date.now() - startTime;
-      let secondsRemaining;
+    (function() {
+      // DOM elements
+      const tEl = document.getElementById('t');
+      const progressBar = document.getElementById('progress');
+      const modal = document.getElementById('warningModal');
+      const understoodBtn = document.getElementById('understoodBtn');
       
-      if (elapsed < barDuration) {
-        // Progress bar filling phase
-        secondsRemaining = Math.ceil((barDuration - elapsed) / 1000);
-        const progressPercent = Math.min(100, (elapsed / barDuration) * 100);
-        progressBar.style.width = `${progressPercent}%`;
-      } else if (elapsed < totalDuration) {
-        // Waiting phase after bar completion
-        secondsRemaining = 0;
-        progressBar.style.width = '100%';
-      } else {
-        // Redirect after total duration
-        window.location.href = 'https://anilist.co/user/muaz';
-        return;
+      // Flag to ensure countdown starts only once
+      let countdownStarted = false;
+      // Store the animation frame id for potential cleanup (not strictly needed)
+      let animFrame = null;
+
+      // Initially progress bar at 0%
+      progressBar.style.width = '0%';
+      
+      // Function to start the countdown (called only after modal dismissed)
+      function startCountdown() {
+        if (countdownStarted) return; // prevent multiple starts
+        countdownStarted = true;
+
+        // Record start time right when user clicks
+        const startTime = Date.now();
+        const barDuration = 10000; // 10 seconds for progress bar
+        const extraWait = 1000;    // 1 second after bar completes
+        const totalDuration = barDuration + extraWait;
+
+        function updateCountdown() {
+          const elapsed = Date.now() - startTime;
+          let secondsRemaining;
+
+          if (elapsed < barDuration) {
+            // Progress bar filling phase
+            secondsRemaining = Math.ceil((barDuration - elapsed) / 1000);
+            const progressPercent = Math.min(100, (elapsed / barDuration) * 100);
+            progressBar.style.width = `${progressPercent}%`;
+          } else if (elapsed < totalDuration) {
+            // Waiting phase after bar completion
+            secondsRemaining = 0;
+            progressBar.style.width = '100%';
+          } else {
+            // Redirect after total duration
+            window.location.href = 'https://anilist.co/user/muaz';
+            return;
+          }
+
+          tEl.textContent = secondsRemaining;
+          animFrame = requestAnimationFrame(updateCountdown);
+        }
+
+        // Start the animation loop
+        animFrame = requestAnimationFrame(updateCountdown);
       }
+
+      // Event listener for "Understood" button
+      understoodBtn.addEventListener('click', function() {
+        // Hide modal by adding hidden class
+        modal.classList.add('hidden');
+        // Start countdown
+        startCountdown();
+      });
+
+      // Prevent accidental context menu (already in original, but safe)
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+      });
+
+      // Optional: If user clicks outside modal? We don't want that to close it,
+      // because they must click Understood. So we do nothing on overlay click.
+      // But to be safe, we can prevent closing by clicking backdrop.
+      modal.addEventListener('click', function(e) {
+        // If someone clicks the overlay itself (not the modal content), do nothing.
+        // Actually we want to force them to click the button, so no close on backdrop.
+        e.stopPropagation(); // not necessary, but just to avoid any accidental propagation.
+      });
       
-      tEl.textContent = secondsRemaining;
-      requestAnimationFrame(updateCountdown);
-    }
-    
-    // Start the countdown
-    requestAnimationFrame(updateCountdown);
-    
-    // Prevent text selection via context menu
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    });
+      // Also ensure that the modal content click doesn't close it (but it's fine)
+      const modalContent = document.querySelector('.modal-content');
+      modalContent.addEventListener('click', function(e) {
+        e.stopPropagation(); // prevent click from reaching overlay (not that it matters)
+      });
+
+      // One more nuance: The countdown numbers initially show "10". That's fine.
+      // The progress bar is at 0. Everything waits for user click.
+
+    })();
   </script>
 </body>
 </html>

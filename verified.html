@@ -1,6 +1,3 @@
-This is the complete HTML file with the Keep Android Open banner script added. It appears at the top of the page as a self-contained banner, matching the site's style without altering any existing functionality.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,11 +18,11 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       --text-light: #64748b;
       --border: #e2e8f0;
       --success: #10b981;
-      --warning-red: #dc2626;        /* Strong red for warning */
-      --warning-light: #fee2e2;       /* Light red background */
-      --warning-dark: #b91c1c;        /* Dark red for hover */
+      --warning-red: #dc2626;
+      --warning-light: #fee2e2;
+      --warning-dark: #b91c1c;
       --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-      --modal-overlay: rgba(127, 29, 29, 0.7); /* Reddish overlay */
+      --modal-overlay: rgba(127, 29, 29, 0.7);
     }
 
     * {
@@ -39,14 +36,9 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
       background-image: radial-gradient(var(--primary-light) 1px, transparent 1px);
       background-size: 20px 20px;
       touch-action: pan-y;
-      position: relative;
     }
 
     body {
@@ -54,6 +46,12 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
+      /* === ADAPTED LAYOUT: banner at top, card centered === */
+      display: flex;
+      flex-direction: column;
+      align-items: center;        /* horizontal centering for children */
+      justify-content: flex-start; /* stack from top */
+      padding: 0;                 /* banner goes edge to edge */
     }
 
     .verification-card {
@@ -69,6 +67,8 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       border: 1px solid var(--border);
       transition: transform 0.3s ease;
       z-index: 1;
+      /* center vertically in remaining space after banner */
+      margin: auto 20px;          /* auto top/bottom, 20px left/right for spacing */
     }
 
     .verification-card:hover {
@@ -259,7 +259,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       white-space: nowrap;
     }
 
-    /* Modal overlay - red warning theme */
+    /* Modal overlay - red warning theme (unchanged) */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -279,7 +279,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
     .modal-content {
       background: var(--card-bg);
       border-radius: 24px;
-      max-width: 500px;           /* generous width for text */
+      max-width: 500px;
       width: 100%;
       padding: 32px 24px;
       box-shadow: 0 25px 50px -12px rgba(220, 38, 38, 0.4);
@@ -309,7 +309,6 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       font-size: 42px;
     }
 
-    /* Modal body - no scroll, red background */
     .modal-body {
       background: var(--warning-light);
       border-radius: 16px;
@@ -320,7 +319,6 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      /* No overflow, lines forced to stay inline via white-space */
     }
 
     .disclaimer-line {
@@ -364,7 +362,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       display: none;
     }
 
-    /* Responsive adjustments to keep two lines unbroken */
+    /* Responsive adjustments (unchanged, but card margin adapts) */
     @media (max-width: 500px) {
       .modal-content {
         padding: 28px 20px;
@@ -404,7 +402,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
         font-size: 32px;
       }
       .disclaimer-line {
-        font-size: 15px;           /* smallest, ensures line fits */
+        font-size: 15px;
       }
       .modal-button {
         padding: 12px 28px;
@@ -412,7 +410,6 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       }
     }
 
-    /* For extremely narrow devices (e.g., 320px) */
     @media (max-width: 330px) {
       .disclaimer-line {
         font-size: 14px;
@@ -422,7 +419,6 @@ This is the complete HTML file with the Keep Android Open banner script added. I
       }
     }
 
-    /* Main card responsiveness remains unchanged */
     @media (max-width: 480px) {
       .verification-card {
         padding: 30px 20px;
@@ -462,7 +458,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
   </style>
 </head>
 <body>
-  <!-- Main Verification Card -->
+  <!-- Main Verification Card (now with margin: auto to center vertically) -->
   <div class="verification-card">
     <div class="card-header">
       <div class="logo-container">
@@ -516,7 +512,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
     </div>
   </div>
 
-  <!-- Red Warning Popup - two lines, never break, no scrollbar -->
+  <!-- Red Warning Popup (unchanged) -->
   <div class="modal-overlay" id="warningModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -532,7 +528,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
     </div>
   </div>
   
-  <!-- Keep Android Open banner – self-contained, full-width, appears at top -->
+  <!-- Keep Android Open banner – self-contained, full-width, now appears flush at top -->
   <script src="https://keepandroidopen.org/banner.js?link=https://example.com/android&hidebutton=off"></script>
 
   <script>
@@ -588,10 +584,7 @@ This is the complete HTML file with the Keep Android Open banner script added. I
         e.preventDefault();
       });
 
-      // Prevent modal from closing when clicking on background (only button closes it)
-      modal.addEventListener('click', function(e) {
-        // do nothing, only button click matters
-      });
+      modal.addEventListener('click', function(e) {});
       
       const modalContent = document.querySelector('.modal-content');
       modalContent.addEventListener('click', function(e) {
@@ -602,4 +595,3 @@ This is the complete HTML file with the Keep Android Open banner script added. I
   </script>
 </body>
 </html>
-```

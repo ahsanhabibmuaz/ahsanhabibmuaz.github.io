@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Deepweb Verification Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:        #3FA9F5;
+      --blue-dim:    #1a6fa8;
+      --blue-glow:   rgba(63, 169, 245, 0.18);
+      --blue-line:   rgba(63, 169, 245, 0.25);
+      --bg:          #050e1a;
+      --surface:     #0a1628;
+      --surface2:    #0f1e35;
+      --text:        #e8f4ff;
+      --text-muted:  #6b8eae;
+      --green:       #22d17a;
+      --mono:        'Space Mono', monospace;
+      --sans:        'Sora', sans-serif;
+      --card-radius: 20px;
+      --border:      1px solid rgba(63, 169, 245, 0.15);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      height: 100%;
+      font-size: 16px;
+    }
+
+    body {
+      min-height: 100%;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(16px, 4vw, 40px);
+      overflow-x: hidden;
+      position: relative;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ── Background grid ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--blue-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--blue-line) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    /* ── Ambient glow orbs ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .orb-1 {
+      width: clamp(200px, 40vw, 500px);
+      height: clamp(200px, 40vw, 500px);
+      background: rgba(63, 169, 245, 0.07);
+      top: -10%;
+      right: -10%;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: clamp(150px, 30vw, 400px);
+      height: clamp(150px, 30vw, 400px);
+      background: rgba(34, 209, 122, 0.05);
+      bottom: -10%;
+      left: -5%;
+      animation-delay: -6s;
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(20px, 30px) scale(1.08); }
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: var(--border);
+      border-radius: var(--card-radius);
+      padding: clamp(28px, 5vw, 52px);
+      width: 100%;
+      max-width: 520px;
+      box-shadow:
+        0 0 0 1px rgba(63, 169, 245, 0.06),
+        0 32px 80px -16px rgba(0, 0, 0, 0.7),
+        0 0 60px -20px rgba(63, 169, 245, 0.12);
+      animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(28px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Brand bar ── */
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: clamp(24px, 4vw, 36px);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .brand-name {
+      font-family: var(--mono);
+      font-size: clamp(11px, 2vw, 13px);
+      color: var(--blue);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+    .brand-tag {
+      font-family: var(--mono);
+      font-size: clamp(9px, 1.6vw, 11px);
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      background: var(--surface2);
+      border: var(--border);
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+
+    /* ── Icon ring ── */
+    .icon-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: clamp(20px, 4vw, 32px);
+    }
+    .icon-ring {
+      position: relative;
+      width: clamp(90px, 20vw, 120px);
+      height: clamp(90px, 20vw, 120px);
+    }
+    .icon-ring svg.ring-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      animation: spin 8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .icon-img {
+      position: absolute;
+      inset: 14%;
+      border-radius: 50%;
+      object-fit: cover;
+      animation: pulse-scale 3s ease-in-out infinite;
+      box-shadow: 0 0 24px rgba(63, 169, 245, 0.35);
+    }
+    @keyframes pulse-scale {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.04); }
+    }
+
+    /* ── Heading ── */
+    .heading {
+      text-align: center;
+      margin-bottom: clamp(20px, 3vw, 28px);
+    }
+    .heading h1 {
+      font-size: clamp(22px, 5vw, 30px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .heading h1 span {
+      color: var(--blue);
+    }
+    .heading .handle {
+      font-family: var(--mono);
+      font-size: clamp(13px, 2.5vw, 15px);
+      color: var(--blue);
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+
+    /* ── Check list ── */
+    .checks {
+      background: var(--surface2);
+      border: var(--border);
+      border-radius: 12px;
+      padding: clamp(14px, 3vw, 20px) clamp(16px, 3vw, 22px);
+      margin-bottom: clamp(20px, 3vw, 28px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: clamp(13px, 2.2vw, 14px);
+      color: var(--text-muted);
+      animation: checkIn 0.5s ease both;
+    }
+    .check-row:nth-child(1) { animation-delay: 0.3s; }
+    .check-row:nth-child(2) { animation-delay: 0.5s; }
+    .check-row:nth-child(3) { animation-delay: 0.7s; }
+    @keyframes checkIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: rgba(34, 209, 122, 0.12);
+      border: 1px solid rgba(34, 209, 122, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      color: var(--green);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue-line), transparent);
+      margin-bottom: clamp(18px, 3vw, 26px);
+    }
+
+    /* ── Countdown ── */
+    .redirect-label {
+      text-align: center;
+      font-size: clamp(12px, 2vw, 13px);
+      color: var(--text-muted);
+      font-family: var(--mono);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .countdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .cd-num {
+      font-family: var(--mono);
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 700;
+      color: var(--blue);
+      background: var(--surface2);
+      border: var(--border);
+      border-radius: 10px;
+      width: clamp(52px, 10vw, 68px);
+      height: clamp(52px, 10vw, 68px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px -6px rgba(63, 169, 245, 0.25);
+      transition: color 0.3s;
+    }
+    .cd-sep {
+      font-family: var(--mono);
+      font-size: clamp(22px, 4vw, 32px);
+      color: var(--blue);
+      opacity: 0.4;
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    /* ── Progress ── */
+    .progress-track {
+      height: 4px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: clamp(18px, 3vw, 26px);
+      border: 1px solid rgba(63, 169, 245, 0.08);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue-dim), var(--blue));
+      border-radius: 2px;
+      transition: width 0.5s linear;
+      box-shadow: 0 0 8px var(--blue);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: clamp(14px, 3vw, 20px);
+      border-top: var(--border);
+    }
+    .footer-left {
+      font-family: var(--mono);
+      font-size: clamp(9px, 1.6vw, 11px);
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(10px, 1.8vw, 12px);
+      color: var(--green);
+    }
+    .footer-right::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    /* ── Scan line overlay ── */
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--card-radius);
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(63, 169, 245, 0.012) 2px,
+        rgba(63, 169, 245, 0.012) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ── Responsive tweaks ── */
+    @media (max-width: 360px) {
+      .brand-tag { display: none; }
+      .heading h1 { font-size: 20px; }
+    }
+    @media (min-width: 600px) {
+      .card { padding: 48px 52px; }
+    }
+    @media (min-width: 900px) {
+      .card { max-width: 560px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="card">
+    <!-- Brand -->
+    <div class="brand">
+      <div class="brand-name">
+        <div class="brand-dot"></div>
+        Deepweb Verification
+      </div>
+      <div class="brand-tag">DWV / v2.1</div>
+    </div>
+
+    <!-- Spinning icon ring -->
+    <div class="icon-wrap">
+      <div class="icon-ring">
+        <svg class="ring-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="56" stroke="rgba(63,169,245,0.15)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="56"
+            stroke="url(#grad)"
+            stroke-width="2"
+            stroke-dasharray="80 272"
+            stroke-linecap="round"/>
+          <circle cx="60" cy="60" r="48" stroke="rgba(63,169,245,0.07)" stroke-width="1" stroke-dasharray="4 8"/>
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#3FA9F5"/>
+              <stop offset="100%" stop-color="#22d17a"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <img class="icon-img"
+          src="https://s4.anilist.co/file/anilistcdn/user/avatar/large/b6103248-BHJCgF0JvfP9.png"
+          alt="Profile avatar"
+          onerror="this.src='https://i.postimg.cc/Xv1Gg2Lr/verified.gif'">
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <div class="heading">
+      <h1>Identity <span>Verified</span></h1>
+      <div class="handle">@ahsanhabibmuaz</div>
+    </div>
+
+    <!-- Checks -->
+    <div class="checks">
+      <div class="check-row">
+        <div class="check-icon">✓</div>
+        Account ownership confirmed
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✓</div>
+        Cryptographic signature valid
+      </div>
+      <div class="check-row">
+        <div class="check-icon">✓</div>
+        Identity hash authenticated
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Redirect countdown -->
+    <div class="redirect-label">Redirecting to profile in</div>
+    <div class="countdown-row">
+      <div class="cd-num" id="cd">10</div>
+      <div class="cd-sep">·</div>
+      <div style="font-size: clamp(12px, 2.2vw, 14px); color: var(--text-muted); font-family: var(--mono);">SEC</div>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="bar"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-left">DWV SYSTEM · NON-AFFILIATED</div>
+      <div class="footer-right">Encrypted Channel</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const cdEl = document.getElementById('cd');
+      const barEl = document.getElementById('bar');
+      const TARGET = 'https://anilist.co/user/ahsanhabibmuaz';
+      const DURATION = 10000;
+
+      const start = Date.now();
+
+      function tick() {
+        const elapsed = Date.now() - start;
+        if (elapsed >= DURATION) {
+          cdEl.textContent = '0';
+          barEl.style.width = '100%';
+          window.location.href = TARGET;
+          return;
+        }
+        const remaining = Math.ceil((DURATION - elapsed) / 1000);
+        cdEl.textContent = remaining;
+        barEl.style.width = ((elapsed / DURATION) * 100).toFixed(2) + '%';
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+
+      document.addEventListener('contextmenu', e => e.preventDefault());
+    })();
+  </script>
+</body>
+</html>

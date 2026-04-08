@@ -163,8 +163,8 @@
     }
     .icon-ring {
       position: relative;
-      width: clamp(90px, 20vw, 120px);
-      height: clamp(90px, 20vw, 120px);
+      width: clamp(110px, 22vw, 150px);
+      height: clamp(110px, 22vw, 150px);
     }
     .icon-ring svg.ring-svg {
       position: absolute;
@@ -176,11 +176,13 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .icon-img {
       position: absolute;
-      inset: 14%;
-      border-radius: 50%;
-      object-fit: cover;
+      inset: 16%;
+      border-radius: 0;
+      object-fit: contain;
+      width: 68%;
+      height: 68%;
       animation: pulse-scale 3s ease-in-out infinite;
-      box-shadow: 0 0 24px rgba(63, 169, 245, 0.35);
+      filter: drop-shadow(0 0 14px rgba(63, 169, 245, 0.5));
     }
     @keyframes pulse-scale {
       0%, 100% { transform: scale(1); }
@@ -413,16 +415,15 @@
           </defs>
         </svg>
         <img class="icon-img"
-          src="https://s4.anilist.co/file/anilistcdn/user/avatar/large/b6103248-BHJCgF0JvfP9.png"
-          alt="Profile avatar"
-          onerror="this.src='https://i.postimg.cc/Xv1Gg2Lr/verified.gif'">
+          src="https://i.postimg.cc/Xv1Gg2Lr/verified.gif"
+          alt="Verified">
       </div>
     </div>
 
     <!-- Heading -->
     <div class="heading">
       <h1>Identity <span>Verified</span></h1>
-      <div class="handle">@ahsanhabibmuaz</div>
+      <div class="handle">@MUAZ</div>
     </div>
 
     <!-- Checks -->
@@ -466,7 +467,7 @@
     (function () {
       const cdEl = document.getElementById('cd');
       const barEl = document.getElementById('bar');
-      const TARGET = 'https://anilist.co/user/ahsanhabibmuaz';
+      const TARGET = 'https://anilist.co/user/muaz';
       const DURATION = 10000;
 
       const start = Date.now();

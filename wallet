@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Found a Wallet? — Muaz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    [data-theme="light"] {
+      --bg:        #F5F3EF;
+      --surface:   #FFFFFF;
+      --surface2:  #EEEBE5;
+      --border:    #E0DBD3;
+      --text:      #1A1714;
+      --text2:     #5C5650;
+      --muted:     #A39E97;
+      --accent:    #42BCFE;
+      --accent-bg: rgba(66,188,254,0.08);
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+      --sig-filter: none;
+      --photo-border: #FFFFFF;
+    }
+    [data-theme="dark"] {
+      --bg:        #0D1017;
+      --surface:   #141820;
+      --surface2:  #1C2230;
+      --border:    #262F42;
+      --text:      #ECF0F8;
+      --text2:     #8A95AD;
+      --muted:     #4A5470;
+      --accent:    #42BCFE;
+      --accent-bg: rgba(66,188,254,0.1);
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
+      --sig-filter: invert(1) brightness(0.8);
+      --photo-border: #1C2230;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background 0.35s ease, color 0.35s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #theme-btn {
+      position: fixed;
+      top: 18px; right: 18px;
+      z-index: 999;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.35s, border 0.35s;
+      user-select: none;
+    }
+    #theme-btn:hover { transform: scale(1.1); box-shadow: var(--shadow-lg); }
+    #theme-btn:active { transform: scale(0.95); }
+
+    .page {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 56px 20px 72px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade { animation: fadeUp 0.55s ease both; }
+    .d1{animation-delay:.05s} .d2{animation-delay:.15s} .d3{animation-delay:.25s}
+    .d4{animation-delay:.35s} .d5{animation-delay:.45s} .d6{animation-delay:.55s}
+    .d7{animation-delay:.65s}
+
+    /* Profile */
+    .profile {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 26px;
+    }
+    .photo-wrap {
+      width: 110px; height: 138px;
+      border-radius: 18px; overflow: hidden;
+      border: 3px solid var(--photo-border);
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 18px;
+      background: var(--surface2);
+    }
+    .photo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top; display: block;
+    }
+    .profile-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px; font-weight: 500;
+      letter-spacing: -0.3px; line-height: 1.15;
+    }
+    .profile-aka { margin-top: 6px; font-size: 11.5px; color: var(--muted); }
+    .aka-pill {
+      display: inline-block;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 5px; padding: 2px 9px;
+      font-size: 10.5px; color: var(--text2); margin-bottom: 4px;
+    }
+    .nfc-badge {
+      margin-top: 12px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-bg);
+      border: 1px solid rgba(66,188,254,0.22);
+      color: var(--accent); font-size: 11px; font-weight: 500;
+      padding: 4px 12px; border-radius: 99px;
+    }
+    .nfc-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 6px var(--accent);
+      animation: blink 1.6s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    /* Alert */
+    .alert {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 26px;
+    }
+    .alert p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+    .alert strong { color: var(--text); font-weight: 500; }
+
+    /* Labels */
+    .slabel {
+      font-size: 10px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+    .mt { margin-top: 24px; }
+
+    /* Card */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm);
+      transition: background 0.35s, border-color 0.35s;
+    }
+    .row {
+      display: flex; align-items: center; gap: 13px;
+      padding: 13px 16px; border-bottom: 1px solid var(--border);
+    }
+    .row:last-child { border-bottom: none; }
+    .row-icon {
+      font-size: 16px; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; background: var(--surface2); flex-shrink: 0;
+    }
+    .row-info { flex: 1; min-width: 0; }
+    .row-info small {
+      display: block; font-size: 10px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1px;
+    }
+    .row-info span {
+      font-size: 13.5px; color: var(--text);
+      word-break: break-all; line-height: 1.35;
+    }
+
+    /* Skeleton loader */
+    .skeleton {
+      display: inline-block;
+      width: 130px; height: 14px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      vertical-align: middle;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Error state */
+    .fetch-error {
+      font-size: 12px; color: var(--muted); font-style: italic;
+    }
+
+    /* Buttons */
+    .btn-stack { display: flex; flex-direction: column; gap: 9px; }
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 18px; border-radius: 13px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .btn-call {
+      background: linear-gradient(135deg,#0284c7,#42BCFE); color:#fff;
+      box-shadow: 0 4px 20px rgba(66,188,254,0.28);
+    }
+    .btn-call:hover { opacity:.93; box-shadow: 0 6px 28px rgba(66,188,254,0.42); }
+    .btn-wa {
+      background: linear-gradient(135deg,#0e7a3d,#25D366); color:#fff;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.22);
+    }
+    .btn-wa:hover { opacity:.93; box-shadow: 0 6px 28px rgba(37,211,102,0.38); }
+    .btn-tg {
+      background: linear-gradient(135deg,#1a6fa8,#2AABEE); color:#fff;
+      box-shadow: 0 4px 20px rgba(42,171,238,0.22);
+    }
+    .btn-tg:hover { opacity:.93; box-shadow: 0 6px 28px rgba(42,171,238,0.38); }
+    .btn-outline {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+    }
+    .btn-outline:hover { border-color: var(--accent); }
+
+    /* Social */
+    .social-row { display: flex; gap: 9px; }
+    .btn-social {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 11px 8px; border-radius: 11px; font-size: 12.5px; font-weight: 500;
+      text-decoration: none; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text);
+      transition: border-color 0.15s, transform 0.15s; box-shadow: var(--shadow-sm);
+    }
+    .btn-social:active { transform: scale(0.97); }
+    .btn-social:hover { border-color: var(--accent); }
+    .btn-social svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* Reward */
+    .reward {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px; box-shadow: var(--shadow-sm);
+    }
+    .reward-emoji { font-size: 22px; flex-shrink: 0; }
+    .reward-body strong {
+      display: block; font-size: 13.5px; font-weight: 500;
+      color: var(--text); margin-bottom: 3px;
+    }
+    .reward-body p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+    /* Signature */
+    .sig-block {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .sig-label {
+      font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .sig-block img {
+      max-width: 165px; height: auto;
+      filter: var(--sig-filter); opacity: 0.82;
+      transition: filter 0.35s, opacity 0.35s;
+    }
+    .sig-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px; font-style: italic; color: var(--muted);
+    }
+
+    footer {
+      text-align: center; font-size: 11.5px; color: var(--muted);
+      margin-top: 36px; line-height: 1.9;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <button id="theme-btn" aria-label="Toggle theme">🌙</button>
+
+  <div class="page">
+
+    <!-- Profile -->
+    <div class="profile fade d1">
+      <div class="photo-wrap">
+        <img src="https://file.garden/aJ3P9Atd1BWUjpfH/Photo_of_Muaz.jpg" alt="Muaz" loading="eager"/>
+      </div>
+      <h1 class="profile-name">Ahsan Habib Muaz</h1>
+      <div class="profile-aka">
+        <span class="aka-pill">MD HABIBULLAH MUYAZ</span><br/>
+        Passport &amp; Iqama registered name
+      </div>
+      <div class="nfc-badge">NFC Verified Owner</div>
+    </div>
+
+    <!-- Alert -->
+    <div class="alert fade d2">
+      <p><strong>You've found my wallet.</strong> If you're seeing this, please help return it to me as soon as possible. I'd be sincerely grateful — a reward is waiting for whoever brings it back. 🙏</p>
+    </div>
+
+    <!-- Contact -->
+    <p class="slabel fade d3">Contact the Owner</p>
+    <div class="btn-stack fade d3">
+      <a class="btn btn-call" href="tel:+966500896152">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        Call +966 500 896 152
+      </a>
+      <a class="btn btn-wa" href="https://wa.me/966500896152?text=Hi%20Muaz%2C%20I%20found%20your%20wallet%20and%20want%20to%20return%20it.">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+        WhatsApp Me
+      </a>
+      <a class="btn btn-tg" href="https://t.me/ahsanhabibmuaz">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        Telegram @ahsanhabibmuaz
+      </a>
+      <a class="btn btn-outline" href="mailto:habibullahmuaz@gmail.com?subject=Found%20Your%20Wallet&body=Hi%20Muaz%2C%20I%20found%20your%20wallet.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        habibullahmuaz@gmail.com
+      </a>
+    </div>
+
+    <!-- Social -->
+    <p class="slabel mt fade d4">Social &amp; Web</p>
+    <div class="social-row fade d4">
+      <a class="btn-social" href="https://instagram.com/ahsanhabibmuaz" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+      </a>
+      <a class="btn-social" href="https://ahsanhabibmuaz.github.io" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+        Portfolio
+      </a>
+    </div>
+
+    <!-- ID Details — loaded from Cloudflare Worker -->
+    <p class="slabel mt fade d5">Identification Details</p>
+    <div class="card fade d5">
+      <div class="row">
+        <div class="row-icon">📛</div>
+        <div class="row-info">
+          <small>Legal Name (Passport / Iqama)</small>
+          <span>MD HABIBULLAH MUYAZ</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-icon">🪪</div>
+        <div class="row-info">
+          <small>Iqama Number</small>
+          <span id="iqama-val"><span class="skeleton"></span></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-icon">🛂</div>
+        <div class="row-info">
+          <small>Passport Number</small>
+          <span id="passport-val"><span class="skeleton"></span></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row-icon">📍</div>
+        <div class="row-info">
+          <small>Home Address</small>
+          <span>Jubail, Dammam, Saudi Arabia</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reward -->
+    <div class="reward mt fade d6">
+      <div class="reward-emoji">🎁</div>
+      <div class="reward-body">
+        <strong>A Reward Awaits You</strong>
+        <p>Return this wallet and I'll make sure you're rewarded for your honesty. Your kindness truly means everything. Thank you.</p>
+      </div>
+    </div>
+
+    <hr class="divider fade d7"/>
+
+    <!-- Signature -->
+    <div class="sig-block fade d7">
+      <span class="sig-label">Signature</span>
+      <img src="https://images.cdn-files-a.com/uploads/978278/400_666494be05f84.png" alt="Signature of Muaz" width="200" height="122"/>
+      <span class="sig-name">Ahsan Habib Muaz</span>
+    </div>
+
+    <footer class="fade d7">
+      This page is linked via an NFC tag embedded inside the wallet.<br/>
+      <a href="https://ahsanhabibmuaz.github.io" target="_blank" rel="noopener">ahsanhabibmuaz.github.io</a>
+    </footer>
+
+  </div>
+
+  <script>
+    // ── Theme toggle ──────────────────────────────────────
+    const btn  = document.getElementById('theme-btn');
+    const root = document.documentElement;
+    const apply = (t) => {
+      root.setAttribute('data-theme', t);
+      btn.textContent = t === 'light' ? '🌙' : '☀️';
+      localStorage.setItem('walletTheme', t);
+    };
+    apply(localStorage.getItem('walletTheme') || 'light');
+    btn.addEventListener('click', () => {
+      apply(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+    });
+
+    // ── Fetch sensitive data from Cloudflare Worker ───────
+    // PASTE YOUR WORKER URL BELOW (replace the placeholder)
+    const WORKER_URL = 'https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev';
+
+    async function loadSensitiveData() {
+      try {
+        const res  = await fetch(WORKER_URL);
+        const data = await res.json();
+        document.getElementById('iqama-val').textContent   = data.iqama;
+        document.getElementById('passport-val').textContent = data.passport;
+      } catch {
+        document.getElementById('iqama-val').innerHTML   = '<span class="fetch-error">Unavailable</span>';
+        document.getElementById('passport-val').innerHTML = '<span class="fetch-error">Unavailable</span>';
+      }
+    }
+
+    loadSensitiveData();
+  </script>
+</body>
+</html>

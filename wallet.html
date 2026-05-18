@@ -4,447 +4,525 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="robots" content="noindex, nofollow"/>
-  <title>Found a Wallet? — Muaz</title>
+  <title>Lost Item Found — Muaz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
+    /* ─────────────────── TOKENS ─────────────────── */
     [data-theme="light"] {
-      --bg:        #F5F3EF;
-      --surface:   #FFFFFF;
-      --surface2:  #EEEBE5;
-      --border:    #E0DBD3;
-      --text:      #1A1714;
-      --text2:     #5C5650;
-      --muted:     #A39E97;
-      --accent:    #42BCFE;
-      --accent-bg: rgba(66,188,254,0.08);
-      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 24px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
-      --sig-filter: none;
-      --photo-border: #FFFFFF;
+      --bg:           #F7F5F2;
+      --surface:      #FFFFFF;
+      --surface-2:    #F0EDE8;
+      --border:       #E3DFD9;
+      --border-strong:#C8C4BE;
+      --text:         #111110;
+      --text-2:       #57534E;
+      --text-3:       #A8A29E;
+      --accent:       #D97706;
+      --accent-bg:    #FEF3C7;
+      --accent-border:#FCD34D;
+      --danger:       #DC2626;
+      --danger-bg:    #FEF2F2;
+      --danger-border:#FECACA;
+      --sig-mix:      multiply;
+      --sig-op:       0.8;
     }
     [data-theme="dark"] {
-      --bg:        #0D1017;
-      --surface:   #141820;
-      --surface2:  #1C2230;
-      --border:    #262F42;
-      --text:      #ECF0F8;
-      --text2:     #8A95AD;
-      --muted:     #4A5470;
-      --accent:    #42BCFE;
-      --accent-bg: rgba(66,188,254,0.1);
-      --shadow-sm: 0 1px 4px rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
-      --shadow-lg: 0 12px 48px rgba(0,0,0,0.5);
-      --sig-filter: invert(1) brightness(0.8);
-      --photo-border: #1C2230;
+      --bg:           #0C0B0A;
+      --surface:      #161513;
+      --surface-2:    #1E1C1A;
+      --border:       #2A2825;
+      --border-strong:#3D3A36;
+      --text:         #F5F4F2;
+      --text-2:       #A8A29E;
+      --text-3:       #57534E;
+      --accent:       #F59E0B;
+      --accent-bg:    rgba(245,158,11,0.08);
+      --accent-border:rgba(245,158,11,0.25);
+      --danger:       #F87171;
+      --danger-bg:    rgba(220,38,38,0.08);
+      --danger-border:rgba(220,38,38,0.25);
+      --sig-mix:      screen;
+      --sig-op:       0.6;
     }
 
+    /* ─────────────────── RESET ─────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', -apple-system, sans-serif;
       font-size: 14px;
       line-height: 1.6;
       min-height: 100vh;
-      transition: background 0.35s ease, color 0.35s ease;
       -webkit-font-smoothing: antialiased;
+      transition: background .3s, color .3s;
     }
 
+    /* ─────────────────── THEME BTN ─────────────── */
     #theme-btn {
-      position: fixed;
-      top: 18px; right: 18px;
-      z-index: 999;
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-md);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 19px;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.35s, border 0.35s;
-      user-select: none;
+      position: fixed; top: 20px; right: 20px; z-index: 900;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--border);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 15px; transition: border-color .2s, transform .15s;
     }
-    #theme-btn:hover { transform: scale(1.1); box-shadow: var(--shadow-lg); }
-    #theme-btn:active { transform: scale(0.95); }
+    #theme-btn:hover { border-color: var(--border-strong); transform: scale(1.08); }
 
-    .page {
-      max-width: 430px;
+    /* ─────────────────── LAYOUT ─────────────────── */
+    .wrap {
+      max-width: 420px;
       margin: 0 auto;
-      padding: 56px 20px 72px;
+      padding: 52px 20px 80px;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+    @keyframes up {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
     }
-    .fade { animation: fadeUp 0.55s ease both; }
-    .d1{animation-delay:.05s} .d2{animation-delay:.15s} .d3{animation-delay:.25s}
-    .d4{animation-delay:.35s} .d5{animation-delay:.45s} .d6{animation-delay:.55s}
-    .d7{animation-delay:.65s}
+    .a { animation: up .6s cubic-bezier(.16,1,.3,1) both; }
+    .a1{animation-delay:.04s} .a2{animation-delay:.12s} .a3{animation-delay:.2s}
+    .a4{animation-delay:.28s} .a5{animation-delay:.36s} .a6{animation-delay:.44s}
+    .a7{animation-delay:.52s} .a8{animation-delay:.6s}
 
-    /* Profile */
+    /* ─────────────────── ALERT BANNER ──────────── */
+    .alert-banner {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 32px;
+    }
+    .alert-icon {
+      flex-shrink: 0; margin-top: 1px;
+      width: 32px; height: 32px;
+      background: var(--danger);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .alert-icon svg { width: 16px; height: 16px; fill: #fff; }
+    .alert-body { flex: 1; }
+    .alert-body strong {
+      display: block;
+      font-size: 13px; font-weight: 600;
+      color: var(--danger); margin-bottom: 3px;
+    }
+    .alert-body p { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
+
+    /* ─────────────────── PROFILE ────────────────── */
     .profile {
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center;
-      padding-bottom: 30px;
+      display: flex; gap: 20px; align-items: flex-start;
+      padding-bottom: 28px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 26px;
+      margin-bottom: 28px;
     }
     .photo-wrap {
-      width: 110px; height: 138px;
-      border-radius: 18px; overflow: hidden;
-      border: 3px solid var(--photo-border);
-      box-shadow: var(--shadow-lg);
-      margin-bottom: 18px;
-      background: var(--surface2);
+      flex-shrink: 0;
+      width: 80px; height: 100px;
+      border-radius: 6px; overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
     }
     .photo-wrap img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: center top; display: block;
     }
+    .profile-info { flex: 1; padding-top: 2px; }
+    .profile-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 1.8px;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 6px;
+    }
     .profile-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 30px; font-weight: 500;
-      letter-spacing: -0.3px; line-height: 1.15;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 24px; line-height: 1.15;
+      color: var(--text);
     }
-    .profile-aka { margin-top: 6px; font-size: 11.5px; color: var(--muted); }
-    .aka-pill {
-      display: inline-block;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 5px; padding: 2px 9px;
-      font-size: 10.5px; color: var(--text2); margin-bottom: 4px;
+    .profile-aka {
+      margin-top: 6px; font-size: 11.5px; color: var(--text-3); line-height: 1.5;
     }
-    .nfc-badge {
-      margin-top: 12px;
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--accent-bg);
-      border: 1px solid rgba(66,188,254,0.22);
-      color: var(--accent); font-size: 11px; font-weight: 500;
-      padding: 4px 12px; border-radius: 99px;
+    .profile-aka span {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 3px; padding: 1px 7px; font-size: 10.5px;
+      color: var(--text-2); display: inline-block;
     }
-    .nfc-badge::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); box-shadow: 0 0 6px var(--accent);
-      animation: blink 1.6s ease-in-out infinite;
+    .verified-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 10px; font-size: 10px; font-weight: 500;
+      letter-spacing: 0.5px; color: var(--text-3);
+      border: 1px solid var(--border); border-radius: 3px;
+      padding: 3px 8px; background: var(--surface-2);
     }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .verified-pill svg { width: 10px; height: 10px; }
 
-    /* Alert */
-    .alert {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 2px solid var(--accent);
-      border-radius: 12px; padding: 14px 16px; margin-bottom: 26px;
-    }
-    .alert p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
-    .alert strong { color: var(--text); font-weight: 500; }
-
-    /* Labels */
-    .slabel {
+    /* ─────────────────── SECTION LABEL ─────────── */
+    .sec-label {
       font-size: 10px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 12px;
     }
-    .mt { margin-top: 24px; }
+    .gap { margin-top: 32px; }
 
-    /* Card */
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm);
-      transition: background 0.35s, border-color 0.35s;
+    /* ─────────────────── BUTTONS ────────────────── */
+    .stack { display: flex; flex-direction: column; gap: 7px; }
+
+    .btn {
+      display: flex; align-items: center; gap: 10px;
+      height: 48px; padding: 0 16px;
+      border-radius: 6px; text-decoration: none;
+      font-size: 13.5px; font-weight: 500;
+      transition: opacity .15s, transform .15s, border-color .15s;
+      cursor: pointer; border: none;
     }
-    .row {
-      display: flex; align-items: center; gap: 13px;
+    .btn:active { transform: scale(0.98); }
+    .btn-label { flex: 1; }
+    .btn-arrow { color: currentColor; opacity: 0.4; font-size: 16px; }
+
+    /* Call — filled dark */
+    .btn-call {
+      background: var(--text); color: var(--bg);
+    }
+    .btn-call:hover { opacity: .88; }
+
+    /* WhatsApp */
+    .btn-whatsapp {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-whatsapp:hover { border-color: #25D366; }
+
+    /* Telegram */
+    .btn-telegram {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-telegram:hover { border-color: #2AABEE; }
+
+    /* Email */
+    .btn-email {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-email:hover { border-color: var(--border-strong); }
+
+    /* Icon circles */
+    .btn-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .btn-icon svg { width: 15px; height: 15px; }
+    .icon-call     { background: rgba(255,255,255,0.15); }
+    .icon-wa       { background: #25D366; }
+    .icon-tg       { background: #2AABEE; }
+    .icon-email    { background: var(--surface-2); }
+    .icon-insta    { background: #E1306C; }
+    .icon-web      { background: var(--surface-2); }
+
+    /* ─────────────────── SOCIAL ROW ─────────────── */
+    .social-row { display: flex; gap: 7px; }
+    .btn-social {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+      height: 44px; border-radius: 6px;
+      font-size: 12.5px; font-weight: 500; text-decoration: none;
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--border);
+      transition: border-color .15s, transform .15s;
+    }
+    .btn-social:hover { border-color: var(--border-strong); }
+    .btn-social:active { transform: scale(0.97); }
+    .btn-social svg { width: 14px; height: 14px; }
+
+    /* ─────────────────── INFO CARD ──────────────── */
+    .info-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .info-row {
+      display: flex; align-items: center;
       padding: 13px 16px; border-bottom: 1px solid var(--border);
     }
-    .row:last-child { border-bottom: none; }
-    .row-icon {
-      font-size: 16px; width: 32px; height: 32px;
+    .info-row:last-child { border-bottom: none; }
+    .info-row-icon {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: var(--surface-2); border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      border-radius: 8px; background: var(--surface2); flex-shrink: 0;
+      flex-shrink: 0; margin-right: 12px; font-size: 13px;
     }
-    .row-info { flex: 1; min-width: 0; }
-    .row-info small {
-      display: block; font-size: 10px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1px;
+    .info-key {
+      width: 96px; flex-shrink: 0;
+      font-size: 10.5px; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--text-3);
     }
-    .row-info span {
-      font-size: 13.5px; color: var(--text);
-      word-break: break-all; line-height: 1.35;
+    .info-val {
+      flex: 1; font-size: 13.5px; color: var(--text);
+      word-break: break-all; line-height: 1.3;
     }
 
-    /* Skeleton loader */
+    /* ─────────────────── SKELETON ───────────────── */
     .skeleton {
-      display: inline-block;
-      width: 130px; height: 14px;
-      border-radius: 6px;
-      background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+      display: inline-block; width: 115px; height: 11px;
+      border-radius: 3px;
+      background: linear-gradient(90deg,var(--surface-2) 25%,var(--border) 50%,var(--surface-2) 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
+      animation: shimmer 1.4s infinite linear;
       vertical-align: middle;
     }
     @keyframes shimmer {
       0%   { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+    .err-txt { font-size: 11.5px; color: var(--text-3); font-style: italic; }
 
-    /* Error state */
-    .fetch-error {
-      font-size: 12px; color: var(--muted); font-style: italic;
-    }
-
-    /* Buttons */
-    .btn-stack { display: flex; flex-direction: column; gap: 9px; }
-    .btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 14px 18px; border-radius: 13px;
-      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
-      text-decoration: none; border: none; cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-    }
-    .btn:active { transform: scale(0.97); }
-    .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-    .btn-call {
-      background: linear-gradient(135deg,#0284c7,#42BCFE); color:#fff;
-      box-shadow: 0 4px 20px rgba(66,188,254,0.28);
-    }
-    .btn-call:hover { opacity:.93; box-shadow: 0 6px 28px rgba(66,188,254,0.42); }
-    .btn-wa {
-      background: linear-gradient(135deg,#0e7a3d,#25D366); color:#fff;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.22);
-    }
-    .btn-wa:hover { opacity:.93; box-shadow: 0 6px 28px rgba(37,211,102,0.38); }
-    .btn-tg {
-      background: linear-gradient(135deg,#1a6fa8,#2AABEE); color:#fff;
-      box-shadow: 0 4px 20px rgba(42,171,238,0.22);
-    }
-    .btn-tg:hover { opacity:.93; box-shadow: 0 6px 28px rgba(42,171,238,0.38); }
-    .btn-outline {
-      background: var(--surface); color: var(--text);
-      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
-    }
-    .btn-outline:hover { border-color: var(--accent); }
-
-    /* Social */
-    .social-row { display: flex; gap: 9px; }
-    .btn-social {
-      flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
-      padding: 11px 8px; border-radius: 11px; font-size: 12.5px; font-weight: 500;
-      text-decoration: none; border: 1px solid var(--border);
-      background: var(--surface); color: var(--text);
-      transition: border-color 0.15s, transform 0.15s; box-shadow: var(--shadow-sm);
-    }
-    .btn-social:active { transform: scale(0.97); }
-    .btn-social:hover { border-color: var(--accent); }
-    .btn-social svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-    /* Reward */
+    /* ─────────────────── REWARD ─────────────────── */
     .reward {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 14px 16px;
-      display: flex; align-items: flex-start; gap: 12px; box-shadow: var(--shadow-sm);
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--accent-bg); border: 1px solid var(--accent-border);
+      border-radius: 8px; padding: 16px;
     }
-    .reward-emoji { font-size: 22px; flex-shrink: 0; }
+    .reward-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--accent); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 17px;
+    }
     .reward-body strong {
-      display: block; font-size: 13.5px; font-weight: 500;
-      color: var(--text); margin-bottom: 3px;
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--accent); margin-bottom: 3px;
     }
-    .reward-body p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+    .reward-body p { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
 
-    .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+    /* ─────────────────── DIVIDER ────────────────── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
-    /* Signature */
-    .sig-block {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    /* ─────────────────── SIGNATURE ─────────────── */
+    .sig-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .sig-label-txt {
+      font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-3);
     }
-    .sig-label {
-      font-size: 10px; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--muted);
-    }
-    .sig-block img {
-      max-width: 165px; height: auto;
-      filter: var(--sig-filter); opacity: 0.82;
-      transition: filter 0.35s, opacity 0.35s;
+    .sig-img {
+      max-width: 150px; height: auto;
+      mix-blend-mode: var(--sig-mix);
+      opacity: var(--sig-op);
+      transition: opacity .3s;
     }
     .sig-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 15px; font-style: italic; color: var(--muted);
+      font-family: 'Instrument Serif', serif;
+      font-size: 14px; font-style: italic; color: var(--text-3);
     }
 
+    /* ─────────────────── FOOTER ─────────────────── */
     footer {
-      text-align: center; font-size: 11.5px; color: var(--muted);
-      margin-top: 36px; line-height: 1.9;
+      text-align: center; margin-top: 40px;
+      font-size: 11px; color: var(--text-3); line-height: 2;
     }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer a { color: var(--text-2); text-decoration: none; border-bottom: 1px solid var(--border); }
+    footer a:hover { color: var(--text); }
   </style>
 </head>
 <body>
 
+  <!-- Theme Toggle -->
   <button id="theme-btn" aria-label="Toggle theme">🌙</button>
 
-  <div class="page">
+  <div class="wrap">
 
-    <!-- Profile -->
-    <div class="profile fade d1">
+    <!-- ① Alert Banner -->
+    <div class="alert-banner a a1">
+      <div class="alert-icon">
+        <!-- Exclamation SVG -->
+        <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" clip-rule="evenodd"/></svg>
+      </div>
+      <div class="alert-body">
+        <strong>Lost Item — Please Return</strong>
+        <p>This wallet has been lost. If you found it, kindly contact the owner using the details below. A reward is guaranteed.</p>
+      </div>
+    </div>
+
+    <!-- ② Profile -->
+    <div class="profile a a2">
       <div class="photo-wrap">
         <img src="https://file.garden/aJ3P9Atd1BWUjpfH/Photo_of_Muaz.jpg" alt="Muaz" loading="eager"/>
       </div>
-      <h1 class="profile-name">Ahsan Habib Muaz</h1>
-      <div class="profile-aka">
-        <span class="aka-pill">MD HABIBULLAH MUYAZ</span><br/>
-        Passport &amp; Iqama registered name
+      <div class="profile-info">
+        <p class="profile-label">Wallet Owner</p>
+        <h1 class="profile-name">Ahsan Habib<br/>Muaz</h1>
+        <p class="profile-aka">
+          <span>MD HABIBULLAH MUYAZ</span><br/>
+          Passport &amp; Iqama name
+        </p>
+        <div class="verified-pill">
+          <!-- Checkmark -->
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="2,6 5,9 10,3"/>
+          </svg>
+          NFC Verified Owner
+        </div>
       </div>
-      <div class="nfc-badge">NFC Verified Owner</div>
     </div>
 
-    <!-- Alert -->
-    <div class="alert fade d2">
-      <p><strong>You've found my wallet.</strong> If you're seeing this, please help return it to me as soon as possible. I'd be sincerely grateful — a reward is waiting for whoever brings it back. 🙏</p>
-    </div>
+    <!-- ③ Contact Buttons -->
+    <p class="sec-label a a3">Contact Owner</p>
+    <div class="stack a a3">
 
-    <!-- Contact -->
-    <p class="slabel fade d3">Contact the Owner</p>
-    <div class="btn-stack fade d3">
+      <!-- Call -->
       <a class="btn btn-call" href="tel:+966500896152">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
-        Call +966 500 896 152
+        <div class="btn-icon icon-call">
+          <!-- Phone SVG -->
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+        </div>
+        <span class="btn-label">Call +966 500 896 152</span>
+        <span class="btn-arrow">›</span>
       </a>
-      <a class="btn btn-wa" href="https://wa.me/966500896152?text=Hi%20Muaz%2C%20I%20found%20your%20wallet%20and%20want%20to%20return%20it.">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
-        </svg>
-        WhatsApp Me
+
+      <!-- WhatsApp -->
+      <a class="btn btn-whatsapp" href="https://wa.me/966500896152?text=Hi%20Muaz%2C%20I%20found%20your%20wallet%20and%20want%20to%20return%20it.">
+        <div class="btn-icon icon-wa">
+          <!-- WhatsApp SVG -->
+          <svg viewBox="0 0 24 24" fill="#fff">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+          </svg>
+        </div>
+        <span class="btn-label">WhatsApp</span>
+        <span class="btn-arrow">›</span>
       </a>
-      <a class="btn btn-tg" href="https://t.me/ahsanhabibmuaz">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-        </svg>
-        Telegram @ahsanhabibmuaz
+
+      <!-- Telegram -->
+      <a class="btn btn-telegram" href="https://t.me/ahsanhabibmuaz">
+        <div class="btn-icon icon-tg">
+          <!-- Telegram SVG -->
+          <svg viewBox="0 0 24 24" fill="#fff">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+        </div>
+        <span class="btn-label">Telegram @ahsanhabibmuaz</span>
+        <span class="btn-arrow">›</span>
       </a>
-      <a class="btn btn-outline" href="mailto:habibullahmuaz@gmail.com?subject=Found%20Your%20Wallet&body=Hi%20Muaz%2C%20I%20found%20your%20wallet.">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="4" width="20" height="16" rx="2"/>
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-        </svg>
-        habibullahmuaz@gmail.com
+
+      <!-- Email -->
+      <a class="btn btn-email" href="mailto:habibullahmuaz@gmail.com?subject=Found%20Your%20Wallet&body=Hi%20Muaz%2C%20I%20found%20your%20wallet.">
+        <div class="btn-icon icon-email">
+          <!-- Email SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+        </div>
+        <span class="btn-label">habibullahmuaz@gmail.com</span>
+        <span class="btn-arrow">›</span>
       </a>
+
     </div>
 
-    <!-- Social -->
-    <p class="slabel mt fade d4">Social &amp; Web</p>
-    <div class="social-row fade d4">
+    <!-- ④ Social -->
+    <p class="sec-label gap a a4">Online Profiles</p>
+    <div class="social-row a a4">
+
       <a class="btn-social" href="https://instagram.com/ahsanhabibmuaz" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Instagram SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="2" width="20" height="20" rx="5"/>
           <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="#E1306C" stroke="none"/>
         </svg>
         Instagram
       </a>
+
       <a class="btn-social" href="https://ahsanhabibmuaz.github.io" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        <!-- Globe SVG -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
         </svg>
         Portfolio
       </a>
+
     </div>
 
-    <!-- ID Details — loaded from Cloudflare Worker -->
-    <p class="slabel mt fade d5">Identification Details</p>
-    <div class="card fade d5">
-      <div class="row">
-        <div class="row-icon">📛</div>
-        <div class="row-info">
-          <small>Legal Name (Passport / Iqama)</small>
-          <span>MD HABIBULLAH MUYAZ</span>
-        </div>
+    <!-- ⑤ ID Details -->
+    <p class="sec-label gap a a5">Identification</p>
+    <div class="info-card a a5">
+      <div class="info-row">
+        <div class="info-row-icon">📛</div>
+        <div class="info-key">Legal Name</div>
+        <div class="info-val">MD HABIBULLAH MUYAZ</div>
       </div>
-      <div class="row">
-        <div class="row-icon">🪪</div>
-        <div class="row-info">
-          <small>Iqama Number</small>
-          <span id="iqama-val"><span class="skeleton"></span></span>
-        </div>
+      <div class="info-row">
+        <div class="info-row-icon">🪪</div>
+        <div class="info-key">Iqama No.</div>
+        <div class="info-val" id="iqama-val"><span class="skeleton"></span></div>
       </div>
-      <div class="row">
-        <div class="row-icon">🛂</div>
-        <div class="row-info">
-          <small>Passport Number</small>
-          <span id="passport-val"><span class="skeleton"></span></span>
-        </div>
+      <div class="info-row">
+        <div class="info-row-icon">🛂</div>
+        <div class="info-key">Passport</div>
+        <div class="info-val" id="passport-val"><span class="skeleton"></span></div>
       </div>
-      <div class="row">
-        <div class="row-icon">📍</div>
-        <div class="row-info">
-          <small>Home Address</small>
-          <span>Jubail, Dammam, Saudi Arabia</span>
-        </div>
+      <div class="info-row">
+        <div class="info-row-icon">📍</div>
+        <div class="info-key">Address</div>
+        <div class="info-val">Al Jubail, Eastern Province, KSA</div>
       </div>
     </div>
 
-    <!-- Reward -->
-    <div class="reward mt fade d6">
-      <div class="reward-emoji">🎁</div>
+    <!-- ⑥ Reward -->
+    <div class="reward gap a a6">
+      <div class="reward-icon">🎁</div>
       <div class="reward-body">
-        <strong>A Reward Awaits You</strong>
-        <p>Return this wallet and I'll make sure you're rewarded for your honesty. Your kindness truly means everything. Thank you.</p>
+        <strong>Reward Guaranteed</strong>
+        <p>Return this wallet and receive a reward as a sincere token of gratitude. Your honesty is deeply valued.</p>
       </div>
     </div>
 
-    <hr class="divider fade d7"/>
+    <hr class="divider a a7"/>
 
-    <!-- Signature -->
-    <div class="sig-block fade d7">
-      <span class="sig-label">Signature</span>
-      <img src="https://images.cdn-files-a.com/uploads/978278/400_666494be05f84.png" alt="Signature of Muaz" width="200" height="122"/>
+    <!-- ⑦ Signature -->
+    <div class="sig-wrap a a7">
+      <span class="sig-label-txt">Owner's Signature</span>
+      <img class="sig-img"
+        src="https://images.cdn-files-a.com/uploads/978278/400_666494be05f84.png"
+        alt="Muaz signature" width="200" height="122"/>
       <span class="sig-name">Ahsan Habib Muaz</span>
     </div>
 
-    <footer class="fade d7">
-      This page is linked via an NFC tag embedded inside the wallet.<br/>
+    <!-- ⑧ Footer -->
+    <footer class="a a8">
+      Linked via NFC tag embedded in wallet.<br/>
       <a href="https://ahsanhabibmuaz.github.io" target="_blank" rel="noopener">ahsanhabibmuaz.github.io</a>
     </footer>
 
-  </div>
+  </div><!-- /wrap -->
 
   <script>
-    // ── Theme toggle ──────────────────────────────────────
+    /* ── Theme ── */
     const btn  = document.getElementById('theme-btn');
     const root = document.documentElement;
-    const apply = (t) => {
+    const setTheme = t => {
       root.setAttribute('data-theme', t);
       btn.textContent = t === 'light' ? '🌙' : '☀️';
       localStorage.setItem('walletTheme', t);
     };
-    apply(localStorage.getItem('walletTheme') || 'light');
-    btn.addEventListener('click', () => {
-      apply(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-    });
+    setTheme(localStorage.getItem('walletTheme') || 'light');
+    btn.addEventListener('click', () =>
+      setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light')
+    );
 
-    // ── Fetch sensitive data from Cloudflare Worker ───────
-    // PASTE YOUR WORKER URL BELOW (replace the placeholder)
+    /* ── Fetch from Cloudflare Worker ── */
+    // Replace with your actual Worker URL after deploying worker.js
     const WORKER_URL = 'https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev';
 
-    async function loadSensitiveData() {
+    (async () => {
       try {
         const res  = await fetch(WORKER_URL);
         const data = await res.json();
         document.getElementById('iqama-val').textContent   = data.iqama;
         document.getElementById('passport-val').textContent = data.passport;
       } catch {
-        document.getElementById('iqama-val').innerHTML   = '<span class="fetch-error">Unavailable</span>';
-        document.getElementById('passport-val').innerHTML = '<span class="fetch-error">Unavailable</span>';
+        document.getElementById('iqama-val').innerHTML   = '<span class="err-txt">Unavailable</span>';
+        document.getElementById('passport-val').innerHTML = '<span class="err-txt">Unavailable</span>';
       }
-    }
-
-    loadSensitiveData();
+    })();
   </script>
 </body>
 </html>
